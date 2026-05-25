@@ -7,3 +7,6 @@ coverage/
 .DS_Store
 *.log
 .remember/
+
+# Internal design documents (kept locally only, archived under ~/Projekte/.archive/)
+docs/superpowers/
