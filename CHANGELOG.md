@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Publication-readiness polish: full README, GitHub community files (CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue and PR templates).
+- GitHub Actions CI (Node 20 and 22 matrix: lint, typecheck, unit tests).
+- Dependabot for npm and GitHub Actions updates.
+- `.editorconfig`, `.nvmrc`, and package.json metadata (repository, homepage, bugs, keywords, author).
+
+### Removed
+- Internal design documents (`docs/superpowers/`) — kept locally only.
+
 ## [0.1.0] — 2026-05-25
 
 ### Added
