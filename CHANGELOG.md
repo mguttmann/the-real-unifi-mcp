@@ -1,15 +1,13 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.1] — 2026-05-25
 
 ### Added
-- Publication-readiness polish: full README, GitHub community files (CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue and PR templates).
-- GitHub Actions CI (Node 20 and 22 matrix: lint, typecheck, unit tests).
-- Dependabot for npm and GitHub Actions updates.
-- `.editorconfig`, `.nvmrc`, and package.json metadata (repository, homepage, bugs, keywords, author).
+- `@eslint/js` as an explicit devDependency. Earlier it was relied upon transitively from `eslint@9`; making it explicit so future major-version ESLint updates do not break the lint script.
 
-### Removed
-- Internal design documents (`docs/superpowers/`) — kept locally only.
+### Changed
+- Dependabot configuration tightened: dev-dependencies grouped only for minor/patch updates; major bumps for `zod`, `eslint`, `@eslint/js`, `typescript-eslint`, `@typescript-eslint/*` are ignored (they require manual migration).
+- Replaced an API-key-shaped fixture string in `tests/unit/logger.test.ts` with a clearly fictional placeholder.
 
 ## [0.1.0] — 2026-05-25
 

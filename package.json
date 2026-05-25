@@ -1,6 +1,6 @@
 {
   "name": "the-real-unifi-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for the UniFi Site Manager + Network APIs — 100% coverage, hybrid hand-wrappers + codegen",
   "license": "MIT",
   "type": "module",
@@ -53,6 +53,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@types/node": "^22.10.5",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
