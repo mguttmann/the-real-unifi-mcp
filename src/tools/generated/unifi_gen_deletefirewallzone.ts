@@ -12,13 +12,13 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_deletefirewallzone",
       description: "Delete Custom Firewall Zone — generated from developer.ui.com/network/v10.3.58/deletefirewallzone",
-      inputSchema: {firewallZoneId: z.string().uuid(), siteId: z.string().uuid(), ...confirmShape},
+      inputSchema: {firewallZoneId: z.string().uuid(), ...confirmShape},
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deletefirewallzone", method: "DELETE", url: `/v1/sites/${encodeURIComponent(String(a.siteId))}/firewall/zones/${encodeURIComponent(String(a.firewallZoneId))}`, body: undefined }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deletefirewallzone", method: "DELETE", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/zones/${encodeURIComponent(String(a.firewallZoneId))}`, body: undefined }, async () => {
         try {
-          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/firewall/zones/${encodeURIComponent(String(a.firewallZoneId))}`, { body: undefined, query: undefined });
+          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/zones/${encodeURIComponent(String(a.firewallZoneId))}`, { body: undefined, query: undefined });
           return jsonResult(res.data);
         } catch (err) {
           if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

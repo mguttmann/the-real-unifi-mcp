@@ -109,6 +109,10 @@ export class Discovery {
     const res = await this.client.request<{ data: { siteId: string }[] }>("GET", "/v1/sites");
     const sites = res.data?.data ?? [];
     if (sites.length === 0) throw new Error("Discovery: Site Manager returned zero sites.");
+    if (sites.length > 1) {
+      const ids = sites.map((s) => s.siteId).join(", ");
+      throw new Error(`Discovery: multiple Site Manager sites (${ids}). Set UNIFI_SITE_MANAGER_SITE_ID env var.`);
+    }
     return sites[0]!.siteId;
   }
 }

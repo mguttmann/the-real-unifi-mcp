@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getaclrule",
       description: "Get ACL Rule — generated from developer.ui.com/network/v10.3.58/getaclrule",
-      inputSchema: {aclRuleId: z.string().uuid(), siteId: z.string().uuid()},
+      inputSchema: {aclRuleId: z.string().uuid()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, { body: undefined, query: undefined });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, { body: undefined, query: undefined });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

@@ -62,7 +62,37 @@ describe("withRetry", () => {
 
   it("retries 5xx then gives up", async () => {
     const fn = vi.fn().mockRejectedValue(new UnifiApiError({ statusCode: 502, message: "bad gateway" }));
-    await expect(withRetry(fn, { maxAttempts: 3, sleep: vi.fn() })).rejects.toThrow();
+    await expect(withRetry(fn, { maxAttempts: 3, idempotent: true, sleep: vi.fn() })).rejects.toThrow();
     expect(fn).toHaveBeenCalledTimes(3);
+  });
+
+  it("retries 429 even when not idempotent", async () => {
+    let calls = 0;
+    const fn = vi.fn().mockImplementation(async () => {
+      calls++;
+      if (calls < 3) throw new UnifiApiError({ statusCode: 429, message: "slow" });
+      return "ok";
+    });
+    const out = await withRetry(fn, { maxAttempts: 3, idempotent: false, sleep: vi.fn() });
+    expect(out).toBe("ok");
+    expect(fn).toHaveBeenCalledTimes(3);
+  });
+
+  it("does NOT retry 5xx when not idempotent", async () => {
+    const fn = vi.fn().mockRejectedValue(new UnifiApiError({ statusCode: 502, message: "bad" }));
+    await expect(withRetry(fn, { maxAttempts: 3, idempotent: false, sleep: vi.fn() })).rejects.toThrow();
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  it("retries network errors", async () => {
+    let calls = 0;
+    const fn = vi.fn().mockImplementation(async () => {
+      calls++;
+      if (calls < 2) throw new Error("fetch failed: ECONNRESET");
+      return "ok";
+    });
+    const out = await withRetry(fn, { maxAttempts: 3, idempotent: false, sleep: vi.fn() });
+    expect(out).toBe("ok");
+    expect(fn).toHaveBeenCalledTimes(2);
   });
 });

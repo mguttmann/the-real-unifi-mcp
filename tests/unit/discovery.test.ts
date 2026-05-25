@@ -70,6 +70,13 @@ describe("Discovery", () => {
     expect(await d.siteManagerSiteId()).toBe("SM1");
   });
 
+  it("throws on multiple Site Manager sites without override", async () => {
+    const { client, request } = clientMock();
+    request.mockResolvedValueOnce(ok({ data: [{ siteId: "A" }, { siteId: "B" }] }));
+    const d = new Discovery(client, {});
+    await expect(d.siteManagerSiteId()).rejects.toThrow(/multiple.*UNIFI_SITE_MANAGER_SITE_ID/i);
+  });
+
   it("deduplicates concurrent calls", async () => {
     const { client, request } = clientMock();
     let resolveFn!: (v: unknown) => void;

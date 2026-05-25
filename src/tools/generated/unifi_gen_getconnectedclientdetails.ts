@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getconnectedclientdetails",
       description: "Get Connected Client Details — generated from developer.ui.com/network/v10.3.58/getconnectedclientdetails",
-      inputSchema: {clientId: z.string().uuid(), siteId: z.string().uuid()},
+      inputSchema: {clientId: z.string().uuid()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/clients/${encodeURIComponent(String(a.clientId))}`, { body: undefined, query: undefined });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/clients/${encodeURIComponent(String(a.clientId))}`, { body: undefined, query: undefined });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

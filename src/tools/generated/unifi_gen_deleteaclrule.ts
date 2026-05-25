@@ -12,13 +12,13 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_deleteaclrule",
       description: "Delete ACL Rule — generated from developer.ui.com/network/v10.3.58/deleteaclrule",
-      inputSchema: {aclRuleId: z.string().uuid(), siteId: z.string().uuid(), ...confirmShape},
+      inputSchema: {aclRuleId: z.string().uuid(), ...confirmShape},
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deleteaclrule", method: "DELETE", url: `/v1/sites/${encodeURIComponent(String(a.siteId))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, body: undefined }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deleteaclrule", method: "DELETE", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, body: undefined }, async () => {
         try {
-          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, { body: undefined, query: undefined });
+          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/acl-rules/${encodeURIComponent(String(a.aclRuleId))}`, { body: undefined, query: undefined });
           return jsonResult(res.data);
         } catch (err) {
           if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

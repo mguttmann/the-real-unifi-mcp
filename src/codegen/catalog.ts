@@ -9,12 +9,14 @@ export interface CatalogEntry {
 const SITE_MANAGER_VERSION = "site-manager/v1.0.0";
 const NETWORK_VERSION = "network/v10.3.58";
 
+// gethost and getsdwanconfig may not have parseable RSC docs at any given moment;
+// they are also covered by hand-wrappers (unifi_sm_get_host, unifi_sm_get_sdwan_config).
+// NOTE: connector catch-alls (connectorget/post/put/delete/patch) have no
+// dedicated doc pages. They are functionally accessible via unifi_raw_request.
 const SITE_MANAGER_PAGES = [
   "listhosts", "gethost", "listsites", "listdevices",
   "getispmetrics", "queryispmetrics",
   "listsdwanconfigs", "getsdwanconfig", "getsdwanconfigstatus",
-  // connector catch-alls
-  "connectorget", "connectorpost", "connectorput", "connectordelete", "connectorpatch",
 ];
 
 const NETWORK_PAGES = [

@@ -12,13 +12,13 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_deletevoucher",
       description: "Delete Voucher — generated from developer.ui.com/network/v10.3.58/deletevoucher",
-      inputSchema: {voucherId: z.string().uuid(), siteId: z.string().uuid(), ...confirmShape},
+      inputSchema: {voucherId: z.string().uuid(), ...confirmShape},
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deletevoucher", method: "DELETE", url: `/v1/sites/${encodeURIComponent(String(a.siteId))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, body: undefined }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_deletevoucher", method: "DELETE", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, body: undefined }, async () => {
         try {
-          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, { body: undefined, query: undefined });
+          const res = await ctx.client.requestNetwork("DELETE", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, { body: undefined, query: undefined });
           return jsonResult(res.data);
         } catch (err) {
           if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getwansoverviewpage",
       description: "List WAN Interfaces — generated from developer.ui.com/network/v10.3.58/getwansoverviewpage",
-      inputSchema: {offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional(), siteId: z.string().uuid()},
+      inputSchema: {offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/wans`, { body: undefined, query: {offset: a.offset, limit: a.limit} });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/wans`, { body: undefined, query: {offset: a.offset, limit: a.limit} });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

@@ -30,7 +30,8 @@ async function netWrite(
 ) {
   const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
   const docPath = pathBuilder(sid);
-  return runGuarded(ctx.cfg, a, { toolName, method, url: docPath, body }, async () => {
+  const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+  return runGuarded(ctx.cfg, a, { toolName, method, url: fullUrl, body }, async () => {
     try {
       const res = await ctx.client.requestNetwork(method, cid, docPath, { body });
       return jsonResult(res.data);

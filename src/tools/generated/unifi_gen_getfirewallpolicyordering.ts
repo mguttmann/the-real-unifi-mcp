@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getfirewallpolicyordering",
       description: "Get User-Defined Firewall Policy Ordering — generated from developer.ui.com/network/v10.3.58/getfirewallpolicyordering",
-      inputSchema: {sourceFirewallZoneId: z.string().uuid(), destinationFirewallZoneId: z.string().uuid(), siteId: z.string().uuid()},
+      inputSchema: {sourceFirewallZoneId: z.string().uuid(), destinationFirewallZoneId: z.string().uuid()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/firewall/policies/ordering`, { body: undefined, query: {sourceFirewallZoneId: a.sourceFirewallZoneId, destinationFirewallZoneId: a.destinationFirewallZoneId} });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies/ordering`, { body: undefined, query: {sourceFirewallZoneId: a.sourceFirewallZoneId, destinationFirewallZoneId: a.destinationFirewallZoneId} });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

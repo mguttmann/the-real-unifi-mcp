@@ -22,6 +22,8 @@ function buildInputShape(ep: EndpointSpec, isWrite: boolean): string {
   const parts: string[] = [];
   const params = ep.parameters ?? [];
   for (const p of params) {
+    // siteId is auto-resolved from discovery; never exposed to caller
+    if (p.name === "siteId") continue;
     const base = schemaToZodSource(p.schema as Record<string, unknown> | undefined);
     const desc = p.description ? `.describe(${JSON.stringify(p.description)})` : "";
     const opt = p.required ? "" : ".optional()";
@@ -36,12 +38,18 @@ function buildInputShape(ep: EndpointSpec, isWrite: boolean): string {
   return `{${parts.join(", ")}}`;
 }
 
-function pathTemplate(path: string): string {
-  return path.replace(/\{([^}]+)\}/g, (_, n) => `\${encodeURIComponent(String(a.${n}))}`);
+function pathTemplate(path: string, surface: "siteManager" | "network"): string {
+  const siteIdResolver = surface === "network"
+    ? "await ctx.discovery.networkSiteId()"
+    : "await ctx.discovery.siteManagerSiteId()";
+  return path.replace(/\{([^}]+)\}/g, (_, n) => {
+    if (n === "siteId") return `\${encodeURIComponent(String(${siteIdResolver}))}`;
+    return `\${encodeURIComponent(String(a.${n}))}`;
+  });
 }
 
 function queryPicker(ep: EndpointSpec): string {
-  const queryParams = (ep.parameters ?? []).filter((p) => p.in === "query");
+  const queryParams = (ep.parameters ?? []).filter((p) => p.in === "query" && p.name !== "siteId");
   if (queryParams.length === 0) return "undefined";
   const entries = queryParams.map((p) => {
     const isIdent = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(p.name);
@@ -61,7 +69,7 @@ export function emitToolFile(input: EmitInput): string {
   const annotation = annotationFor(method);
 
   const path = endpoint.path;
-  const pathExpr = `\`${pathTemplate(path)}\``;
+  const pathExpr = `\`${pathTemplate(path, surface)}\``;
   const queryExpr = queryPicker(endpoint);
   const bodyExpr = endpoint.requestBody ? "a.body" : "undefined";
 
@@ -69,9 +77,13 @@ export function emitToolFile(input: EmitInput): string {
     ? `await ctx.client.requestNetwork("${method}", await ctx.discovery.consoleId(), ${pathExpr}, { body: ${bodyExpr}, query: ${queryExpr} })`
     : `await ctx.client.request("${method}", ${pathExpr}, { body: ${bodyExpr}, query: ${queryExpr} })`;
 
+  const guardUrlExpr = surface === "network"
+    ? `\`/v1/connector/consoles/\${await ctx.discovery.consoleId()}/proxy/network/integration${pathTemplate(path, surface)}\``
+    : `\`${pathTemplate(path, surface)}\``;
+
   const handlerBody = isWrite
     ? `
-      return runGuarded(ctx.cfg, a, { toolName: ${JSON.stringify(toolName)}, method: "${method}", url: ${pathExpr}, body: ${bodyExpr} }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: ${JSON.stringify(toolName)}, method: "${method}", url: ${guardUrlExpr}, body: ${bodyExpr} }, async () => {
         try {
           const res = ${callExpr};
           return jsonResult(res.data);

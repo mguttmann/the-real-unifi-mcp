@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getvoucher",
       description: "Get Voucher Details — generated from developer.ui.com/network/v10.3.58/getvoucher",
-      inputSchema: {voucherId: z.string().uuid(), siteId: z.string().uuid()},
+      inputSchema: {voucherId: z.string().uuid()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, { body: undefined, query: undefined });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/hotspot/vouchers/${encodeURIComponent(String(a.voucherId))}`, { body: undefined, query: undefined });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

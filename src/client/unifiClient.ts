@@ -41,7 +41,8 @@ export class UnifiClient {
   ): Promise<UnifiResponse<T>> {
     const url = this.buildUrl(path, options.query);
     const maxAttempts = options.retry?.maxAttempts ?? this.defaultAttempts(method, options.idempotent);
-    return withRetry(() => this.doRequest<T>(method, url, options), { maxAttempts });
+    const idempotent = options.idempotent ?? (method === "GET");
+    return withRetry(() => this.doRequest<T>(method, url, options), { maxAttempts, idempotent });
   }
 
   async requestNetwork<T = unknown>(
@@ -54,10 +55,8 @@ export class UnifiClient {
     return this.request<T>(method, path, options);
   }
 
-  private defaultAttempts(method: HttpMethod, idempotent?: boolean): number {
-    if (method === "GET") return 3;
-    if (idempotent) return 3;
-    return 1;
+  private defaultAttempts(_method: HttpMethod, _idempotent?: boolean): number {
+    return 3;  // 429 always retries; 5xx is gated inside isRetriable
   }
 
   private buildUrl(path: string, query?: RequestOptions["query"]): string {

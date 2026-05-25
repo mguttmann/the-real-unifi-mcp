@@ -12,13 +12,13 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_updatefirewallpolicyordering",
       description: "Reorder User-Defined Firewall Policies — generated from developer.ui.com/network/v10.3.58/updatefirewallpolicyordering",
-      inputSchema: {sourceFirewallZoneId: z.string().uuid(), destinationFirewallZoneId: z.string().uuid(), siteId: z.string().uuid(), body: z.unknown(), ...confirmShape},
+      inputSchema: {sourceFirewallZoneId: z.string().uuid(), destinationFirewallZoneId: z.string().uuid(), body: z.unknown(), ...confirmShape},
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_updatefirewallpolicyordering", method: "PUT", url: `/v1/sites/${encodeURIComponent(String(a.siteId))}/firewall/policies/ordering`, body: a.body }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_updatefirewallpolicyordering", method: "PUT", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies/ordering`, body: a.body }, async () => {
         try {
-          const res = await ctx.client.requestNetwork("PUT", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/firewall/policies/ordering`, { body: a.body, query: {sourceFirewallZoneId: a.sourceFirewallZoneId, destinationFirewallZoneId: a.destinationFirewallZoneId} });
+          const res = await ctx.client.requestNetwork("PUT", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies/ordering`, { body: a.body, query: {sourceFirewallZoneId: a.sourceFirewallZoneId, destinationFirewallZoneId: a.destinationFirewallZoneId} });
           return jsonResult(res.data);
         } catch (err) {
           if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

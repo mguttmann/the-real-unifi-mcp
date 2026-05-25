@@ -68,7 +68,8 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/clients/${a.clientId}/actions`;
       const body = { action: a.action };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_client_action", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_client_action", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -92,7 +93,8 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/clients/${a.clientId}/actions`;
       const body = { action: "block" };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_block_client", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_block_client", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -116,7 +118,8 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/clients/${a.clientId}/actions`;
       const body = { action: "unblock" };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_unblock_client", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_unblock_client", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);

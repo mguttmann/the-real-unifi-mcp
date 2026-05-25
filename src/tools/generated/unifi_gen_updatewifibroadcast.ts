@@ -12,13 +12,13 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_updatewifibroadcast",
       description: "Update Wifi Broadcast — generated from developer.ui.com/network/v10.3.58/updatewifibroadcast",
-      inputSchema: {wifiBroadcastId: z.string().uuid(), siteId: z.string().uuid(), body: z.unknown(), ...confirmShape},
+      inputSchema: {wifiBroadcastId: z.string().uuid(), body: z.unknown(), ...confirmShape},
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_updatewifibroadcast", method: "PUT", url: `/v1/sites/${encodeURIComponent(String(a.siteId))}/wifi/broadcasts/${encodeURIComponent(String(a.wifiBroadcastId))}`, body: a.body }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_updatewifibroadcast", method: "PUT", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/wifi/broadcasts/${encodeURIComponent(String(a.wifiBroadcastId))}`, body: a.body }, async () => {
         try {
-          const res = await ctx.client.requestNetwork("PUT", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/wifi/broadcasts/${encodeURIComponent(String(a.wifiBroadcastId))}`, { body: a.body, query: undefined });
+          const res = await ctx.client.requestNetwork("PUT", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/wifi/broadcasts/${encodeURIComponent(String(a.wifiBroadcastId))}`, { body: a.body, query: undefined });
           return jsonResult(res.data);
         } catch (err) {
           if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

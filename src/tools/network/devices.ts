@@ -113,7 +113,8 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/devices/actions/adopt`;
       const body = { macs: a.macs };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_adopt_devices", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_adopt_devices", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -141,7 +142,8 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/devices/${a.deviceId}/actions`;
       const body = { action: a.action };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_device_action", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_device_action", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -165,7 +167,8 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/devices/${a.deviceId}/actions`;
       const body = { action: "restart" };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_reboot_device", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_reboot_device", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -195,7 +198,8 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/devices/${a.deviceId}/interfaces/ports/${a.portIdx}/actions`;
       const body = { action: a.action, ...(a.body as Record<string, unknown> | undefined) };
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_port_action", method: "POST", url: docPath, body }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_port_action", method: "POST", url: fullUrl, body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
           return jsonResult(res.data);
@@ -218,7 +222,8 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
     async (a) => {
       const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
       const docPath = `/v1/sites/${sid}/devices/${a.deviceId}`;
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_remove_device", method: "DELETE", url: docPath }, async () => {
+      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_net_remove_device", method: "DELETE", url: fullUrl }, async () => {
         try {
           const res = await ctx.client.requestNetwork("DELETE", cid, docPath);
           return jsonResult(res.data);

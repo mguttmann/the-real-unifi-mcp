@@ -12,12 +12,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_getswitchstackpage",
       description: "List Switch Stacks — generated from developer.ui.com/network/v10.3.58/getswitchstackpage",
-      inputSchema: {offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional(), filter: z.string().optional(), siteId: z.string().uuid()},
+      inputSchema: {offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional(), filter: z.string().optional()},
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {
       try {
-        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(a.siteId))}/switching/switch-stacks`, { body: undefined, query: {offset: a.offset, limit: a.limit, filter: a.filter} });
+        const res = await ctx.client.requestNetwork("GET", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/switching/switch-stacks`, { body: undefined, query: {offset: a.offset, limit: a.limit, filter: a.filter} });
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
         if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });

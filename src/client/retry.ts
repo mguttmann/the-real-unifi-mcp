@@ -4,6 +4,7 @@ import { RETRY } from "../constants.js";
 export interface RetryOptions {
   maxAttempts: number;
   sleep?: (ms: number) => Promise<void>;
+  idempotent?: boolean;   // when false, 5xx is not retried
 }
 
 export function computeBackoff(attempt: number): number {
@@ -29,10 +30,12 @@ export function parseRetryAfter(header: string | undefined | null): number | nul
 
 const DEFAULT_SLEEP = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
-export function isRetriable(err: unknown): boolean {
+export function isRetriable(err: unknown, opts: { idempotent?: boolean } = {}): boolean {
   if (err instanceof UnifiApiError) {
-    if (err.statusCode === 429) return true;
-    if (err.statusCode >= 500 && err.statusCode !== 501) return true;
+    if (err.statusCode === 429) return true;           // always retry 429
+    if (err.statusCode >= 500 && err.statusCode !== 501) {
+      return opts.idempotent === true;                 // 5xx only if idempotent
+    }
     return false;
   }
   if (err instanceof Error) {
@@ -49,7 +52,7 @@ export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions): Pr
       return await fn();
     } catch (err) {
       lastErr = err;
-      if (attempt === opts.maxAttempts - 1 || !isRetriable(err)) throw err;
+      if (attempt === opts.maxAttempts - 1 || !isRetriable(err, { idempotent: opts.idempotent })) throw err;
       const retryAfter =
         err instanceof UnifiApiError && err.statusCode === 429
           ? (err.details as { retryAfterMs?: number } | undefined)?.retryAfterMs
