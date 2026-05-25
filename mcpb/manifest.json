@@ -1,0 +1,33 @@
+{
+  "manifest_version": "0.1",
+  "name": "the-real-unifi-mcp",
+  "display_name": "UniFi MCP",
+  "version": "0.1.0",
+  "description": "MCP server for UniFi Site Manager + Network APIs (100% coverage, read + write, cloud-only).",
+  "author": { "name": "Manuel Guttmann" },
+  "license": "MIT",
+  "server": { "type": "node", "entry_point": "dist/index.js" },
+  "user_config": [
+    {
+      "key": "UNIFI_API_KEY",
+      "title": "Site Manager API Key",
+      "description": "Site Manager API key with Network scope.",
+      "type": "secret",
+      "required": true
+    },
+    {
+      "key": "UNIFI_CONFIRM_WRITES",
+      "title": "Confirm destructive writes",
+      "description": "If true, destructive tools require confirm: \"YES\".",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "UNIFI_LOG_LEVEL",
+      "title": "Log level",
+      "description": "debug | info | warn | error",
+      "type": "string",
+      "default": "info"
+    }
+  ]
+}

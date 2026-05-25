@@ -1,0 +1,68 @@
+{
+  "name": "the-real-unifi-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for the UniFi Site Manager + Network APIs — 100% coverage, hybrid hand-wrappers + codegen",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "the-real-unifi-mcp": "dist/index.js" },
+  "main": "dist/index.js",
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "build:mcpb": "bash scripts/build-mcpb.sh",
+    "codegen": "tsx src/codegen/generate.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit --passWithNoTests",
+    "test:integration": "vitest run tests/integration --passWithNoTests",
+    "coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prebuild": "npm run lint && npm run typecheck && npm run test:unit"
+  },
+  "author": "Manuel Guttmann",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mguttmann/the-real-unifi-mcp.git"
+  },
+  "homepage": "https://github.com/mguttmann/the-real-unifi-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/mguttmann/the-real-unifi-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "unifi",
+    "ubiquiti",
+    "network-automation",
+    "claude",
+    "claude-desktop",
+    "site-manager",
+    "stdio"
+  ],
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "dotenv": "^16.4.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^4.1.6"
+  }
+}
