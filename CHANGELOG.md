@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.2] — 2026-06-14
+
+### Security
+- Fix CRITICAL SSRF / API-key exfiltration in `unifi_raw_request`. `buildUrl` now enforces a same-origin allow-list, so a caller-supplied absolute or protocol-relative `path` can no longer redirect the live `X-API-Key` to a non-UniFi host; a defense-in-depth `path` regex rejects such inputs at the schema boundary, backed by a regression test (`tests/unit/ssrf.test.ts`).
+- Register the live API key for startup log-scrubbing (value-based redaction), so the key is masked in all log output regardless of format; hardened secret-redaction patterns and `.gitignore`.
+
+### Changed
+- Safe in-range dev-dependency upgrades (resolves a transitive esbuild advisory).
+- `SERVER_VERSION` aligned with the package version.
+- Removed dead code; polished public-facing docs.
+- Reconciled tool-count wording: 167 = 80 generated + 76 network + 10 site-manager + 1 raw.
+
 ## [0.1.1] — 2026-05-25
 
 ### Added

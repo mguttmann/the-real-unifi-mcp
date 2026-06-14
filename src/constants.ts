@@ -3,7 +3,7 @@ export const DEFAULT_TIMEOUT_MS = 30_000;
 export const DEFAULT_LOG_LEVEL = "info" as const;
 
 export const SERVER_NAME = "the-real-unifi-mcp";
-export const SERVER_VERSION = "0.1.1";
+export const SERVER_VERSION = "0.1.2";
 
 export const NETWORK_PROXY_PREFIX = "/proxy/network/integration";
 

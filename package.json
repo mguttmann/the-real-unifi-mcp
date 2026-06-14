@@ -1,6 +1,6 @@
 {
   "name": "the-real-unifi-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for the UniFi Site Manager + Network APIs — 100% coverage, hybrid hand-wrappers + codegen",
   "license": "MIT",
   "type": "module",
