@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { UnifiClient } from "./client/unifiClient.js";
 import { Discovery } from "./client/discovery.js";
 import { loadConfig, type Config } from "./config.js";
-import { createLogger, type Logger } from "./utils/logger.js";
+import { createLogger, registerSecretValue, type Logger } from "./utils/logger.js";
 import { SERVER_NAME, SERVER_VERSION } from "./constants.js";
 import { registerGeneratedTools } from "./tools/generated/index.js";
 import { registerResources } from "./resources/index.js";
@@ -32,6 +32,9 @@ export interface ServerContext {
 
 export function buildServer(overrideCfg?: Config): { server: McpServer; ctx: ServerContext } {
   const cfg = overrideCfg ?? loadConfig();
+  // Register the live API key so redactSecrets() scrubs it from ALL log output
+  // by exact match, regardless of surrounding format (closes residual H-1 / O-6).
+  registerSecretValue(cfg.apiKey);
   const logger = createLogger(cfg.logLevel);
   const client = new UnifiClient(cfg, logger);
   const discovery = new Discovery(client, {
