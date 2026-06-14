@@ -71,6 +71,3 @@ export const CATALOG: CatalogEntry[] = [
     toolName: `unifi_gen_${p}`,
   })),
 ];
-
-export const SITE_MANAGER_BASE = `https://developer.ui.com/${SITE_MANAGER_VERSION}`;
-export const NETWORK_BASE = `https://developer.ui.com/${NETWORK_VERSION}`;
