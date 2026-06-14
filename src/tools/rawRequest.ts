@@ -9,7 +9,7 @@ const methodEnum = z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]);
 
 const inputShape = {
   method: methodEnum.describe("HTTP method"),
-  path: z.string().describe('Path beginning with "/v1/…" against api.ui.com. Example: "/v1/hosts".'),
+  path: z.string().regex(/^\/[^/]/, 'path must start with a single "/"').describe('Path beginning with "/v1/…" against api.ui.com. Example: "/v1/hosts".'),
   body: z.unknown().optional().describe("JSON body for POST/PUT/PATCH"),
   query: z.record(z.string()).optional().describe("Query parameters as flat string map"),
   ...confirmShape,

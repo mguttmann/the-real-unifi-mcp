@@ -61,6 +61,10 @@ export class UnifiClient {
 
   private buildUrl(path: string, query?: RequestOptions["query"]): string {
     const u = new URL(path, this.cfg.apiBase);
+    const base = new URL(this.cfg.apiBase);
+    if (u.origin !== base.origin) {
+      throw new UnifiApiError({ statusCode: 0, message: `refusing request to non-UniFi host: ${u.origin}` });
+    }
     if (query) {
       for (const [k, v] of Object.entries(query)) {
         if (v === undefined || v === null) continue;
