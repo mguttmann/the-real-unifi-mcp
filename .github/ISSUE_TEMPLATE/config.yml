@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Security vulnerability
+  - name: Report a security issue
     url: https://github.com/mguttmann/the-real-unifi-mcp/security/advisories/new
-    about: Report a security issue privately via GitHub Security Advisories.
+    about: Report a security vulnerability privately via GitHub Security Advisories. Do not open a public issue.

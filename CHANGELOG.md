@@ -13,16 +13,16 @@
 
 ### Added
 - Initial scaffold: TypeScript MCP server (stdio), `@modelcontextprotocol/sdk` 1.x.
-- Three tool layers covering Site Manager + Network APIs (100% coverage via codegen + hand-wrappers).
+- Three tool layers covering Site Manager + Network APIs (complete coverage of the documented API surface via codegen + hand-wrappers).
   - 10 Site Manager hand-wrappers (`unifi_sm_*`)
-  - ~75 Network hand-wrappers (`unifi_net_*`)
+  - 76 Network hand-wrappers (`unifi_net_*`)
   - 80 auto-generated tools (`unifi_gen_*`) from UniFi developer docs
   - 1 escape-hatch (`unifi_raw_request`)
 - Discovery (consoleId + siteIds) with env-overrides and process-lifetime caching.
 - Optional `UNIFI_CONFIRM_WRITES` preview/confirm flow for destructive tools.
 - Resources (`unifi://identity`, `unifi://hosts[/id]`) and prompts (audit-firewall, network-health, adoption-status).
 - MCPB bundle script (`npm run build:mcpb`).
-- Vitest unit tests (87 passing) + live read-only integration tests (skipped without API key).
+- Vitest unit tests (94 passing) + live read-only integration tests (skipped without API key).
 - ESLint 9 (flat) + Prettier 3 + strict TypeScript with `noUncheckedIndexedAccess`.
 
 ### Security

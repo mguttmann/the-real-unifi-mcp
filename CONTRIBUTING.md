@@ -18,7 +18,7 @@ npm run build
 | Command | What it does |
 |---|---|
 | `npm run dev` | Watch-mode build via tsx |
-| `npm run build` | Full build (lint + typecheck + unit tests + tsc) |
+| `npm run build` | Compile to `dist/` via `tsc`. The `prebuild` hook runs lint + typecheck + unit tests first (npm runs it automatically). |
 | `npm test` | Unit tests |
 | `npm run test:integration` | Live read-only smoke (needs UNIFI_API_KEY) |
 | `npm run codegen` | Regenerate `src/tools/generated/` from UniFi docs |
@@ -64,4 +64,4 @@ When adding a destructive tool, write a registration smoke test. Don't run write
 
 ## Security
 
-If you find a vulnerability, please use [GitHub Security Advisories](https://github.com/mguttmann/the-real-unifi-mcp/security/advisories/new) rather than opening a public issue. See SECURITY.md.
+If you find a vulnerability, please use [GitHub Security Advisories](https://github.com/mguttmann/the-real-unifi-mcp/security/advisories/new) rather than opening a public issue. See [SECURITY.md](./SECURITY.md) for the full policy and disclosure timeline.

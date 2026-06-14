@@ -5,16 +5,18 @@
 [![MCP SDK](https://img.shields.io/badge/MCP%20SDK-1.x-blue)](https://github.com/modelcontextprotocol/typescript-sdk)
 [![CI](https://github.com/mguttmann/the-real-unifi-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/mguttmann/the-real-unifi-mcp/actions/workflows/ci.yml)
 
-> MCP server for UniFi Site Manager + Network APIs. 100% API coverage, cloud-only, stdio transport.
+> An MCP server that gives Claude (or any MCP client) full read/write access to the UniFi Site Manager and Network APIs over the official cloud endpoint. Cloud-only, stdio transport.
+
+Point it at a UniFi Site Manager API key and your MCP client can list consoles, inspect devices and clients, and manage networks, WiFi, firewall policies, and more — through 167 tools covering the documented API surface.
 
 ## Features
 
-- 167 tools across both UniFi APIs (read AND write).
-- Three-layer design: ergonomic hand-wrappers + 80 auto-generated tools for full coverage + a raw-request escape hatch.
-- 3 MCP Resources, 3 MCP Prompts.
-- Lazy ID discovery (consoleId / Network siteId / Site Manager siteId), cached for process lifetime.
-- Optional `UNIFI_CONFIRM_WRITES` preview mode for destructive tools.
-- Secret redaction in all stderr log output.
+- **167 tools** across both UniFi APIs, read *and* write.
+- **Three-layer tool design:** 86 ergonomic hand-wrappers + 80 auto-generated tools for complete coverage + 1 raw-request escape hatch (86 + 80 + 1 = 167).
+- **3 MCP resources** and **3 MCP prompts** for ready-made workflows.
+- **Lazy ID discovery** (consoleId / Network siteId / Site Manager siteId), cached for the process lifetime.
+- **Optional write guard** — `UNIFI_CONFIRM_WRITES` turns destructive tools into preview-then-confirm.
+- **Secret redaction** in all stderr log output.
 
 ## Requirements
 
@@ -177,6 +179,14 @@ Prompts you can paste into Claude after installing the server:
 - "Block the client with MAC `aa:bb:cc:dd:ee:ff` until I unblock it."
 
 Destructive examples respect `UNIFI_CONFIRM_WRITES` — when set, the model will first ask for confirmation before applying.
+
+## Limitations
+
+- **Cloud-only.** All requests go through the UniFi cloud endpoint (`api.ui.com`) via the Site Manager API and the Network Cloud Connector proxy. There is no direct-to-controller / local-network mode.
+- **Single account, owned consoles.** Discovery resolves consoles your API key owns. Multi-console and multi-site accounts must pin IDs via the `UNIFI_*_ID` variables (see [Troubleshooting](#troubleshooting)).
+- **Auto-generated tools track the published docs.** The 80 `unifi_gen_*` tools are generated from UniFi's documented endpoints; their input schemas are only as accurate as the upstream documentation. Use `unifi_raw_request` if an endpoint behaves differently than its schema suggests.
+- **Network API requires recent firmware.** The Network API is only available on consoles running firmware ≥ 5.0.3.
+- **No event streaming / websockets.** Tools are request/response only; there is no live event subscription.
 
 ## Troubleshooting
 
