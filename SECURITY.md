@@ -29,4 +29,8 @@ The UniFi Site Manager API key controls your entire network — treat it as a pr
 
 ## Destructive operations
 
-By default, write tools execute directly. For an extra confirmation layer, set `UNIFI_CONFIRM_WRITES=true` — destructive calls will then return a redacted preview unless invoked with `confirm: "YES"`.
+**By default (`UNIFI_CONFIRM_WRITES` unset or `false`), write and delete tools execute immediately with no confirmation step.** For an extra confirmation layer, set `UNIFI_CONFIRM_WRITES=true` — destructive calls will then return a redacted preview unless invoked with `confirm: "YES"`. All mutating tools also carry the MCP `destructiveHint` annotation so a well-behaved client can prompt before executing.
+
+## Raw request escape hatch
+
+`unifi_raw_request` issues an HTTP request to a caller-supplied path against the configured UniFi API base. Only ever point this server at the official `https://api.ui.com` base (the default). The `X-API-Key` credential is attached to outgoing requests, so a request directed at an unintended host could disclose it; treat the `path` argument as trusted input and do not expose this tool to untrusted prompt content without review.
