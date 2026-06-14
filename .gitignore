@@ -10,3 +10,18 @@ coverage/
 
 # Internal design documents (kept locally only, archived under ~/Projekte/.archive/)
 docs/superpowers/
+
+# Secrets / credentials (defense-in-depth for the public repo)
+.npmrc
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# Tooling / agent scratch & build leftovers
+.claude/
+*.tsbuildinfo
+*.tgz
+*.swp
