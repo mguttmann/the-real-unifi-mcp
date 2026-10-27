@@ -100,10 +100,27 @@ export function networkPath(consoleId: string, docPath: string): string {
   return `/v1/connector/consoles/${encodeURIComponent(consoleId)}${NETWORK_PROXY_PREFIX}${docPath.startsWith("/") ? "" : "/"}${docPath}`;
 }
 
+/**
+ * Merge `query` into `params`: a key given in `query` replaces the same key
+ * already present (as 0.2.1 did with searchParams.set), other keys of a query
+ * string in the path stay. Shared by buildUrl and withQuery so the confirm
+ * preview equals the sent URL.
+ */
+function mergeQuery(params: URLSearchParams, qs: string): void {
+  const add = new URLSearchParams(qs);
+  for (const k of new Set(add.keys())) params.delete(k);
+  for (const [k, v] of add) params.append(k, v);
+}
+
 /** Path plus the query string exactly as the client sends it (confirm previews, N-26, N-66). */
 export function withQuery(path: string, query?: Record<string, unknown>): string {
   const qs = encodeQuery(query);
-  return qs ? `${path}?${qs}` : path;
+  if (!qs) return path;
+  const i = path.indexOf("?");
+  if (i < 0) return `${path}?${qs}`;
+  const params = new URLSearchParams(path.slice(i + 1));
+  mergeQuery(params, qs);
+  return `${path.slice(0, i)}?${params.toString()}`;
 }
 
 export class UnifiClient {
@@ -159,7 +176,7 @@ export class UnifiClient {
       });
     }
     const qs = encodeQuery(query);
-    if (qs) u.search = qs;
+    if (qs) mergeQuery(u.searchParams, qs);
     return u.toString();
   }
 
