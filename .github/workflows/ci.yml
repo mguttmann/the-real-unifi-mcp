@@ -61,7 +61,8 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-      - run: npm ci --no-audit --no-fund
+      # As in the release build job: no install scripts (N-76).
+      - run: npm ci --ignore-scripts --no-audit --no-fund
       # Validates mcpb/manifest.json with the pinned MCPB CLI and builds the
       # bundle and SBOMs from the lockfile (scripts/build-mcpb.sh).
       - run: npm run build:mcpb

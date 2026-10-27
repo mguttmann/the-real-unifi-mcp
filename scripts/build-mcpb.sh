@@ -15,20 +15,22 @@
 # The npm package has the same runtime tree (same lockfile), so both SBOMs
 # come from that install.
 #
-# The manifest is checked with `mcpb validate` from the pinned MCPB CLI
-# (MCPB_CLI_VERSION, fetched with npx, so this step needs the npm registry).
+# The manifest is checked with `mcpb validate` from the MCPB CLI pinned as an
+# exact dev dependency (`@anthropic-ai/mcpb` in package.json and the lockfile;
+# run `npm ci` first).
 #
 # Reproducible archive: entries sorted, files 0644, one timestamp
 # (SOURCE_DATE_EPOCH, by default the commit time of HEAD), no extra zip
 # attributes. Two builds of the same commit with the same zip and npm give the
-# same bundle bytes. The SBOMs carry npm's own timestamp and serial number.
+# same bundle bytes. The SBOMs get the same timestamp and a serial number
+# derived from their content (scripts/normalize-sbom.mjs), so they are
+# reproducible as well.
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-MCPB_CLI_VERSION="2.1.2"
 NAME="$(node -p "require('./package.json').name")"
 VERSION="$(node -p "require('./package.json').version")"
 OUT_DIR="$ROOT/release"
@@ -49,8 +51,12 @@ trap 'rm -rf -- "$STAGE_ROOT"' EXIT
 STAGE="$STAGE_ROOT/$NAME"
 mkdir "$STAGE"
 
-echo "-> validate manifest (mcpb ${MCPB_CLI_VERSION})"
-npx --yes "@anthropic-ai/mcpb@${MCPB_CLI_VERSION}" validate mcpb/manifest.json
+if [ ! -x "$ROOT/node_modules/.bin/mcpb" ]; then
+  echo "error: MCPB CLI missing; run npm ci first." >&2
+  exit 1
+fi
+echo "-> validate manifest (mcpb $("$ROOT/node_modules/.bin/mcpb" --version))"
+"$ROOT/node_modules/.bin/mcpb" validate mcpb/manifest.json
 
 echo "-> clean build"
 node -e "require('fs').rmSync('dist', { recursive: true, force: true })"
@@ -88,6 +94,9 @@ rm -f "$OUT" "$OUT.cdx.json" "$OUT_DIR/${NAME}-${VERSION}.tgz.cdx.json"
 # npm takes hashes and registry URLs from the lockfile, so it is removed after.
 ( cd "$STAGE" && npm sbom --sbom-format cyclonedx --sbom-type application ) > "$OUT.cdx.json"
 ( cd "$STAGE" && npm sbom --sbom-format cyclonedx --sbom-type library ) > "$OUT_DIR/${NAME}-${VERSION}.tgz.cdx.json"
+# Timestamp from SOURCE_DATE_EPOCH, serial number from the content (N-74).
+node scripts/normalize-sbom.mjs "$OUT.cdx.json"
+node scripts/normalize-sbom.mjs "$OUT_DIR/${NAME}-${VERSION}.tgz.cdx.json"
 rm -f "$STAGE/package-lock.json" "$STAGE/node_modules/.package-lock.json"
 
 echo "-> pack"

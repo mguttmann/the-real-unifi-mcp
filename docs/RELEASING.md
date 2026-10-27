@@ -8,7 +8,7 @@ A release is built by `.github/workflows/release.yml` when a version tag is push
 |---|---|
 | `verify` | The tag must equal `v` + the `package.json` version, and the tag commit must be on `main`. A version with a `-` suffix (`0.3.0-rc.1`) is a prerelease. |
 | `ci` | Runs the whole `ci.yml` on the tag commit (Node matrix, lint, typecheck, tests, build, `npm audit`, stdio smoke, MCPB bundle, secret scan). |
-| `build` | `npm run build:mcpb` (clean build, `mcpb validate`, bundle runtime tree from the lockfile with `npm ci --omit=dev --ignore-scripts`, CycloneDX SBOMs via `npm sbom`), `npm pack`, then `SHA256SUMS` over the `.mcpb`, the `.tgz` and both `.cdx.json` files. |
+| `build` | `npm ci --ignore-scripts`, then `npm run build:mcpb` (clean build, `mcpb validate`, bundle runtime tree from the lockfile with `npm ci --omit=dev --ignore-scripts`, CycloneDX SBOMs via `npm sbom`, timestamp and serial number made reproducible), `npm pack`, then `SHA256SUMS` over the `.mcpb`, the `.tgz` and both `.cdx.json` files. |
 | `github-release` | Build provenance attestation (only while the repository is public; skipped when private), then a new GitHub release with all assets. If a release for the tag already exists, the job fails; assets are never overwritten. |
 | `npm-publish` | Only when the repository variable `NPM_PUBLISH_ENABLED` is `true`. Publishes the tarball from the `build` job (checked against `SHA256SUMS`) with `--provenance` through npm trusted publishing (OIDC, no token). Fails on a private repository, because npm provenance needs a public one. Stable versions go to the `latest` dist-tag, prereleases to `next`. |
 | `mcp-registry` | Stable versions only, after a successful `npm-publish`: runs `mcp-registry.yml`, which lists `server.json` (version from the tag) in the MCP Registry once npm serves the version with the right `mcpName`. |
@@ -30,7 +30,7 @@ npm ci
 npm run build:mcpb
 ```
 
-Output in `release/`: `the-real-unifi-mcp-<version>.mcpb`, `the-real-unifi-mcp-<version>.mcpb.cdx.json` and `the-real-unifi-mcp-<version>.tgz.cdx.json`. The script fetches the pinned MCPB CLI with `npx` for `mcpb validate`, so it needs the npm registry. The archive is reproducible: two builds of the same commit with the same `zip` and npm give the same SHA-256 (timestamp from `SOURCE_DATE_EPOCH`, default the commit time of `HEAD`).
+Output in `release/`: `the-real-unifi-mcp-<version>.mcpb`, `the-real-unifi-mcp-<version>.mcpb.cdx.json` and `the-real-unifi-mcp-<version>.tgz.cdx.json`. `mcpb validate` uses the MCPB CLI pinned as an exact dev dependency (`@anthropic-ai/mcpb`), so `npm ci` must run first; the bundle install of the runtime tree still needs the npm registry. The outputs are reproducible: two builds of the same commit with the same `zip` and npm give the same SHA-256 for the archive and both SBOMs (timestamp from `SOURCE_DATE_EPOCH`, default the commit time of `HEAD`; SBOM serial number from the SBOM content, `scripts/normalize-sbom.mjs`), and `npm pack` is reproducible on its own, so `SHA256SUMS` repeats as well.
 
 ## Owner settings (not done by the workflow)
 

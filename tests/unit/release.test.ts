@@ -3,7 +3,7 @@
  * current MCPB schema and maps its user settings to the env vars the server
  * reads, the bundle script installs from the lockfile, and the release
  * workflow keeps its gates. The full schema check runs in
- * scripts/build-mcpb.sh (`mcpb validate`), which needs the network for npx.
+ * scripts/build-mcpb.sh (`mcpb validate` from the pinned dev dependency).
  */
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { describe, expect, it } from "vitest";
@@ -111,6 +111,25 @@ describe("MCPB bundle script (N-12)", () => {
     expect(script).toContain("validate");
     expect(script).toContain("SOURCE_DATE_EPOCH");
   });
+
+  it("validates with the MCPB CLI pinned in the lockfile, not through npx (N-75)", () => {
+    const devPkg = JSON.parse(read("package.json")) as { devDependencies: Record<string, string> };
+    const lock = JSON.parse(read("package-lock.json")) as {
+      packages: Record<string, { version?: string }>;
+    };
+    const pin = devPkg.devDependencies["@anthropic-ai/mcpb"];
+    expect(pin).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(lock.packages["node_modules/@anthropic-ai/mcpb"]?.version).toBe(pin);
+    expect(script).toContain('"$ROOT/node_modules/.bin/mcpb" validate mcpb/manifest.json');
+    expect(script).not.toMatch(/\bnpx\b/);
+  });
+
+  it("normalises both SBOMs to SOURCE_DATE_EPOCH and a content serial (N-74)", () => {
+    expect(script).toContain('node scripts/normalize-sbom.mjs "$OUT.cdx.json"');
+    expect(script).toContain(
+      'node scripts/normalize-sbom.mjs "$OUT_DIR/${NAME}-${VERSION}.tgz.cdx.json"',
+    );
+  });
 });
 
 describe("release workflow (N-18)", () => {
@@ -131,6 +150,12 @@ describe("release workflow (N-18)", () => {
   it("reuses the full CI on the tag commit", () => {
     expect(wf).toContain("uses: ./.github/workflows/ci.yml");
     expect(read(".github/workflows/ci.yml")).toContain("workflow_call:");
+  });
+
+  it("installs the build dependencies without install scripts (N-76)", () => {
+    const job = wf.slice(wf.indexOf("\n  build:\n"), wf.indexOf("\n  github-release:\n"));
+    expect(job).toContain("- run: npm ci --ignore-scripts --no-audit --no-fund");
+    expect(job).not.toMatch(/- run: npm ci --no-audit/);
   });
 
   it("ships tarball, SBOMs and checksums and never overwrites a release", () => {

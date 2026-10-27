@@ -80,7 +80,8 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-      - run: npm ci --no-audit --no-fund
+      # No dependency needs an install script (N-76).
+      - run: npm ci --ignore-scripts --no-audit --no-fund
       # Clean build of dist/, the bundle and both SBOMs into release/
       # (scripts/build-mcpb.sh: lockfile install, mcpb validate).
       - run: npm run build:mcpb
