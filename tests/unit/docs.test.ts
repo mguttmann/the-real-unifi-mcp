@@ -89,6 +89,32 @@ describe("CHANGELOG limits", () => {
   it("names the upstream error text cap (N-25)", () => {
     expect(read("CHANGELOG.md")).toContain(`cut to ${MAX_UPSTREAM_ERROR_CHARS} characters`);
   });
+
+  it("0.3.0 tool counts equal tools/list of 0.2.1 (frozen) and of today", () => {
+    const section = read("CHANGELOG.md").split(/^## /m)[1]!;
+    expect(section.startsWith("[0.3.0]")).toBe(true);
+    const old = Object.keys(
+      (
+        JSON.parse(read("tests/contract/tools-contract-0.2.1.json")) as {
+          tools: Record<string, unknown>;
+        }
+      ).tools,
+    );
+    const gen = tools.filter((t) => t.name.startsWith("unifi_gen_"));
+    const num = (re: RegExp) => [...section.matchAll(re)].map((m) => m.slice(1).map(Number));
+    expect(num(/Tool count (\d+) -> (\d+) \(generated (\d+) -> (\d+)\)/g)).toEqual([
+      [old.length, tools.length, old.filter((n) => n.startsWith("unifi_gen_")).length, gen.length],
+    ]);
+    expect(num(/of the (\d+) Network `unifi_gen_\*` tools/g)).toEqual([
+      [gen.filter((t) => t.description?.includes("developer.ui.com/network/")).length],
+    ]);
+    expect(num(/`body` property of the (\d+) generated write tools/g)).toEqual([
+      [
+        gen.filter((t) => t.inputSchema.properties?.body && t.inputSchema.properties.confirm)
+          .length,
+      ],
+    ]);
+  });
 });
 
 describe("README hand-wrapper inventory (N-70)", () => {

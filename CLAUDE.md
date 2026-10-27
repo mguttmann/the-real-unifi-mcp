@@ -28,6 +28,7 @@ The tool names, count, required params, property names, defaults and annotations
 
 - A deliberate contract change means editing the snapshot by hand and listing it in `CHANGELOG.md` under "Behaviour changes for callers".
 - Description or schema-byte changes are reported, not failed: list them in the CHANGELOG, then accept with `UPDATE_CONTRACT_NOISE=1 npx vitest run tests/unit/contract.test.ts`.
+- `tests/unit/contractCompat.test.ts` compares `tools/list` with the frozen 0.2.1 tool list `tests/contract/tools-contract-0.2.1.json`; never regenerate that file. Existing params may only widen, and added params must accept any value.
 - Read tools keep their name prefixes (`unifi_sm_*`, `unifi_net_get_*`, `unifi_net_list_*`, `unifi_gen_get*`, `unifi_gen_list*`); MCP gateways may grant read access by these patterns.
 
 ## Downstream consumers

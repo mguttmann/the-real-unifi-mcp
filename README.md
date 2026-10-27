@@ -79,8 +79,8 @@ Releases from v0.2.0 on attach the `.mcpb`, the npm tarball, CycloneDX SBOMs and
 | `UNIFI_NETWORK_SITE_ID` | (unset) | Override discovery (pin to a specific Network site) |
 | `UNIFI_SITE_MANAGER_SITE_ID` | (unset) | Override discovery (pin to a specific Site Manager site) |
 | `UNIFI_READ_ONLY` | `false` | If on, every tool with a `confirm` param (all write tools, and `unifi_raw_request` for methods other than `GET`) returns an error with `code: "READ_ONLY"` and sends no request; the tools stay listed. Same values as `UNIFI_CONFIRM_WRITES`; an unknown value turns it on and logs a warning. |
-| `UNIFI_REDACT_SECRETS` | `false` | If on, every tool result has the fields the confirm preview redacts (passwords, WiFi passphrases, pre-shared keys, secrets, tokens, keys) replaced by `(redacted)`; paging tokens such as `nextToken` stay. Same values as `UNIFI_READ_ONLY`. |
-| `UNIFI_MAX_RESULT_BYTES` | (unset) | If set (a positive integer), a tool result text longer than this many UTF-8 bytes is cut to it and ends with a `... (truncated: ...)` marker that names the paging params. Unset: no cap. Any other value stops the server at startup. |
+| `UNIFI_REDACT_SECRETS` | `false` | If on, every tool result has the fields the confirm preview redacts (passwords, WiFi passphrases, pre-shared keys, secrets, tokens, keys) replaced by `(redacted)`; paging tokens such as `nextToken` stay. MCP resources (`unifi://hosts`, `unifi://identity`) are not redacted. Same values as `UNIFI_READ_ONLY`. |
+| `UNIFI_MAX_RESULT_BYTES` | (unset) | If set (a positive integer), a tool result text longer than this many UTF-8 bytes is cut to it and ends with a `... (truncated: ...)` marker that names the paging params. MCP resources are not cut. Unset: no cap. Any other value stops the server at startup. |
 
 ## Claude Desktop config
 

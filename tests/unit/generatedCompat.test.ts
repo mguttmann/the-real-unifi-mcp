@@ -2,8 +2,9 @@
  * Regenerated tools must not reject input that 0.2.1 accepted (codegen refresh
  * 0.3.0, N-37, N-38, N-63).
  *
- * tests/contract/generated-input-0.2.1.json is the tools/list inputSchema of
- * every `unifi_gen_*` tool as published in 0.2.1 (frozen, never regenerate).
+ * tests/contract/tools-contract-0.2.1.json is the tools/list of 0.2.1 (frozen,
+ * never regenerate); this test reads the inputSchema of every `unifi_gen_*`
+ * tool from it. contractCompat.test.ts checks all 0.2.1 tools.
  * Params other than `body` must keep their JSON schema (descriptions aside);
  * `body` may gain a typed branch but must still accept any value, unchanged.
  */
@@ -19,12 +20,20 @@ type JsonSchema = {
   required?: string[];
 };
 
-const FROZEN = JSON.parse(
-  readFileSync(
-    fileURLToPath(new URL("../contract/generated-input-0.2.1.json", import.meta.url)),
-    "utf8",
-  ),
-) as Record<string, JsonSchema>;
+const FROZEN: Record<string, JsonSchema> = Object.fromEntries(
+  Object.entries(
+    (
+      JSON.parse(
+        readFileSync(
+          fileURLToPath(new URL("../contract/tools-contract-0.2.1.json", import.meta.url)),
+          "utf8",
+        ),
+      ) as { tools: Record<string, { inputSchema: JsonSchema }> }
+    ).tools,
+  )
+    .filter(([name]) => name.startsWith("unifi_gen_"))
+    .map(([name, t]) => [name, t.inputSchema]),
+);
 
 function withoutDescription(s: Record<string, unknown> | undefined): unknown {
   if (!s) return s;

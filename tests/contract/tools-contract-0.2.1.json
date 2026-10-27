@@ -1,0 +1,3969 @@
+{
+  "note": "tools/list of the-real-unifi-mcp 0.2.1 (main 32c12bb, npm 0.2.1): inputSchema and annotations of every tool. Frozen, never regenerate; read by tests/unit/contractCompat.test.ts and generatedCompat.test.ts.",
+  "serverVersion": "0.2.1",
+  "tools": {
+    "unifi_gen_adoptdevice": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createaclrule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_creatednspolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createfirewallpolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createfirewallzone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createnetwork": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createtrafficmatchinglist": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createvouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_createwifibroadcast": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deleteaclrule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "aclRuleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "aclRuleId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletednspolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dnsPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "dnsPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletefirewallpolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "firewallPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletefirewallzone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "firewallZoneId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletenetwork": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "networkId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "networkId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletetrafficmatchinglist": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trafficMatchingListId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "trafficMatchingListId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletevoucher": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "voucherId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "voucherId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletevouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "filter"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_deletewifibroadcast": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "wifiBroadcastId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "wifiBroadcastId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_executeadopteddeviceaction": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_executeconnectedclientaction": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_executeportaction": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "portIdx": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "portIdx",
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getaclrule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "aclRuleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "aclRuleId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getaclruleordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getaclrulepage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getadopteddevicedetails": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getadopteddevicelateststatistics": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getadopteddeviceoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getconnectedclientdetails": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getconnectedclientoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getcountries": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getdevicetagpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {}
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getdnspolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dnsPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "dnsPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getdnspolicypage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getdpiapplicationcategories": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getdpiapplications": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getfirewallpolicies": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getfirewallpolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "firewallPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getfirewallpolicyordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sourceFirewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "destinationFirewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "sourceFirewallZoneId",
+          "destinationFirewallZoneId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getfirewallzone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "firewallZoneId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getfirewallzones": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getinfo": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getispmetrics": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Specifies whether metrics are returned using `5m` or `1h` intervals"
+          },
+          "beginTimestamp": {
+            "type": "string",
+            "description": "The earliest timestamp to retrieve data from (RFC3339 format)"
+          },
+          "endTimestamp": {
+            "type": "string",
+            "description": "The latest timestamp to retrieve data up to (RFC3339 format)"
+          },
+          "duration": {
+            "type": "string",
+            "description": "Specifies the time range of metrics to retrieve, starting from when the request is made. Supports `24h` for 5-minute metrics, and `7d` or `30d` for 1-hour metrics. This parameter **cannot** be used with `beginTimestamp` or `endTimestamp`."
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getlag": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "lagId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "lagId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getlagpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getmclagdomain": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "mcLagDomainId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "mcLagDomainId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getmclagdomainpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getnetworkdetails": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "networkId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "networkId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getnetworkreferences": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "networkId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "networkId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getnetworksoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getpendingdevicepage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getradiusprofileoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getsdwanconfigstatus": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the SD-WAN configuration"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getsiteoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getsitetositevpntunnelpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getswitchstack": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "switchStackId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "switchStackId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getswitchstackpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_gettrafficmatchinglist": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trafficMatchingListId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "trafficMatchingListId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_gettrafficmatchinglists": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getvoucher": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "voucherId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "voucherId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getvouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getvpnserverpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getwansoverviewpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getwifibroadcastdetails": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "wifiBroadcastId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          }
+        },
+        "required": [
+          "wifiBroadcastId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_getwifibroadcastpage": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_listdevices": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hostIds[]": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of host IDs to filter the results"
+          },
+          "time": {
+            "type": "string",
+            "description": "Last processed timestamp of devices in RFC3339 format"
+          },
+          "pageSize": {
+            "type": "string",
+            "description": "Number of items to return per page"
+          },
+          "nextToken": {
+            "type": "string",
+            "description": "Token for pagination to retrieve the next set of results"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_listhosts": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageSize": {
+            "type": "string",
+            "description": "Number of items to return per page"
+          },
+          "nextToken": {
+            "type": "string",
+            "description": "Token for pagination to retrieve the next set of results"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_listsdwanconfigs": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_listsites": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pageSize": {
+            "type": "string",
+            "description": "Number of items to return per page"
+          },
+          "nextToken": {
+            "type": "string",
+            "description": "Token for pagination to retrieve the next set of results"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_patchfirewallpolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "firewallPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_queryispmetrics": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Specifies whether metrics are returned using `5m` or `1h` intervals"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_removedevice": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updateaclrule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "aclRuleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "aclRuleId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updateaclruleordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatednspolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dnsPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "dnsPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatefirewallpolicy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallPolicyId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "firewallPolicyId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatefirewallpolicyordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sourceFirewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "destinationFirewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "sourceFirewallZoneId",
+          "destinationFirewallZoneId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatefirewallzone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firewallZoneId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "firewallZoneId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatenetwork": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "networkId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "networkId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatetrafficmatchinglist": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trafficMatchingListId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "trafficMatchingListId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_gen_updatewifibroadcast": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "wifiBroadcastId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "wifiBroadcastId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_adopt_devices": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "macs": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Device MAC addresses to adopt"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "macs"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_block_client": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_client_action": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "description": "e.g. \"AUTHORIZE_GUEST_ACCESS\", \"UNAUTHORIZE_GUEST_ACCESS\""
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "clientId",
+          "action"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_acl_rule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "ACL rule create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_dns_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "DNS policy create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_firewall_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Firewall policy create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_firewall_zone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Firewall zone create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_network": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Network create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_traffic_list": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Traffic matching list create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_vouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Voucher generation payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_create_wifi": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "WiFi broadcast create payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_acl_rule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_dns_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_firewall_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_firewall_zone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_network": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_traffic_list": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_voucher": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_vouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "description": "Voucher filter expression, sent as the `filter` query parameter",
+            "type": "string"
+          },
+          "body": {
+            "description": "Deprecated: { filter } is read from here when `filter` is not set"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_delete_wifi": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_device_action": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "description": "e.g. \"RESTART\""
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId",
+          "action"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_acl_rule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_acl_rule_ordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_client": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_device": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_device_stats": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_dns_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_firewall_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_firewall_policy_ordering": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_firewall_zone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_info": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_lag": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_mclag_domain": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_network": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_network_references": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_switch_stack": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_traffic_list": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_voucher": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_get_wifi": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_acl_rules": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_clients": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_countries": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_device_tags": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_devices": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_dns_policies": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_dpi_application_categories": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_dpi_applications": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_firewall_policies": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_firewall_zones": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_lags": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_mclag_domains": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_networks": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_pending_devices": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_radius_profiles": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_site_to_site_vpn": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_sites": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_switch_stacks": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_traffic_lists": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_vouchers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_vpn_servers": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_wans": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_list_wifi": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "filter": {
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_patch_firewall_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_port_action": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          },
+          "portIdx": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "action": {
+            "type": "string",
+            "description": "e.g. \"POWER_CYCLE\""
+          },
+          "body": {
+            "description": "Extra action payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId",
+          "portIdx",
+          "action"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_reboot_device": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_remove_device": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "deviceId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_reorder_acl_rules": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "ACL rule ordering payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_reorder_firewall_policies": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "description": "Policy ordering payload"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_unblock_client": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "clientId"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_acl_rule": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_dns_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_firewall_policy": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_firewall_zone": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_network": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_traffic_list": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_net_update_wifi": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {},
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_raw_request": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ],
+            "description": "HTTP method"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\/(?!\\/)",
+            "description": "Relative path beginning with \"/v1/…\" against the configured API base (api.ui.com). Example: \"/v1/hosts\"."
+          },
+          "body": {
+            "description": "JSON body for POST/PUT/PATCH"
+          },
+          "query": {
+            "description": "Query parameters as flat string map",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "confirm": {
+            "description": "Exact string \"YES\". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.",
+            "type": "string",
+            "const": "YES"
+          }
+        },
+        "required": [
+          "method",
+          "path"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_get_host": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Host id (consoleId from list_hosts)"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_get_isp_metrics": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "5m",
+              "1h"
+            ],
+            "description": "Granularity"
+          },
+          "beginTimestamp": {
+            "description": "ISO timestamp (begin)",
+            "type": "string"
+          },
+          "endTimestamp": {
+            "description": "ISO timestamp (end)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_get_sdwan_config": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "SD-WAN config id"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_get_sdwan_config_status": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_identity": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_list_devices": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_list_hosts": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_list_sdwan_configs": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_list_sites": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    "unifi_sm_query_isp_metrics": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "5m",
+              "1h"
+            ]
+          },
+          "body": {
+            "description": "Query body: see UniFi Site Manager docs for shape."
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    }
+  }
+}
