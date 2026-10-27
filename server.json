@@ -72,6 +72,26 @@
           "description": "Pins the Site Manager site instead of discovering it.",
           "isRequired": false,
           "format": "string"
+        },
+        {
+          "name": "UNIFI_READ_ONLY",
+          "description": "Read-only mode: every write tool returns an error and sends no request; reads still work. Off by default.",
+          "isRequired": false,
+          "format": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "UNIFI_REDACT_SECRETS",
+          "description": "Masks passwords, WiFi passphrases, pre-shared keys and other secret fields in every tool result. Off by default.",
+          "isRequired": false,
+          "format": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "UNIFI_MAX_RESULT_BYTES",
+          "description": "Cuts tool results longer than this many bytes and marks them as truncated. Unset: no cap.",
+          "isRequired": false,
+          "format": "number"
         }
       ]
     }

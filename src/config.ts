@@ -19,6 +19,21 @@ function parseConfirmWrites(raw: string | undefined, warn: (msg: string) => void
   return true;
 }
 
+/**
+ * Opt-in switches of 0.3.0 (UNIFI_READ_ONLY, UNIFI_REDACT_SECRETS): unset,
+ * empty and off values keep the 0.2.1 behaviour; an unknown value turns the
+ * stricter behaviour on and is reported through `warn` (fail closed).
+ */
+function parseOptIn(name: string, raw: string | undefined, warn: (msg: string) => void): boolean {
+  const v = (raw ?? "").trim().toLowerCase();
+  if (v === "" || OFF.has(v)) return false;
+  if (ON.has(v)) return true;
+  warn(
+    `${name}=${JSON.stringify(raw)} is not one of true/1/yes/on or false/0/no/off; treated as on`,
+  );
+  return true;
+}
+
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 
 /**
@@ -59,6 +74,12 @@ const ConfigSchema = z.object({
   consoleIdOverride: z.string().optional(),
   networkSiteIdOverride: z.string().optional(),
   siteManagerSiteIdOverride: z.string().optional(),
+  /** UNIFI_READ_ONLY (audit N-23): write tools refuse without a request. */
+  readOnly: z.boolean().optional(),
+  /** UNIFI_REDACT_SECRETS (audit N-22): secret fields masked in every tool result. */
+  redactSecrets: z.boolean().optional(),
+  /** UNIFI_MAX_RESULT_BYTES (audit N-32): longer tool results are cut; unset = no cap. */
+  maxResultBytes: z.number().int().positive().optional(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -96,6 +117,14 @@ export function loadConfig(
 
   const apiBase = parseApiBase(env.UNIFI_API_BASE?.trim() || DEFAULT_API_BASE);
 
+  const maxRaw = env.UNIFI_MAX_RESULT_BYTES?.trim();
+  let maxResultBytes: number | undefined;
+  if (maxRaw) {
+    if (!/^\d+$/.test(maxRaw) || Number(maxRaw) <= 0 || !Number.isSafeInteger(Number(maxRaw)))
+      fieldError("UNIFI_MAX_RESULT_BYTES", `expected a positive integer, got "${maxRaw}"`);
+    maxResultBytes = Number(maxRaw);
+  }
+
   return ConfigSchema.parse({
     apiKey,
     apiBase,
@@ -105,5 +134,8 @@ export function loadConfig(
     consoleIdOverride: env.UNIFI_CONSOLE_ID?.trim() || undefined,
     networkSiteIdOverride: env.UNIFI_NETWORK_SITE_ID?.trim() || undefined,
     siteManagerSiteIdOverride: env.UNIFI_SITE_MANAGER_SITE_ID?.trim() || undefined,
+    readOnly: parseOptIn("UNIFI_READ_ONLY", env.UNIFI_READ_ONLY, warn),
+    redactSecrets: parseOptIn("UNIFI_REDACT_SECRETS", env.UNIFI_REDACT_SECRETS, warn),
+    maxResultBytes,
   });
 }

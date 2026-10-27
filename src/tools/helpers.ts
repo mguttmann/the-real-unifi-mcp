@@ -57,16 +57,49 @@ export function validOrUndefined<T extends z.ZodType>(
 const SECRET_KEYS =
   /(password|passphrase|secret|token|api[_-]?key|private[_-]?key|psk|wep[_-]?key)|^pre[_-]?shared[_-]?keys?$|^keys?$/i;
 
-export function redactBody(input: unknown): unknown {
-  if (Array.isArray(input)) return input.map(redactBody);
+// Paging cursors look like secrets by name but are needed for the next page.
+const PAGING_KEYS = /^(next|prev|previous|page)Token$/i;
+
+/** Masks secret-looking fields (see SECRET_KEYS); `keep` names keys left as they are. */
+export function redactBody(input: unknown, keep?: RegExp): unknown {
+  if (Array.isArray(input)) return input.map((v) => redactBody(v, keep));
   if (input && typeof input === "object") {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(input)) {
-      out[k] = SECRET_KEYS.test(k) ? "(redacted)" : redactBody(v);
+      out[k] = SECRET_KEYS.test(k) && !keep?.test(k) ? "(redacted)" : redactBody(v, keep);
     }
     return out;
   }
   return input;
+}
+
+/**
+ * UNIFI_REDACT_SECRETS (audit N-22): masks the same fields as the confirm
+ * preview in a JSON tool result, paging tokens excepted. Text that is not
+ * JSON is returned unchanged.
+ */
+export function redactResultText(text: string): string {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    return text;
+  }
+  return JSON.stringify(redactBody(parsed, PAGING_KEYS), null, 2);
+}
+
+/**
+ * UNIFI_MAX_RESULT_BYTES (audit N-32): cuts a longer result to `max` UTF-8
+ * bytes and appends a marker that names the paging params.
+ */
+export function capResultText(text: string, max: number): string {
+  const bytes = Buffer.byteLength(text, "utf8");
+  if (bytes <= max) return text;
+  const kept = Buffer.from(text, "utf8")
+    .subarray(0, max)
+    .toString("utf8")
+    .replace(/\uFFFD+$/, "");
+  return `${kept}\n... (truncated: the full result has ${bytes} bytes, UNIFI_MAX_RESULT_BYTES is ${max}. Fetch less with the paging params (offset and limit, or pageSize and nextToken) or a filter.)`;
 }
 
 /**

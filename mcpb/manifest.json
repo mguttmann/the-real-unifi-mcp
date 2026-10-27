@@ -20,7 +20,9 @@
       "env": {
         "UNIFI_API_KEY": "${user_config.unifi_api_key}",
         "UNIFI_CONFIRM_WRITES": "${user_config.confirm_writes}",
-        "UNIFI_LOG_LEVEL": "${user_config.log_level}"
+        "UNIFI_LOG_LEVEL": "${user_config.log_level}",
+        "UNIFI_READ_ONLY": "${user_config.read_only}",
+        "UNIFI_REDACT_SECRETS": "${user_config.redact_secrets}"
       }
     }
   },
@@ -39,6 +41,20 @@
       "description": "If checked, write and delete tools return a preview and only execute when called again with confirm: \"YES\".",
       "required": false,
       "default": true
+    },
+    "read_only": {
+      "type": "boolean",
+      "title": "Read-only mode",
+      "description": "If checked, write and delete tools return an error and send no request; read tools still work.",
+      "required": false,
+      "default": false
+    },
+    "redact_secrets": {
+      "type": "boolean",
+      "title": "Hide secrets in results",
+      "description": "If checked, passwords, WiFi passphrases, pre-shared keys and other secret fields in tool results are replaced by (redacted).",
+      "required": false,
+      "default": false
     },
     "log_level": {
       "type": "string",

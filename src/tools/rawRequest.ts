@@ -57,13 +57,15 @@ export function registerRawRequestTool(server: McpServer, ctx: ServerContext): v
           throw err;
         }
       };
-      if (method === "GET") return performExecute();
+      // A GET reads: no confirm step and allowed with UNIFI_READ_ONLY; only
+      // dry_run turns it into a preview.
+      if (method === "GET" && args.dry_run !== true) return performExecute();
       return runGuarded(
         ctx.cfg,
         args,
         {
           toolName: "unifi_raw_request",
-          method: method as "POST" | "PUT" | "PATCH" | "DELETE",
+          method,
           url: withQuery(args.path, args.query),
           body: args.body,
         },

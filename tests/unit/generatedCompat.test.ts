@@ -65,7 +65,10 @@ describe("generated tools keep the 0.2.1 input contract", () => {
         )
           diffs.push(`${name}.${p}: ${JSON.stringify(s)} -> ${JSON.stringify(nowProps[p])}`);
       }
-      for (const p of Object.keys(nowProps)) if (!(p in oldProps)) diffs.push(`${name}.${p} added`);
+      // dry_run: the optional, lenient write-guard param of 0.3.0 (N-23).
+      for (const p of Object.keys(nowProps))
+        if (!(p in oldProps) && !(p === "dry_run" && "confirm" in oldProps))
+          diffs.push(`${name}.${p} added`);
     }
     expect(diffs).toEqual([]);
   });

@@ -81,6 +81,11 @@ describe("MCPB manifest (N-11)", () => {
       type: "string",
       default: DEFAULT_LOG_LEVEL,
     });
+    for (const [name, value] of [
+      ["UNIFI_READ_ONLY", defaults.readOnly],
+      ["UNIFI_REDACT_SECRETS", defaults.redactSecrets],
+    ] as const)
+      expect(userConfig[keyOf(name)], name).toMatchObject({ type: "boolean", default: value });
   });
 });
 

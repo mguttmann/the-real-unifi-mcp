@@ -22,6 +22,8 @@ const expectedDefaults: Record<string, string> = {
   UNIFI_CONFIRM_WRITES: String(defaults.confirmWrites),
   UNIFI_TIMEOUT_MS: String(defaults.timeoutMs),
   UNIFI_LOG_LEVEL: defaults.logLevel,
+  UNIFI_READ_ONLY: String(defaults.readOnly),
+  UNIFI_REDACT_SECRETS: String(defaults.redactSecrets),
 };
 
 let tools: Tool[];

@@ -94,7 +94,11 @@ describe("server.json defaults", () => {
       UNIFI_CONFIRM_WRITES: String(d.confirmWrites),
       UNIFI_TIMEOUT_MS: String(d.timeoutMs),
       UNIFI_LOG_LEVEL: d.logLevel,
+      UNIFI_READ_ONLY: String(d.readOnly),
+      UNIFI_REDACT_SECRETS: String(d.redactSecrets),
     });
+    expect(d.maxResultBytes).toBeUndefined();
+    expect(byName.UNIFI_MAX_RESULT_BYTES).toBeUndefined();
   });
 });
 
