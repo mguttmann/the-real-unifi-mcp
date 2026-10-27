@@ -91,7 +91,7 @@
           "name": "UNIFI_MAX_RESULT_BYTES",
           "description": "Cuts tool results longer than this many bytes and marks them as truncated. Unset or empty: 100000. 0, off or none: no cap.",
           "isRequired": false,
-          "format": "number",
+          "format": "string",
           "default": "100000"
         }
       ]

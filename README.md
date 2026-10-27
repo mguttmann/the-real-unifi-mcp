@@ -164,7 +164,7 @@ Named `unifi_gen_<operationid>` (the vendor operationId in lower case, e.g. `uni
 
 ### Escape hatch (1)
 
-`unifi_raw_request(method, path, body?, query?)`: execute any HTTP method against `api.ui.com{path}`. The path must be relative; see [SECURITY.md](./SECURITY.md) for what is refused. Auth, retry, error parsing, and pagination hints are handled automatically. Useful when no dedicated tool exists.
+`unifi_raw_request(method, path, body?, query?)`: execute any HTTP method against `api.ui.com{path}`. The path must be relative; see [SECURITY.md](./SECURITY.md) for what is refused. Auth, retry, error parsing, and pagination hints are handled automatically. Useful when no dedicated tool exists. It returns the response as is: `GET /v1/sites` here keeps the `statistics` object that `unifi_sm_list_sites` omits by default.
 
 ### Errors
 

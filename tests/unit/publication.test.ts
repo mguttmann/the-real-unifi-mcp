@@ -35,6 +35,7 @@ const server = JSON.parse(read("server.json")) as {
       name: string;
       isRequired?: boolean;
       isSecret?: boolean;
+      format?: string;
       default?: string;
     }[];
   }[];
@@ -110,6 +111,16 @@ describe("server.json defaults", () => {
       UNIFI_REDACT_SECRETS: String(d.redactSecrets),
     });
     expect(byName.UNIFI_MAX_RESULT_BYTES).toBe(String(d.maxResultBytes));
+  });
+
+  it("declares UNIFI_MAX_RESULT_BYTES as a string, since off and none are valid values", () => {
+    const env = (server.packages[0]!.environmentVariables ?? []).find(
+      (e) => e.name === "UNIFI_MAX_RESULT_BYTES",
+    );
+    expect(env).toMatchObject({ format: "string" });
+    expect(loadConfig({ UNIFI_API_KEY: "x", UNIFI_MAX_RESULT_BYTES: "off" }).maxResultBytes).toBe(
+      0,
+    );
   });
 });
 
