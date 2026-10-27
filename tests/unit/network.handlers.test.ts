@@ -23,8 +23,25 @@ function vendorTemplates(): string[] {
   return Object.keys((JSON.parse(readFileSync(FIXTURE, "utf8")) as { paths: object }).paths);
 }
 
+const escapeRe = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * A `{...}` slot matches only an id this test passes in (the site id and the
+ * `sample()` values, raw or percent-encoded), never a literal word, so a
+ * hand-written path such as `/v1/sites/{siteId}/devices/statistics` cannot pass
+ * as `/v1/sites/{siteId}/devices/{deviceId}` (audit N-67). Literal segments
+ * must equal the vendor template.
+ */
+const SLOT_VALUES = [SITE, "ID1", "aa:bb:cc:dd:ee:ff", "1"];
+const SLOT = `(?:${SLOT_VALUES.flatMap((v) => [v, encodeURIComponent(v)])
+  .map(escapeRe)
+  .join("|")})`;
+
 function templateRegex(t: string): RegExp {
-  const body = t.replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{[^}]+\}/g, "[^/]+");
+  const body = t
+    .split(/(\{[^}]+\})/)
+    .map((part) => (/^\{[^}]+\}$/.test(part) ? SLOT : escapeRe(part)))
+    .join("");
   return new RegExp(`^${body}$`);
 }
 
@@ -82,6 +99,13 @@ afterEach(() => {
 });
 
 describe("every hand-written path exists in the vendor spec (M-3, M-4, M-5, M-7)", () => {
+  it("matches id slots with the passed ids only, never with a literal segment (N-67)", () => {
+    const r = templateRegex("/v1/sites/{siteId}/devices/{deviceId}");
+    expect(r.test(`/v1/sites/${SITE}/devices/ID1`)).toBe(true);
+    expect(r.test(`/v1/sites/${SITE}/devices/statistics`)).toBe(false);
+    expect(r.test(`/v1/sites/${SITE}/clients/ID1`)).toBe(false);
+  });
+
   it("calls only paths that the vendor fixture defines", async () => {
     const templates = vendorTemplates();
     expect(templates.length).toBeGreaterThan(40);

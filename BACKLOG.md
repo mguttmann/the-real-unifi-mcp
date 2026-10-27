@@ -16,8 +16,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 - **N-16, N-61** Tests, `scripts/smoke-stdio.mjs` and `tests/contract/liveTools.ts` are not type-checked (`tsc` covers `src/` only) and ESLint runs on `src/` without type information. Fix: a tests tsconfig and type-aware ESLint in CI.
 - **N-19** `npm run build` runs lint and unit tests through `prebuild`, so every source build needs the dev dependencies. Fix: a separate `check` script for CI and a plain `tsc` build, coordinated with downstream consumers that build from source.
 - **N-53** No secret scan in CI. Fix: a gitleaks job over the full history.
-- **N-62** The "body stays optional at call time" block in `tests/unit/contract.test.ts` is covered by `tests/unit/bodyOptional.test.ts`; drop it with the next change in that file.
-- **N-67** The vendor-path check in `tests/unit/network.handlers.test.ts` matches path templates by shape, so a literal segment in an id slot passes. Fix: compare literal segments against the fixture template.
 - **N-72** The CI floor job runs Node 22.12.0 with its bundled npm; `npm ci` with that npm is proven only by CI runs.
 - **N-74** The CycloneDX SBOMs carry npm's timestamp and a random serial number, so they and `SHA256SUMS` differ between two builds of the same commit; only the `.mcpb` is byte-reproducible (`scripts/build-mcpb.sh`). Fix: timestamp from `SOURCE_DATE_EPOCH`, serial from a content hash.
 - **N-75** `mcpb validate` runs the MCPB CLI through `npx`, whose dependencies resolve unlocked at build time. Fix: pin `@anthropic-ai/mcpb` as a devDependency or validate against the vendored JSON schema.

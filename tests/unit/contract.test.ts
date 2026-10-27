@@ -21,7 +21,6 @@ import { fileURLToPath } from "node:url";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { Tool } from "@modelcontextprotocol/server";
 import {
-  connectInProcess,
   listLiveTools,
   toContractTool,
   type ContractSnapshot,
@@ -115,27 +114,6 @@ describe("tool contract (tests/contract/tools-contract.json)", () => {
     expect(gens.length).toBeGreaterThan(0);
     expect(new Set(totals)).toEqual(new Set([total]));
     expect(new Set(gens)).toEqual(new Set([generated]));
-  });
-});
-
-describe("body stays optional at call time (audit M-1)", () => {
-  // zod 4 made body required on 42 tools (-32602 when omitted); v0.1.2 accepted
-  // a missing body. With UNIFI_CONFIRM_WRITES on, a write without confirm only
-  // returns a preview, so these calls stay offline.
-  it.each([
-    ["unifi_net_create_network", {}],
-    ["unifi_net_update_network", { id: "x" }],
-    ["unifi_gen_createnetwork", {}],
-  ])("%s accepts a call without body", async (name, args) => {
-    const { client, close } = await connectInProcess();
-    try {
-      const res = await client.callTool({ name, arguments: args });
-      expect(res.isError).toBeFalsy();
-      const text = (res.content as Array<{ type: string; text: string }>)[0]?.text ?? "";
-      expect(JSON.parse(text)).toHaveProperty("data.preview");
-    } finally {
-      await close();
-    }
   });
 });
 
