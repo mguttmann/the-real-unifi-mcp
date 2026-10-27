@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { DEFAULT_API_BASE, DEFAULT_TIMEOUT_MS, DEFAULT_LOG_LEVEL } from "./constants.js";
+import {
+  DEFAULT_API_BASE,
+  DEFAULT_TIMEOUT_MS,
+  DEFAULT_LOG_LEVEL,
+  DEFAULT_MAX_RESULT_BYTES,
+} from "./constants.js";
 
 const ON = new Set(["true", "1", "yes", "on"]);
 const OFF = new Set(["false", "0", "no", "off"]);
@@ -103,6 +108,25 @@ function parseApiBase(raw: string): string {
   return raw;
 }
 
+const NO_CAP = new Set(["0", "off", "none"]);
+
+/**
+ * UNIFI_MAX_RESULT_BYTES (0.4.0): unset or empty is the default cap; 0, off
+ * or none (any case) is no cap (0); a positive integer is the cap. Anything
+ * else stops the server.
+ */
+function parseMaxResultBytes(raw: string | undefined): number {
+  const v = (raw ?? "").trim();
+  if (v === "") return DEFAULT_MAX_RESULT_BYTES;
+  if (NO_CAP.has(v.toLowerCase())) return 0;
+  if (!/^\d+$/.test(v) || Number(v) <= 0 || !Number.isSafeInteger(Number(v)))
+    fieldError(
+      "UNIFI_MAX_RESULT_BYTES",
+      `expected a positive integer, or 0, off or none for no cap, got "${v}"`,
+    );
+  return Number(v);
+}
+
 const ConfigSchema = z.object({
   apiKey: z.string().min(1),
   apiBase: z.string().url().default(DEFAULT_API_BASE),
@@ -116,8 +140,12 @@ const ConfigSchema = z.object({
   readOnly: z.boolean().optional(),
   /** UNIFI_REDACT_SECRETS (audit N-22): secret fields masked in every tool result. */
   redactSecrets: z.boolean().optional(),
-  /** UNIFI_MAX_RESULT_BYTES (audit N-32): longer tool results are cut; unset = no cap. */
-  maxResultBytes: z.number().int().positive().optional(),
+  /**
+   * UNIFI_MAX_RESULT_BYTES (audit N-32, default since 0.4.0): longer tool
+   * results are cut; 0 = no cap. loadConfig always sets it; a config built
+   * without it gets DEFAULT_MAX_RESULT_BYTES (see instrument.ts).
+   */
+  maxResultBytes: z.number().int().nonnegative().optional(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -157,13 +185,7 @@ export function loadConfig(
 
   const apiBase = parseApiBase(env.UNIFI_API_BASE?.trim() || DEFAULT_API_BASE);
 
-  const maxRaw = env.UNIFI_MAX_RESULT_BYTES?.trim();
-  let maxResultBytes: number | undefined;
-  if (maxRaw) {
-    if (!/^\d+$/.test(maxRaw) || Number(maxRaw) <= 0 || !Number.isSafeInteger(Number(maxRaw)))
-      fieldError("UNIFI_MAX_RESULT_BYTES", `expected a positive integer, got "${maxRaw}"`);
-    maxResultBytes = Number(maxRaw);
-  }
+  const maxResultBytes = parseMaxResultBytes(env.UNIFI_MAX_RESULT_BYTES);
 
   return ConfigSchema.parse({
     apiKey,

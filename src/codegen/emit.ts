@@ -10,6 +10,8 @@ export interface EmitInput {
   refs: Record<string, DocSchema>;
   /** Last vendor doc version that has the operation, when the vendor removed it. */
   removedUpstream?: string;
+  /** Site list with `data[].statistics`: adds `includeStatistics` (see catalog.ts). */
+  siteStatistics?: true;
 }
 
 const BODY_TEXT =
@@ -36,6 +38,7 @@ function buildInputShape(
   ep: EndpointSpec,
   isWrite: boolean,
   refs: Record<string, DocSchema>,
+  siteStatistics: boolean,
 ): string {
   const parts: string[] = [];
   const params = ep.parameters ?? [];
@@ -60,6 +63,7 @@ function buildInputShape(
     const base = typed === "z.unknown()" ? typed : `z.union([${typed}, z.unknown()])`;
     parts.push(`body: ${base}.describe(${JSON.stringify(text)}).optional()`);
   }
+  if (siteStatistics) parts.push(`includeStatistics: includeStatisticsParam`);
   if (isWrite) parts.push(`...confirmShape`);
   return `{${parts.join(", ")}}`;
 }
@@ -91,13 +95,15 @@ export function emitToolFile(input: EmitInput): string {
   const { toolName, surface, docPath, endpoint, refs, removedUpstream } = input;
   const method = endpoint.method;
   const isWrite = method !== "GET";
+  const siteStatistics = input.siteStatistics === true;
+  if (siteStatistics && isWrite) throw new Error(`${toolName}: siteStatistics on a write tool`);
   const removedNote = removedUpstream
     ? ` Removed from the vendor docs after ${removedUpstream}; kept for compatibility, answers REMOVED_UPSTREAM when the console no longer has the endpoint.`
     : "";
   const description = docText(
     `${endpoint.summary ?? endpoint.description ?? toolName} - generated from developer.ui.com/${docPath}${removedNote}`,
   );
-  const inputShape = buildInputShape(endpoint, isWrite, refs);
+  const inputShape = buildInputShape(endpoint, isWrite, refs, siteStatistics);
   const annotation = annotationFor(method, toolName);
 
   const path = endpoint.path;
@@ -136,7 +142,7 @@ export function emitToolFile(input: EmitInput): string {
     : `
       try {
         const res = ${callExpr};
-        return jsonResult(res.data, { pagination: res.pagination });
+        return jsonResult(${siteStatistics ? "siteStatistics(res.data, a.includeStatistics)" : "res.data"}, { pagination: res.pagination });
       } catch (err) {
         ${catchApiError("        ")}
         throw err;
@@ -146,7 +152,7 @@ export function emitToolFile(input: EmitInput): string {
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { ${removedUpstream ? "jsonResult, apiErrorResult, removedUpstreamResult" : "jsonResult, apiErrorResult"} } from "../helpers.js";
+import { ${["jsonResult", "apiErrorResult", ...(removedUpstream ? ["removedUpstreamResult"] : []), ...(siteStatistics ? ["includeStatisticsParam", "siteStatistics"] : [])].join(", ")} } from "../helpers.js";
 import { runGuarded, confirmShape } from "../destructiveGuard.js";
 import { UnifiApiError } from "../../client/errors.js";${isWrite ? `\nimport { ${surface === "network" ? "networkPath, withQuery" : "withQuery"} } from "../../client/unifiClient.js";` : ""}
 

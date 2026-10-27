@@ -43,6 +43,37 @@ export function lenientOptional<T extends z.ZodType>(schema: T, description: str
   return z.union([schema, z.unknown()]).optional().describe(description);
 }
 
+/**
+ * `includeStatistics` of the Site Manager site lists (`unifi_sm_list_sites`,
+ * `unifi_gen_listsites`; 0.4.0). Lenient like every param added after 0.2.1:
+ * any value is accepted, only `true` keeps the statistics.
+ */
+export const includeStatisticsParam = lenientOptional(
+  z.boolean(),
+  "true: keep the `statistics` object of each site (device and client counts, WAN issue lists; can be very large). Default: omitted.",
+);
+
+/**
+ * Drops the `statistics` object of every site in a Site Manager site list
+ * body (`{ data: [site, ...], ... }`) unless `includeStatistics` is `true`.
+ * The request is unchanged; a body of another shape is returned as is.
+ */
+export function siteStatistics(body: unknown, includeStatistics: unknown): unknown {
+  if (includeStatistics === true) return body;
+  if (!body || typeof body !== "object" || !Array.isArray((body as { data?: unknown }).data))
+    return body;
+  const b = body as { data: unknown[] };
+  return {
+    ...b,
+    data: b.data.map((site) => {
+      if (!site || typeof site !== "object" || Array.isArray(site) || !("statistics" in site))
+        return site;
+      const { statistics: _s, ...rest } = site as Record<string, unknown>;
+      return rest;
+    }),
+  };
+}
+
 export function validOrUndefined<T extends z.ZodType>(
   schema: T,
   value: unknown,

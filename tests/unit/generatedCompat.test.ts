@@ -74,9 +74,15 @@ describe("generated tools keep the 0.2.1 input contract", () => {
         )
           diffs.push(`${name}.${p}: ${JSON.stringify(s)} -> ${JSON.stringify(nowProps[p])}`);
       }
-      // dry_run: the optional, lenient write-guard param of 0.3.0 (N-23).
+      // dry_run: the optional, lenient write-guard param of 0.3.0 (N-23);
+      // includeStatistics: the lenient site-list param of 0.4.0 (both accept
+      // any value, see contractCompat.test.ts).
       for (const p of Object.keys(nowProps))
-        if (!(p in oldProps) && !(p === "dry_run" && "confirm" in oldProps))
+        if (
+          !(p in oldProps) &&
+          !(p === "dry_run" && "confirm" in oldProps) &&
+          !(p === "includeStatistics" && name === "unifi_gen_listsites")
+        )
           diffs.push(`${name}.${p} added`);
     }
     expect(diffs).toEqual([]);

@@ -109,8 +109,7 @@ describe("server.json defaults", () => {
       UNIFI_READ_ONLY: String(d.readOnly),
       UNIFI_REDACT_SECRETS: String(d.redactSecrets),
     });
-    expect(d.maxResultBytes).toBeUndefined();
-    expect(byName.UNIFI_MAX_RESULT_BYTES).toBeUndefined();
+    expect(byName.UNIFI_MAX_RESULT_BYTES).toBe(String(d.maxResultBytes));
   });
 });
 

@@ -3,6 +3,11 @@ import { createRequire } from "node:module";
 export const DEFAULT_API_BASE = "https://api.ui.com";
 export const DEFAULT_TIMEOUT_MS = 30_000;
 export const DEFAULT_LOG_LEVEL = "info" as const;
+// Default cap of a tool result text in UTF-8 bytes when UNIFI_MAX_RESULT_BYTES
+// is unset or empty (0.4.0); 0, off or none turn the cap off. Roughly 25,000
+// tokens of JSON at about 4 bytes per token; a gateway operator reported site
+// lists of about 130,000 characters.
+export const DEFAULT_MAX_RESULT_BYTES = 100_000;
 
 export const SERVER_NAME = "the-real-unifi-mcp";
 // serverInfo.version comes from package.json, so a release bump cannot drift

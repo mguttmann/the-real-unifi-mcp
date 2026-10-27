@@ -10,7 +10,12 @@ import { STDIO_DEFAULT_MAX_BUFFER_SIZE } from "@modelcontextprotocol/server";
 import type { Tool } from "@modelcontextprotocol/server";
 import { beforeAll, describe, expect, it } from "vitest";
 import { loadConfig } from "../../src/config.js";
-import { MAX_TOOL_INPUT_ELEMENTS, MAX_UPSTREAM_ERROR_CHARS, RETRY } from "../../src/constants.js";
+import {
+  DEFAULT_MAX_RESULT_BYTES,
+  MAX_TOOL_INPUT_ELEMENTS,
+  MAX_UPSTREAM_ERROR_CHARS,
+  RETRY,
+} from "../../src/constants.js";
 import { connectInProcess, listLiveTools } from "../contract/liveTools.js";
 
 const read = (rel: string): string =>
@@ -24,6 +29,7 @@ const expectedDefaults: Record<string, string> = {
   UNIFI_LOG_LEVEL: defaults.logLevel,
   UNIFI_READ_ONLY: String(defaults.readOnly),
   UNIFI_REDACT_SECRETS: String(defaults.redactSecrets),
+  UNIFI_MAX_RESULT_BYTES: String(defaults.maxResultBytes),
 };
 
 let tools: Tool[];
@@ -73,6 +79,12 @@ describe("server instructions", () => {
     expect(instructions).toContain("developer.ui.com");
   });
 
+  it("state the result cap default and includeStatistics (0.4.0)", () => {
+    expect(defaults.maxResultBytes).toBe(DEFAULT_MAX_RESULT_BYTES);
+    expect(instructions).toContain(`default ${DEFAULT_MAX_RESULT_BYTES} bytes`);
+    expect(instructions).toContain("`includeStatistics: true`");
+  });
+
   it("make no coverage claim (N-56)", () => {
     expect(instructions).not.toMatch(/100\s*%/);
   });
@@ -84,6 +96,10 @@ describe("SECURITY.md limits", () => {
   it("names the SDK stdio line limit (N-34)", () => {
     expect(STDIO_DEFAULT_MAX_BUFFER_SIZE % (1024 * 1024)).toBe(0);
     expect(security).toContain(`${STDIO_DEFAULT_MAX_BUFFER_SIZE / (1024 * 1024)} MiB`);
+  });
+
+  it("names the default result cap (0.4.0)", () => {
+    expect(security).toContain(`default ${DEFAULT_MAX_RESULT_BYTES} bytes`);
   });
 
   it("names the input element limit (N-33)", () => {

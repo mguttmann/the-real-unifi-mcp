@@ -1,11 +1,13 @@
 /**
- * Opt-in features of 0.3.0, all off by default (0.2.1 behaviour):
+ * Opt-in features of 0.3.0, off by default (0.2.1 behaviour):
  * UNIFI_READ_ONLY and `dry_run` (audit N-23), UNIFI_REDACT_SECRETS (N-22),
- * UNIFI_MAX_RESULT_BYTES (N-32). `fetch` is a fake; nothing leaves the process.
+ * UNIFI_MAX_RESULT_BYTES (N-32; a default cap since 0.4.0, see
+ * resultSize.test.ts). `fetch` is a fake; nothing leaves the process.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import type { Tool } from "@modelcontextprotocol/server";
 import { loadConfig } from "../../src/config.js";
+import { DEFAULT_MAX_RESULT_BYTES } from "../../src/constants.js";
 import { connectInProcess, listLiveTools } from "../contract/liveTools.js";
 
 afterEach(() => {
@@ -59,11 +61,11 @@ beforeAll(async () => {
 describe("config of the opt-in variables", () => {
   const base = { UNIFI_API_KEY: "k" };
 
-  it("defaults keep 0.2.1 behaviour", () => {
+  it("defaults keep 0.2.1 behaviour (the result cap has a default since 0.4.0)", () => {
     const cfg = loadConfig(base);
     expect(cfg.readOnly).toBe(false);
     expect(cfg.redactSecrets).toBe(false);
-    expect(cfg.maxResultBytes).toBeUndefined();
+    expect(cfg.maxResultBytes).toBe(DEFAULT_MAX_RESULT_BYTES);
   });
 
   it("parses on and off values; an unknown value turns the switch on and warns", () => {
@@ -81,10 +83,13 @@ describe("config of the opt-in variables", () => {
     }
   });
 
-  it("UNIFI_MAX_RESULT_BYTES takes a positive integer and refuses anything else", () => {
+  it("UNIFI_MAX_RESULT_BYTES takes a positive integer or 0/off/none and refuses anything else", () => {
     expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: "4096" }).maxResultBytes).toBe(4096);
-    expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: " " }).maxResultBytes).toBeUndefined();
-    for (const v of ["0", "-1", "1.5", "abc"])
+    expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: " " }).maxResultBytes).toBe(
+      DEFAULT_MAX_RESULT_BYTES,
+    );
+    expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: "0" }).maxResultBytes).toBe(0);
+    for (const v of ["-1", "1.5", "abc"])
       expect(() => loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: v }), v).toThrow(
         /UNIFI_MAX_RESULT_BYTES/,
       );
@@ -241,7 +246,7 @@ describe("UNIFI_REDACT_SECRETS (N-22)", () => {
 describe("UNIFI_MAX_RESULT_BYTES (N-32)", () => {
   const big = { data: Array.from({ length: 200 }, (_, i) => ({ id: i, name: `device-${i}` })) };
 
-  it("unset (default): the full result", async () => {
+  it("unset (default cap of 0.4.0): a result below the cap is complete", async () => {
     stubFetch(big);
     const { client, close } = await connectInProcess();
     try {

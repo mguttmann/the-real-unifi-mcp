@@ -92,9 +92,11 @@ export function generateFiles(specs: Specs): { files: Map<string, string>; failu
     };
     files.set(
       `${entry.toolName}.ts`,
-      emitToolFile(
-        entry.removedUpstream ? { ...input, removedUpstream: entry.removedUpstream } : input,
-      ),
+      emitToolFile({
+        ...input,
+        ...(entry.removedUpstream ? { removedUpstream: entry.removedUpstream } : {}),
+        ...(entry.siteStatistics ? { siteStatistics: true as const } : {}),
+      }),
     );
   }
 

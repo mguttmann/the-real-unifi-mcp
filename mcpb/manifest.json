@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "the-real-unifi-mcp",
   "display_name": "UniFi MCP",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "MCP server for UniFi Site Manager + Network APIs (documented endpoints, read + write, cloud-only).",
   "author": { "name": "Manuel Guttmann" },
   "license": "MIT",

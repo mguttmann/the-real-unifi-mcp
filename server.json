@@ -8,12 +8,12 @@
     "source": "github"
   },
   "websiteUrl": "https://github.com/mguttmann/the-real-unifi-mcp#readme",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "the-real-unifi-mcp",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -89,16 +89,17 @@
         },
         {
           "name": "UNIFI_MAX_RESULT_BYTES",
-          "description": "Cuts tool results longer than this many bytes and marks them as truncated. Unset: no cap.",
+          "description": "Cuts tool results longer than this many bytes and marks them as truncated. Unset or empty: 100000. 0, off or none: no cap.",
           "isRequired": false,
-          "format": "number"
+          "format": "number",
+          "default": "100000"
         }
       ]
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/mguttmann/the-real-unifi-mcp/releases/download/v0.3.1/the-real-unifi-mcp-0.3.1.mcpb",
-      "version": "0.3.1",
+      "identifier": "https://github.com/mguttmann/the-real-unifi-mcp/releases/download/v0.4.0/the-real-unifi-mcp-0.4.0.mcpb",
+      "version": "0.4.0",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"

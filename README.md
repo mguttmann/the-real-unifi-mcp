@@ -82,7 +82,7 @@ Releases from v0.2.0 on attach the `.mcpb`, the npm tarball, CycloneDX SBOMs and
 | `UNIFI_SITE_MANAGER_SITE_ID` | (unset) | Override discovery (pin to a specific Site Manager site) |
 | `UNIFI_READ_ONLY` | `false` | If on, every tool with a `confirm` param (all write tools, and `unifi_raw_request` for methods other than `GET`) returns an error with `code: "READ_ONLY"` and sends no request; the tools stay listed. Same values as `UNIFI_CONFIRM_WRITES`; an unknown value turns it on and logs a warning. |
 | `UNIFI_REDACT_SECRETS` | `false` | If on, every tool result has the fields the confirm preview redacts (passwords, WiFi passphrases, pre-shared keys, secrets, tokens, keys) replaced by `(redacted)`; paging tokens such as `nextToken` stay. MCP resources (`unifi://hosts`, `unifi://identity`) are not redacted. Write tools always refuse a body that contains the placeholder (see Write safety). Same values as `UNIFI_READ_ONLY`. |
-| `UNIFI_MAX_RESULT_BYTES` | (unset) | If set (a positive integer), a tool result text longer than this many UTF-8 bytes is cut to it and ends with a `... (truncated: ...)` marker that names the paging params. MCP resources are not cut. Unset: no cap. Any other value stops the server at startup. |
+| `UNIFI_MAX_RESULT_BYTES` | `100000` | A tool result text longer than this many UTF-8 bytes is cut to it and ends with a `... (truncated: ...)` marker that names the paging params. Unset or empty: the default (roughly 25,000 tokens of JSON). `0`, `off` or `none` (any case): no cap. A positive integer sets the cap; any other value stops the server at startup. MCP resources are not cut. |
 
 ## Claude Desktop config
 
@@ -132,7 +132,7 @@ Account-level tools against `api.ui.com` directly:
 
 - `unifi_sm_list_hosts`: list all UniFi consoles on the account (optional `pageSize`, `nextToken`)
 - `unifi_sm_get_host`: detail for a single console
-- `unifi_sm_list_sites`: account-level sites (optional `pageSize`, `nextToken`)
+- `unifi_sm_list_sites`: account-level sites (optional `pageSize`, `nextToken`); the `statistics` object of each site is omitted unless `includeStatistics: true`
 - `unifi_sm_list_devices`: account-level device list (optional `hostIds`, `time`, `pageSize`, `nextToken`)
 - `unifi_sm_get_isp_metrics`: ISP metrics by bucket (5m/1h), for `beginTimestamp`/`endTimestamp` or a `duration` (24h, 7d, 30d)
 - `unifi_sm_query_isp_metrics`: query ISP metrics with a time window
@@ -160,7 +160,7 @@ Per-console tools via the Cloud Connector proxy, grouped by resource. Every `uni
 
 ### Auto-generated tools (82)
 
-Named `unifi_gen_<operationid>` (the vendor operationId in lower case, e.g. `unifi_gen_createfirewallpolicy`, `unifi_gen_getinfo`). One tool per documented UniFi API endpoint (Site Manager API v1.0.0, Network API v11.0.97), except the Site Manager `connector*` proxy endpoints, which `unifi_raw_request` covers. siteId is auto-resolved from discovery; callers do not need to pass it. Write tools document the vendor request body in their `body` schema, but accept and send any `body` value unchanged, as in 0.2.1. See `src/tools/generated/` for the full inventory.
+Named `unifi_gen_<operationid>` (the vendor operationId in lower case, e.g. `unifi_gen_createfirewallpolicy`, `unifi_gen_getinfo`). One tool per documented UniFi API endpoint (Site Manager API v1.0.0, Network API v11.0.97), except the Site Manager `connector*` proxy endpoints, which `unifi_raw_request` covers. siteId is auto-resolved from discovery; callers do not need to pass it. Write tools document the vendor request body in their `body` schema, but accept and send any `body` value unchanged, as in 0.2.1. `unifi_gen_listsites` omits the `statistics` object of each site unless `includeStatistics: true`, like `unifi_sm_list_sites`. See `src/tools/generated/` for the full inventory.
 
 ### Escape hatch (1)
 

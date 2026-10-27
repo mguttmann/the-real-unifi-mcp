@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0] - 2026-10-27
+
+### Behaviour changes for callers
+- `unifi_sm_list_sites` and `unifi_gen_listsites` (both Site Manager `GET /v1/sites`) omit the `statistics` object of every site by default. An MCP gateway operator reported about 130,000 characters per call, mostly `statistics.wanIssues`. New optional param `includeStatistics`: only `true` returns the full result as before; omitted, `false` or any other value drops `statistics` from each entry of `data` and keeps every other field (`siteId`, `hostId`, `meta`, `permission`, `isOwner`, `nextToken`, the `pagination` hint). The request to the API is unchanged (the param is not sent); a response without a site array is returned as is. Like the other params added after 0.2.1, the schema accepts any value (`anyOf: [{"type": "boolean"}, {}]`) and a non-boolean value is no error. Contract snapshot: `includeStatistics` added to the property names of both tools; their input schema hash changes (`tests/contract/tools-contract.json`). The generated tool gets the param from the codegen (`siteStatistics` in `src/codegen/catalog.ts`), so `npm run codegen -- --offline` reproduces it. The Network site lists (`unifi_net_list_sites`, `unifi_gen_getsiteoverviewpage`) get no such param: their vendor schema (`Site overview`) has only `id`, `internalReference` and `name`, no `statistics`. `tests/unit/resultSize.test.ts` holds the behaviour.
+- `UNIFI_MAX_RESULT_BYTES` has a default: unset or empty now means a cap of 100000 bytes (was: no cap). `0`, `off` or `none` (any case) turn the cap off; a positive integer sets it, as before; any other value still stops the server at startup. A tool result text above the cap is cut and ends with the `... (truncated: ...)` marker of 0.3.0 that names the paging params. 100000 bytes is roughly 25,000 tokens of JSON (about 4 bytes per token), small enough for the model context of common MCP clients, and a result above it is cut here with a marker that tells the model how to page instead of being rejected or cut without a hint by the client; the 130,000-character site list of the report is cut with `includeStatistics: true` and stays below the cap without it. Callers who need the full text set `UNIFI_MAX_RESULT_BYTES=0`. MCP resource reads are still not cut. `.env.example`, `server.json` (now with `default` `100000`), README, SECURITY.md and the server instructions state the default (`tests/unit/docs.test.ts`, `tests/unit/publication.test.ts`). A programmatic `Config` without `maxResultBytes` gets the default cap as well.
+
+### Changed
+- The `tools/list` response grows by about 400 bytes (the two `includeStatistics` params) and stays below the 120,000-byte cap of `tests/unit/toolsListSize.test.ts`.
+
 ## [0.3.1] - 2026-10-27
 
 ### Behaviour changes for callers

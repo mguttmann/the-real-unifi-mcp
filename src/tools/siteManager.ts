@@ -4,8 +4,10 @@ import type { ServerContext } from "../server.js";
 import {
   apiErrorResult,
   errorResult,
+  includeStatisticsParam,
   jsonResult,
   lenientOptional,
+  siteStatistics,
   validOrUndefined,
 } from "./helpers.js";
 import { UnifiApiError } from "../client/errors.js";
@@ -22,10 +24,11 @@ async function getJson(
   method: "GET" | "POST",
   path: string,
   opts?: { body?: unknown; query?: Record<string, unknown> },
+  shape: (data: unknown) => unknown = (data) => data,
 ) {
   try {
     const res = await ctx.client.request(method, path, opts ?? {});
-    return jsonResult(res.data, { pagination: res.pagination });
+    return jsonResult(shape(res.data), { pagination: res.pagination });
   } catch (err) {
     if (err instanceof UnifiApiError) return apiErrorResult(err);
     throw err;
@@ -82,10 +85,13 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
     {
       title: "List Site Manager sites",
       description: "Account-level sites.",
-      inputSchema: z.object(pageShape),
+      inputSchema: z.object({ ...pageShape, includeStatistics: includeStatisticsParam }),
       annotations: readOnly,
     },
-    async (a) => getJson(ctx, "GET", "/v1/sites", { query: pageQuery(a) }),
+    async (a) =>
+      getJson(ctx, "GET", "/v1/sites", { query: pageQuery(a) }, (data) =>
+        siteStatistics(data, a.includeStatistics),
+      ),
   );
 
   server.registerTool(

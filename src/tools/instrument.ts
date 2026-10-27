@@ -1,6 +1,7 @@
 import type { CallToolResult, McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../server.js";
 import { runWithCallerSignal } from "../client/callerSignal.js";
+import { DEFAULT_MAX_RESULT_BYTES } from "../constants.js";
 import { capResultText, redactResultText } from "./helpers.js";
 
 type Handler = (...params: unknown[]) => unknown;
@@ -11,7 +12,8 @@ type Handler = (...params: unknown[]) => unknown;
  * - the handler runs with the MCP request's abort signal as caller signal,
  *   so a cancelled call aborts its API request and retry sleep (audit N-35);
  * - with UNIFI_REDACT_SECRETS, secret fields of every result are masked (N-22);
- * - with UNIFI_MAX_RESULT_BYTES, longer result texts are cut (N-32).
+ * - result texts longer than UNIFI_MAX_RESULT_BYTES are cut (N-32); since
+ *   0.4.0 a default cap applies, 0 turns it off.
  */
 export function instrumentTools(server: McpServer, ctx: ServerContext): void {
   const register = server.registerTool.bind(server) as (...args: unknown[]) => unknown;
@@ -32,7 +34,8 @@ export function instrumentTools(server: McpServer, ctx: ServerContext): void {
 }
 
 function finish(result: CallToolResult, cfg: ServerContext["cfg"]): CallToolResult {
-  if (!cfg.redactSecrets && cfg.maxResultBytes === undefined) return result;
+  const max = cfg.maxResultBytes ?? DEFAULT_MAX_RESULT_BYTES;
+  if (!cfg.redactSecrets && max === 0) return result;
   if (!Array.isArray(result?.content)) return result;
   return {
     ...result,
@@ -40,7 +43,7 @@ function finish(result: CallToolResult, cfg: ServerContext["cfg"]): CallToolResu
       if (c.type !== "text") return c;
       let t = c.text;
       if (cfg.redactSecrets) t = redactResultText(t);
-      if (cfg.maxResultBytes !== undefined) t = capResultText(t, cfg.maxResultBytes);
+      if (max > 0) t = capResultText(t, max);
       return { ...c, text: t };
     }),
   };

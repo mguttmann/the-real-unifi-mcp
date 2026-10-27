@@ -1270,6 +1270,7 @@
       "name": "unifi_gen_listsites",
       "required": [],
       "properties": [
+        "includeStatistics",
         "nextToken",
         "pageSize"
       ],
@@ -1281,7 +1282,7 @@
         "readOnlyHint": true
       },
       "textSha256": "8857e05348d9179a",
-      "inputSchemaSha256": "61d4884f0f4eb70d"
+      "inputSchemaSha256": "d9726a52461bb73b"
     },
     {
       "name": "unifi_gen_patchfirewallpolicy",
@@ -3122,6 +3123,7 @@
       "name": "unifi_sm_list_sites",
       "required": [],
       "properties": [
+        "includeStatistics",
         "nextToken",
         "pageSize"
       ],
@@ -3133,7 +3135,7 @@
         "readOnlyHint": true
       },
       "textSha256": "cb3df761b4454901",
-      "inputSchemaSha256": "d46c2e542c1de93b"
+      "inputSchemaSha256": "e63faa8e1c19fe3e"
     },
     {
       "name": "unifi_sm_query_isp_metrics",

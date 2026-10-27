@@ -50,6 +50,12 @@ export interface CatalogEntry {
    * and answers a 404 with a REMOVED_UPSTREAM error.
    */
   removedUpstream?: string;
+  /**
+   * Set for a Site Manager site list: the tool gets the optional
+   * `includeStatistics` param and drops the `statistics` object of every
+   * site unless it is `true` (0.4.0, see SITE_STATISTICS_OPERATIONS).
+   */
+  siteStatistics?: true;
 }
 
 /**
@@ -59,6 +65,18 @@ export interface CatalogEntry {
 const REMOVED_UPSTREAM: Record<Surface, Record<string, string>> = {
   siteManager: {},
   network: {},
+};
+
+/**
+ * Operations whose response lists sites with a `statistics` object (vendor
+ * docs: `data[].statistics`, which may hold long WAN issue lists). Their
+ * tools omit it by default (0.4.0). The Network site list
+ * (`getsiteoverviewpage`) returns only id, internalReference and name, so it
+ * is not listed.
+ */
+const SITE_STATISTICS_OPERATIONS: Record<Surface, ReadonlySet<string>> = {
+  siteManager: new Set(["listsites"]),
+  network: new Set(),
 };
 
 const SITE_MANAGER_PAGES = [
@@ -173,6 +191,7 @@ function entry(surface: Surface, slug: string): CatalogEntry {
     toolName: `unifi_gen_${slug}`,
   };
   if (removed) e.removedUpstream = removed;
+  if (SITE_STATISTICS_OPERATIONS[surface].has(slug)) e.siteStatistics = true;
   return e;
 }
 
