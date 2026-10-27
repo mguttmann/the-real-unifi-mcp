@@ -2,9 +2,11 @@ type DocSchema = Record<string, unknown>;
 
 export interface SchemaOptions {
   /**
-   * Request-body mode (N-37): objects become `z.looseObject` (unknown keys are
-   * kept and sent, never stripped), property descriptions are emitted, and a
-   * discriminator expands into a union of its mapped schemas.
+   * Request-body mode (N-37), compact: one `z.looseObject` (unknown keys are
+   * kept and sent, never stripped) that lists the top-level properties with
+   * their plain type only. The variants of a discriminator or a oneOf/anyOf are
+   * merged into that one object, the tag as enum; nested schemas and vendor
+   * descriptions stay on the vendor docs page that the tool description names.
    */
   loose?: boolean;
 }
@@ -17,6 +19,9 @@ interface Ctx {
 }
 
 const IDENT = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+
+/** Body mode: a string enum with more values than this is listed as plain z.string(). */
+export const BODY_ENUM_CAP = 8;
 
 /** Vendor text as a JS string literal: whitespace collapsed, em and en dashes replaced. */
 export function docText(s: string): string {
@@ -42,20 +47,21 @@ export function schemaToZodSource(
   refs: Record<string, DocSchema> = {},
   opts: SchemaOptions = {},
 ): string {
-  return toZod(schema, { refs, loose: opts.loose === true, stack: [] });
+  const ctx: Ctx = { refs, loose: opts.loose === true, stack: [] };
+  return ctx.loose ? compactBody(schema, ctx) : toZod(schema, ctx);
 }
 
-function toZod(schema: DocSchema | undefined, ctx: Ctx, skipDiscriminator = false): string {
+function toZod(schema: DocSchema | undefined, ctx: Ctx): string {
   if (!schema || typeof schema !== "object") return "z.unknown()";
-  const out = toZodInner(schema, ctx, skipDiscriminator);
+  const out = toZodInner(schema, ctx);
   return schema.nullable === true && out !== "z.unknown()" ? `${out}.nullable()` : out;
 }
 
-function resolveRef(ref: string, ctx: Ctx, skipDiscriminator: boolean): string {
+function resolveRef(ref: string, ctx: Ctx): string {
   const name = refName(ref);
   const target = ctx.refs[name];
   if (!target || ctx.stack.includes(name)) return "z.unknown()";
-  return toZod(target, { ...ctx, stack: [...ctx.stack, name] }, skipDiscriminator);
+  return toZod(target, { ...ctx, stack: [...ctx.stack, name] });
 }
 
 /** Flattens allOf parts (resolving $refs) into one object schema. */
@@ -84,25 +90,8 @@ function mergeAllOf(schema: DocSchema, ctx: Ctx, seen: string[]): DocSchema {
   };
 }
 
-function toZodInner(schema: DocSchema, ctx: Ctx, skipDiscriminator: boolean): string {
-  if (typeof schema.$ref === "string") return resolveRef(schema.$ref, ctx, skipDiscriminator);
-
-  // A discriminator (body mode): one union member per mapped schema, the tag as literal.
-  const disc = schema.discriminator as
-    { propertyName?: string; mapping?: Record<string, string> } | undefined;
-  if (ctx.loose && !skipDiscriminator && disc?.propertyName && disc.mapping) {
-    const members = Object.entries(disc.mapping).map(([tag, ref]) => {
-      const name = refName(ref);
-      const target = ctx.refs[name];
-      if (!target || ctx.stack.includes(name)) return "z.unknown()";
-      const flat = mergeAllOf(target, ctx, [...ctx.stack, name]);
-      const props = { ...(flat.properties as Record<string, DocSchema>) };
-      props[disc.propertyName!] = { const: tag };
-      return objectSource({ ...flat, properties: props }, { ...ctx, stack: [...ctx.stack, name] });
-    });
-    if (members.length === 1) return members[0]!;
-    if (members.length > 1) return `z.union([${members.join(",")}])`;
-  }
+function toZodInner(schema: DocSchema, ctx: Ctx): string {
+  if (typeof schema.$ref === "string") return resolveRef(schema.$ref, ctx);
 
   if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) {
     const arr = (schema.oneOf ?? schema.anyOf) as DocSchema[];
@@ -111,20 +100,15 @@ function toZodInner(schema: DocSchema, ctx: Ctx, skipDiscriminator: boolean): st
   }
 
   if (Array.isArray(schema.allOf)) {
-    if (!ctx.loose) {
-      // Params: only inline parts, as 0.2.1 did.
-      const merged: DocSchema = { type: "object", properties: {}, required: [] };
-      for (const part of schema.allOf as DocSchema[]) {
-        if (part.properties) Object.assign(merged.properties as object, part.properties);
-        if (Array.isArray(part.required))
-          (merged.required as string[]).push(...(part.required as string[]));
-      }
-      return toZod(merged, ctx);
+    // Params: only inline parts, as 0.2.1 did.
+    const merged: DocSchema = { type: "object", properties: {}, required: [] };
+    for (const part of schema.allOf as DocSchema[]) {
+      if (part.properties) Object.assign(merged.properties as object, part.properties);
+      if (Array.isArray(part.required))
+        (merged.required as string[]).push(...(part.required as string[]));
     }
-    return objectSource(mergeAllOf(schema, ctx, ctx.stack), ctx);
+    return toZod(merged, ctx);
   }
-
-  if (ctx.loose && "const" in schema) return `z.literal(${JSON.stringify(schema.const)})`;
 
   const t = schema.type;
   if (typeof schema.enum !== "undefined" && Array.isArray(schema.enum)) {
@@ -152,7 +136,7 @@ function toZodInner(schema: DocSchema, ctx: Ctx, skipDiscriminator: boolean): st
     const items = schema.items as DocSchema | undefined;
     return `z.array(${toZod(items, ctx)})`;
   }
-  if (t === "object" || (ctx.loose && t === undefined && schema.properties)) {
+  if (t === "object") {
     return objectSource(schema, ctx);
   }
 
@@ -164,10 +148,7 @@ function objectSource(schema: DocSchema, ctx: Ctx): string {
   const required = new Set((schema.required as string[]) ?? []);
   const lines: string[] = [];
   for (const [k, v] of Object.entries(props)) {
-    let base = toZod(v, ctx);
-    if (ctx.loose && typeof v?.description === "string" && v.description.trim()) {
-      base += `.describe(${JSON.stringify(docText(v.description))})`;
-    }
+    const base = ctx.loose ? shallowType(v, ctx, ctx.stack) : toZod(v, ctx);
     const safe = IDENT.test(k) ? k : JSON.stringify(k);
     // N-63: a required key without a usable schema stays optional (zod 3 behaviour).
     const optional = !required.has(k) || base.startsWith("z.unknown()");
@@ -175,10 +156,138 @@ function objectSource(schema: DocSchema, ctx: Ctx): string {
   }
   const extra = schema.additionalProperties;
   if (lines.length === 0 && (extra === true || (ctx.loose && extra && typeof extra === "object"))) {
-    const value = extra === true ? "z.unknown()" : toZod(extra as DocSchema, ctx);
+    const value = extra === true || ctx.loose ? "z.unknown()" : toZod(extra as DocSchema, ctx);
     return `z.record(z.string(), ${value})`;
   }
   if (ctx.loose) return `z.looseObject({${lines.join(",")}})`;
   const passthrough = extra === true ? ".passthrough()" : "";
   return `z.object({${lines.join(",")}})${passthrough}`;
+}
+
+interface FlatObject {
+  properties: Record<string, DocSchema>;
+  required: string[];
+}
+
+/**
+ * Body mode: the object variants of a request body, each flattened (allOf and
+ * `$ref` resolved, a discriminator tag set as `const`). Undefined when the body
+ * is not an object or a union of objects.
+ */
+function bodyVariants(schema: DocSchema, ctx: Ctx, stack: string[]): FlatObject[] | undefined {
+  if (typeof schema.$ref === "string") {
+    const name = refName(schema.$ref);
+    const target = ctx.refs[name];
+    if (!target || stack.includes(name)) return undefined;
+    return bodyVariants(target, ctx, [...stack, name]);
+  }
+  const disc = schema.discriminator as
+    { propertyName?: string; mapping?: Record<string, string> } | undefined;
+  if (disc?.propertyName && disc.mapping) {
+    const out: FlatObject[] = [];
+    for (const [tag, ref] of Object.entries(disc.mapping)) {
+      const name = refName(ref);
+      const target = ctx.refs[name];
+      if (!target || stack.includes(name)) return undefined;
+      // Only the variant on the path: its allOf names the base schema that holds
+      // the discriminator, whose properties belong to every variant.
+      const flat = mergeAllOf(target, ctx, [name]) as unknown as FlatObject;
+      out.push({
+        properties: { ...flat.properties, [disc.propertyName]: { const: tag } },
+        required: flat.required,
+      });
+    }
+    return out.length > 0 ? out : undefined;
+  }
+  if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) {
+    const out: FlatObject[] = [];
+    for (const part of (schema.oneOf ?? schema.anyOf) as DocSchema[]) {
+      const v = bodyVariants(part, ctx, stack);
+      if (!v) return undefined;
+      out.push(...v);
+    }
+    return out.length > 0 ? out : undefined;
+  }
+  if (Array.isArray(schema.allOf) || schema.type === "object" || schema.properties) {
+    if (schema.type === "object" && !schema.properties && !schema.allOf) {
+      return [{ properties: {}, required: [] }];
+    }
+    return [mergeAllOf(schema, ctx, stack) as unknown as FlatObject];
+  }
+  return undefined;
+}
+
+/** Body mode: the variants merged into one compact `z.looseObject`. */
+function compactBody(schema: DocSchema | undefined, ctx: Ctx): string {
+  if (!schema || typeof schema !== "object") return "z.unknown()";
+  const variants = bodyVariants(schema, ctx, ctx.stack);
+  if (!variants) return shallowType(schema, ctx, ctx.stack);
+  if (variants.length === 1 && Object.keys(variants[0]!.properties).length === 0) {
+    const extra = schema.additionalProperties;
+    if (extra === true || (extra && typeof extra === "object")) {
+      return "z.record(z.string(), z.unknown())";
+    }
+  }
+  const byKey = new Map<string, DocSchema[]>();
+  for (const v of variants) {
+    for (const [k, s] of Object.entries(v.properties)) byKey.set(k, [...(byKey.get(k) ?? []), s]);
+  }
+  const properties: Record<string, DocSchema> = {};
+  for (const [k, list] of byKey) {
+    const consts = list.map((s) => s.const);
+    if (list.length > 1 && consts.every((c) => typeof c === "string")) {
+      properties[k] = { type: "string", enum: consts };
+    } else {
+      properties[k] = list.length === 1 ? list[0]! : { oneOf: list };
+    }
+  }
+  const required = [...byKey.keys()].filter((k) => variants.every((v) => v.required.includes(k)));
+  return objectSource({ type: "object", properties, required }, ctx);
+}
+
+/**
+ * Body mode, one property: its plain type only (string, number, boolean,
+ * array, object, a literal tag or a short string enum), never its nested
+ * schema. A union of mixed types, an unresolvable or a recursive `$ref` is
+ * `z.unknown()`. Nested objects and arrays accept any content, so the typed
+ * branch never drops nested keys.
+ */
+function shallowType(schema: DocSchema | undefined, ctx: Ctx, seen: string[]): string {
+  if (!schema || typeof schema !== "object") return "z.unknown()";
+  if (typeof schema.$ref === "string") {
+    const name = refName(schema.$ref);
+    const target = ctx.refs[name];
+    if (!target || seen.includes(name)) return "z.unknown()";
+    return shallowType(target, ctx, [...seen, name]);
+  }
+  let out: string;
+  if ("const" in schema) {
+    out = `z.literal(${JSON.stringify(schema.const)})`;
+  } else if (
+    Array.isArray(schema.enum) &&
+    schema.enum.length > 0 &&
+    schema.enum.every((v) => typeof v === "string")
+  ) {
+    const vals = schema.enum;
+    out =
+      vals.length <= BODY_ENUM_CAP
+        ? `z.enum([${vals.map((v) => JSON.stringify(v)).join(",")}])`
+        : "z.string()";
+  } else if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) {
+    const parts = ((schema.oneOf ?? schema.anyOf) as DocSchema[]).map((p) =>
+      shallowType(p, ctx, seen),
+    );
+    const kinds = new Set(parts.map((p) => p.replace(/\.nullable\(\)$/, "")));
+    out = kinds.size === 1 ? [...kinds][0]! : "z.unknown()";
+  } else {
+    const t = schema.type;
+    if (t === "string") out = "z.string()";
+    else if (t === "integer" || t === "number") out = "z.number()";
+    else if (t === "boolean") out = "z.boolean()";
+    else if (t === "array") out = "z.array(z.unknown())";
+    else if (t === "object" || schema.properties || schema.allOf || schema.discriminator) {
+      out = "z.looseObject({})";
+    } else out = "z.unknown()";
+  }
+  return schema.nullable === true && out !== "z.unknown()" ? `${out}.nullable()` : out;
 }

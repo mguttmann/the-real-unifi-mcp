@@ -61,10 +61,12 @@ describe("runGuarded", () => {
     expect(text).toContain("Write confirmation is on (UNIFI_CONFIRM_WRITES)");
   });
 
-  it("the confirm param describes the real default and off values (N-78)", () => {
+  it("the confirm param makes no claim about the switch; the server instructions name it (N-78)", () => {
+    // Short on purpose: it repeats in every write tool of tools/list. The default
+    // and the off values are stated once, in the server instructions (docs.test.ts).
     const d = confirmShape.confirm.description ?? "";
     expect(d).not.toContain("UNIFI_CONFIRM_WRITES=true");
-    expect(d).toContain("default");
-    expect(d).toContain("false, 0, no or off");
+    expect(d).toContain('"YES"');
+    expect(d).toContain("preview");
   });
 });

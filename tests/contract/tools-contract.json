@@ -17,7 +17,7 @@
         "readOnlyHint": false
       },
       "textSha256": "5a77c1d870c6f56c",
-      "inputSchemaSha256": "84dae596af427c51"
+      "inputSchemaSha256": "714025c00821889a"
     },
     {
       "name": "unifi_gen_createaclrule",
@@ -35,7 +35,7 @@
         "readOnlyHint": false
       },
       "textSha256": "8d56b21e7c520f66",
-      "inputSchemaSha256": "9f3f2b900e71e478"
+      "inputSchemaSha256": "e69544f4a13512c4"
     },
     {
       "name": "unifi_gen_creatednspolicy",
@@ -53,7 +53,7 @@
         "readOnlyHint": false
       },
       "textSha256": "e61297267f691a33",
-      "inputSchemaSha256": "6bd526c72e6479a4"
+      "inputSchemaSha256": "0abdb0b8188578f1"
     },
     {
       "name": "unifi_gen_createfirewallpolicy",
@@ -71,7 +71,7 @@
         "readOnlyHint": false
       },
       "textSha256": "1eab32bf7d30fca5",
-      "inputSchemaSha256": "41cd16fe9fe14b60"
+      "inputSchemaSha256": "aad17b39966d71bc"
     },
     {
       "name": "unifi_gen_createfirewallzone",
@@ -89,7 +89,7 @@
         "readOnlyHint": false
       },
       "textSha256": "0616016c5ccb593f",
-      "inputSchemaSha256": "7be9742d0f1c9eec"
+      "inputSchemaSha256": "34f139196ff3d5d8"
     },
     {
       "name": "unifi_gen_createnetwork",
@@ -107,7 +107,7 @@
         "readOnlyHint": false
       },
       "textSha256": "8ee2330851fd89ba",
-      "inputSchemaSha256": "2986456ea1719607"
+      "inputSchemaSha256": "60435a47a73afbbb"
     },
     {
       "name": "unifi_gen_createtrafficmatchinglist",
@@ -125,7 +125,7 @@
         "readOnlyHint": false
       },
       "textSha256": "43d954ccd942e1cb",
-      "inputSchemaSha256": "0d0fdb023b43fb99"
+      "inputSchemaSha256": "2dd7f0a579e7412d"
     },
     {
       "name": "unifi_gen_createvouchers",
@@ -143,7 +143,7 @@
         "readOnlyHint": false
       },
       "textSha256": "a31afcba68f09e5e",
-      "inputSchemaSha256": "af57df95e10f23d8"
+      "inputSchemaSha256": "187cb6d77fad49aa"
     },
     {
       "name": "unifi_gen_createwifibroadcast",
@@ -161,7 +161,7 @@
         "readOnlyHint": false
       },
       "textSha256": "f1fe55663ca8ba73",
-      "inputSchemaSha256": "15322ec5c7f2ccc8"
+      "inputSchemaSha256": "bd4fc00aa81aa7a6"
     },
     {
       "name": "unifi_gen_deleteaclrule",
@@ -181,7 +181,7 @@
         "readOnlyHint": false
       },
       "textSha256": "d784434c83a862d7",
-      "inputSchemaSha256": "82b2a03e0257569f"
+      "inputSchemaSha256": "8542a2758f4b469d"
     },
     {
       "name": "unifi_gen_deletednspolicy",
@@ -201,7 +201,7 @@
         "readOnlyHint": false
       },
       "textSha256": "2a546146522d8d7b",
-      "inputSchemaSha256": "fbe222dae24bfc89"
+      "inputSchemaSha256": "0c53150f15091e3a"
     },
     {
       "name": "unifi_gen_deletefirewallpolicy",
@@ -221,7 +221,7 @@
         "readOnlyHint": false
       },
       "textSha256": "42f9b1e3f469f302",
-      "inputSchemaSha256": "3440063af83a7ec0"
+      "inputSchemaSha256": "3beebf46573d9070"
     },
     {
       "name": "unifi_gen_deletefirewallzone",
@@ -241,7 +241,7 @@
         "readOnlyHint": false
       },
       "textSha256": "4f8c53a1c4f27761",
-      "inputSchemaSha256": "d4f6789f34e808f9"
+      "inputSchemaSha256": "4af137be8e27da15"
     },
     {
       "name": "unifi_gen_deletenetwork",
@@ -262,7 +262,7 @@
         "readOnlyHint": false
       },
       "textSha256": "6f5111b91035bd42",
-      "inputSchemaSha256": "ed0a836111291021"
+      "inputSchemaSha256": "268a01ea6004f6a6"
     },
     {
       "name": "unifi_gen_deletetrafficmatchinglist",
@@ -282,7 +282,7 @@
         "readOnlyHint": false
       },
       "textSha256": "3f6c00d01f7ef35d",
-      "inputSchemaSha256": "3114f9d42d57d9c6"
+      "inputSchemaSha256": "dfdd7741ee654607"
     },
     {
       "name": "unifi_gen_deletevoucher",
@@ -302,7 +302,7 @@
         "readOnlyHint": false
       },
       "textSha256": "02059e96468a685a",
-      "inputSchemaSha256": "e1d3e1045c047b3f"
+      "inputSchemaSha256": "894c4cd912b9abd7"
     },
     {
       "name": "unifi_gen_deletevouchers",
@@ -322,7 +322,7 @@
         "readOnlyHint": false
       },
       "textSha256": "bbdf188bb96d7281",
-      "inputSchemaSha256": "ea87d67a90d783cc"
+      "inputSchemaSha256": "e4ee90fe64514d0f"
     },
     {
       "name": "unifi_gen_deletewifibroadcast",
@@ -343,7 +343,7 @@
         "readOnlyHint": false
       },
       "textSha256": "cced57e3cc54f67f",
-      "inputSchemaSha256": "df579c67f2fb0169"
+      "inputSchemaSha256": "31555e83caf23676"
     },
     {
       "name": "unifi_gen_executeadopteddeviceaction",
@@ -364,7 +364,7 @@
         "readOnlyHint": false
       },
       "textSha256": "118c8645a41dcf90",
-      "inputSchemaSha256": "ac16cd7983fe7c19"
+      "inputSchemaSha256": "bc6ee7c55ca60d44"
     },
     {
       "name": "unifi_gen_executeconnectedclientaction",
@@ -385,7 +385,7 @@
         "readOnlyHint": false
       },
       "textSha256": "064f96de04a55fbe",
-      "inputSchemaSha256": "785b6d4478b1eee0"
+      "inputSchemaSha256": "23fb6b6963be03bf"
     },
     {
       "name": "unifi_gen_executeportaction",
@@ -408,7 +408,7 @@
         "readOnlyHint": false
       },
       "textSha256": "ecccffbbfbc03d70",
-      "inputSchemaSha256": "92d8e1bda8d715d7"
+      "inputSchemaSha256": "f820b376a711ef78"
     },
     {
       "name": "unifi_gen_getaclrule",
@@ -1302,7 +1302,7 @@
         "readOnlyHint": false
       },
       "textSha256": "f0e1decf0c00aabe",
-      "inputSchemaSha256": "c9d2aea5311eaf6b"
+      "inputSchemaSha256": "5268d4eeb3008705"
     },
     {
       "name": "unifi_gen_queryispmetrics",
@@ -1323,7 +1323,7 @@
         "readOnlyHint": true
       },
       "textSha256": "30d5c4436f4e74ca",
-      "inputSchemaSha256": "5dde5b8219e5fc67"
+      "inputSchemaSha256": "d0dbffd0ac78af5e"
     },
     {
       "name": "unifi_gen_removedevice",
@@ -1343,7 +1343,7 @@
         "readOnlyHint": false
       },
       "textSha256": "47cd511af1f189b0",
-      "inputSchemaSha256": "3d5a112a81c12271"
+      "inputSchemaSha256": "da68033744ee8371"
     },
     {
       "name": "unifi_gen_updateaclrule",
@@ -1364,7 +1364,7 @@
         "readOnlyHint": false
       },
       "textSha256": "fa047878fd0bc08a",
-      "inputSchemaSha256": "2f885b11767957bd"
+      "inputSchemaSha256": "6f57ef72d76c672c"
     },
     {
       "name": "unifi_gen_updateaclruleordering",
@@ -1382,7 +1382,7 @@
         "readOnlyHint": false
       },
       "textSha256": "38e74032890604e4",
-      "inputSchemaSha256": "31f852480ff3b9f9"
+      "inputSchemaSha256": "42fe0bc521d0bf20"
     },
     {
       "name": "unifi_gen_updatednspolicy",
@@ -1403,7 +1403,7 @@
         "readOnlyHint": false
       },
       "textSha256": "96225657f5053422",
-      "inputSchemaSha256": "4fa243b0108c9d0f"
+      "inputSchemaSha256": "1a535a14a4679056"
     },
     {
       "name": "unifi_gen_updatefirewallpolicy",
@@ -1424,7 +1424,7 @@
         "readOnlyHint": false
       },
       "textSha256": "ba03064d154ffb41",
-      "inputSchemaSha256": "19809155d269cc87"
+      "inputSchemaSha256": "0b1333887ae875bd"
     },
     {
       "name": "unifi_gen_updatefirewallpolicyordering",
@@ -1447,7 +1447,7 @@
         "readOnlyHint": false
       },
       "textSha256": "892617a15cb037cb",
-      "inputSchemaSha256": "48476af064a8fb9a"
+      "inputSchemaSha256": "fae2e4ab92f73ec3"
     },
     {
       "name": "unifi_gen_updatefirewallzone",
@@ -1468,7 +1468,7 @@
         "readOnlyHint": false
       },
       "textSha256": "24ca398b6f8679fe",
-      "inputSchemaSha256": "96e6c2d0e8693d81"
+      "inputSchemaSha256": "c6472d3cfaa36a12"
     },
     {
       "name": "unifi_gen_updatenetwork",
@@ -1489,7 +1489,7 @@
         "readOnlyHint": false
       },
       "textSha256": "ecc4599e4f74c88f",
-      "inputSchemaSha256": "604b37b12a6ef7fb"
+      "inputSchemaSha256": "ad88b12b4a685e97"
     },
     {
       "name": "unifi_gen_updatetrafficmatchinglist",
@@ -1510,7 +1510,7 @@
         "readOnlyHint": false
       },
       "textSha256": "6d99c6ed5b6bdf83",
-      "inputSchemaSha256": "fd40686ff92bfbe7"
+      "inputSchemaSha256": "7298cf5132d1c0cc"
     },
     {
       "name": "unifi_gen_updatewifibroadcast",
@@ -1531,7 +1531,7 @@
         "readOnlyHint": false
       },
       "textSha256": "b931a45fe1e4afff",
-      "inputSchemaSha256": "893b84c2d17cbb0b"
+      "inputSchemaSha256": "d26f9839818b15df"
     },
     {
       "name": "unifi_net_adopt_devices",
@@ -1551,7 +1551,7 @@
         "readOnlyHint": false
       },
       "textSha256": "0d10d98e4383dfdd",
-      "inputSchemaSha256": "2984cd2e8c403e51"
+      "inputSchemaSha256": "eb26a574ebe5cca1"
     },
     {
       "name": "unifi_net_block_client",
@@ -1571,7 +1571,7 @@
         "readOnlyHint": false
       },
       "textSha256": "6bb7639b516501b1",
-      "inputSchemaSha256": "c7c30869db84731f"
+      "inputSchemaSha256": "fafa6b68f80eb8c3"
     },
     {
       "name": "unifi_net_client_action",
@@ -1593,7 +1593,7 @@
         "readOnlyHint": false
       },
       "textSha256": "853f85c6860d68fc",
-      "inputSchemaSha256": "8c738341d1ad150a"
+      "inputSchemaSha256": "fd493c395c3d3e2f"
     },
     {
       "name": "unifi_net_create_acl_rule",
@@ -1611,7 +1611,7 @@
         "readOnlyHint": false
       },
       "textSha256": "487c56dedfa495b8",
-      "inputSchemaSha256": "ee64136658852529"
+      "inputSchemaSha256": "01ef37dd594e8c97"
     },
     {
       "name": "unifi_net_create_dns_policy",
@@ -1629,7 +1629,7 @@
         "readOnlyHint": false
       },
       "textSha256": "25f738f7ace67ed4",
-      "inputSchemaSha256": "df5fc20a35ae9eb1"
+      "inputSchemaSha256": "40da53e1018a99f8"
     },
     {
       "name": "unifi_net_create_firewall_policy",
@@ -1647,7 +1647,7 @@
         "readOnlyHint": false
       },
       "textSha256": "7be92580ae443a75",
-      "inputSchemaSha256": "6fdce5e351140ded"
+      "inputSchemaSha256": "050671e1d04758ad"
     },
     {
       "name": "unifi_net_create_firewall_zone",
@@ -1665,7 +1665,7 @@
         "readOnlyHint": false
       },
       "textSha256": "d5822d25a008874c",
-      "inputSchemaSha256": "13fbc1a4fcbbcfe0"
+      "inputSchemaSha256": "453dedfcdec8720c"
     },
     {
       "name": "unifi_net_create_network",
@@ -1683,7 +1683,7 @@
         "readOnlyHint": false
       },
       "textSha256": "2eaa111bf3588292",
-      "inputSchemaSha256": "439bd61beed76386"
+      "inputSchemaSha256": "724212fdf544ab32"
     },
     {
       "name": "unifi_net_create_traffic_list",
@@ -1701,7 +1701,7 @@
         "readOnlyHint": false
       },
       "textSha256": "2561a1f5c675d97a",
-      "inputSchemaSha256": "53df9406e6fea6f1"
+      "inputSchemaSha256": "e295b95de3b4241a"
     },
     {
       "name": "unifi_net_create_vouchers",
@@ -1719,7 +1719,7 @@
         "readOnlyHint": false
       },
       "textSha256": "9e0d9ac78a3252c2",
-      "inputSchemaSha256": "e9566bab57cfc202"
+      "inputSchemaSha256": "98a01d2b364ac76a"
     },
     {
       "name": "unifi_net_create_wifi",
@@ -1737,7 +1737,7 @@
         "readOnlyHint": false
       },
       "textSha256": "3f0d096e54b33b26",
-      "inputSchemaSha256": "8a4bce61bf3940bb"
+      "inputSchemaSha256": "a215bd7c88462104"
     },
     {
       "name": "unifi_net_delete_acl_rule",
@@ -1757,7 +1757,7 @@
         "readOnlyHint": false
       },
       "textSha256": "e45d3ff28eda8a79",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_dns_policy",
@@ -1777,7 +1777,7 @@
         "readOnlyHint": false
       },
       "textSha256": "4a1364db8bc3a57f",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_firewall_policy",
@@ -1797,7 +1797,7 @@
         "readOnlyHint": false
       },
       "textSha256": "a770fcf71a76f796",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_firewall_zone",
@@ -1817,7 +1817,7 @@
         "readOnlyHint": false
       },
       "textSha256": "657dac323dcd890b",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_network",
@@ -1837,7 +1837,7 @@
         "readOnlyHint": false
       },
       "textSha256": "755dade097955daf",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_traffic_list",
@@ -1857,7 +1857,7 @@
         "readOnlyHint": false
       },
       "textSha256": "df10003c6b02ea33",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_voucher",
@@ -1877,7 +1877,7 @@
         "readOnlyHint": false
       },
       "textSha256": "37dd825cfbe98d13",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_delete_vouchers",
@@ -1896,7 +1896,7 @@
         "readOnlyHint": false
       },
       "textSha256": "d775bc3d9b1d495a",
-      "inputSchemaSha256": "922331858d2673b3"
+      "inputSchemaSha256": "bb0ff00fde04341e"
     },
     {
       "name": "unifi_net_delete_wifi",
@@ -1916,7 +1916,7 @@
         "readOnlyHint": false
       },
       "textSha256": "cee3f0fd0209be8e",
-      "inputSchemaSha256": "7df0e75816c48b27"
+      "inputSchemaSha256": "dfb6e3ac69638d1d"
     },
     {
       "name": "unifi_net_device_action",
@@ -1938,7 +1938,7 @@
         "readOnlyHint": false
       },
       "textSha256": "ead50214de0c33a5",
-      "inputSchemaSha256": "bfeda95e53e44b9d"
+      "inputSchemaSha256": "332724a265d0b13a"
     },
     {
       "name": "unifi_net_get_acl_rule",
@@ -2685,7 +2685,7 @@
         "readOnlyHint": false
       },
       "textSha256": "4a9a3ea8dbd5d204",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_port_action",
@@ -2710,7 +2710,7 @@
         "readOnlyHint": false
       },
       "textSha256": "f05b8bae5345ce66",
-      "inputSchemaSha256": "615452b04c4e5328"
+      "inputSchemaSha256": "9fb439ee588dc949"
     },
     {
       "name": "unifi_net_reboot_device",
@@ -2730,7 +2730,7 @@
         "readOnlyHint": false
       },
       "textSha256": "4c60070db846ef3e",
-      "inputSchemaSha256": "abfb91ec8c5a71bb"
+      "inputSchemaSha256": "cf02cfae9196664f"
     },
     {
       "name": "unifi_net_remove_device",
@@ -2750,7 +2750,7 @@
         "readOnlyHint": false
       },
       "textSha256": "293ca94a0cd70cbb",
-      "inputSchemaSha256": "abfb91ec8c5a71bb"
+      "inputSchemaSha256": "cf02cfae9196664f"
     },
     {
       "name": "unifi_net_reorder_acl_rules",
@@ -2768,7 +2768,7 @@
         "readOnlyHint": false
       },
       "textSha256": "786d3d0971520278",
-      "inputSchemaSha256": "2bed7ffe78b117f4"
+      "inputSchemaSha256": "690dc0e3b0894627"
     },
     {
       "name": "unifi_net_reorder_firewall_policies",
@@ -2786,7 +2786,7 @@
         "readOnlyHint": false
       },
       "textSha256": "2ed14d32ebb0f6cc",
-      "inputSchemaSha256": "5086333504558bcf"
+      "inputSchemaSha256": "83343edb7a905302"
     },
     {
       "name": "unifi_net_unblock_client",
@@ -2806,7 +2806,7 @@
         "readOnlyHint": false
       },
       "textSha256": "8ed56e5f8a2c0a3f",
-      "inputSchemaSha256": "c7c30869db84731f"
+      "inputSchemaSha256": "fafa6b68f80eb8c3"
     },
     {
       "name": "unifi_net_update_acl_rule",
@@ -2827,7 +2827,7 @@
         "readOnlyHint": false
       },
       "textSha256": "e31efab2b747c607",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_dns_policy",
@@ -2848,7 +2848,7 @@
         "readOnlyHint": false
       },
       "textSha256": "c77ecfa9ea076f19",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_firewall_policy",
@@ -2869,7 +2869,7 @@
         "readOnlyHint": false
       },
       "textSha256": "0b5b71ee147d5cbb",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_firewall_zone",
@@ -2890,7 +2890,7 @@
         "readOnlyHint": false
       },
       "textSha256": "f80780b8c6f158f8",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_network",
@@ -2911,7 +2911,7 @@
         "readOnlyHint": false
       },
       "textSha256": "0f2d91a97131e247",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_traffic_list",
@@ -2932,7 +2932,7 @@
         "readOnlyHint": false
       },
       "textSha256": "c489c875235e2e10",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_net_update_wifi",
@@ -2953,7 +2953,7 @@
         "readOnlyHint": false
       },
       "textSha256": "4c1f6c460b11d1ed",
-      "inputSchemaSha256": "3202b40d6496f6d1"
+      "inputSchemaSha256": "79b0effa545806b4"
     },
     {
       "name": "unifi_raw_request",
@@ -2977,7 +2977,7 @@
         "readOnlyHint": false
       },
       "textSha256": "022326437dd28d80",
-      "inputSchemaSha256": "d89df191e057d907"
+      "inputSchemaSha256": "2f6db33a30835009"
     },
     {
       "name": "unifi_sm_get_host",

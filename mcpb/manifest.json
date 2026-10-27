@@ -26,7 +26,7 @@
       }
     }
   },
-  "compatibility": { "runtimes": { "node": ">=22.12.0" } },
+  "compatibility": { "runtimes": { "node": "^22.12.0 || ^24.0.0 || >=26.0.0" } },
   "user_config": {
     "unifi_api_key": {
       "type": "string",

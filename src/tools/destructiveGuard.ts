@@ -9,14 +9,9 @@ export const confirmShape = {
   confirm: z
     .literal("YES")
     .optional()
-    .describe(
-      'Exact string "YES". Required to apply the change while write confirmation is on (the default); without it the tool returns a preview. Not needed when UNIFI_CONFIRM_WRITES is false, 0, no or off.',
-    ),
+    .describe('"YES" to apply; without it the tool returns a preview.'),
   // Lenient: 0.2.1 stripped dry_run, so any value was accepted; only `true` counts.
-  dry_run: lenientOptional(
-    z.boolean(),
-    'true: return the preview of the request and send nothing, also with confirm "YES" or with write confirmation off. Other values are ignored.',
-  ),
+  dry_run: lenientOptional(z.boolean(), "true: preview only, nothing is sent."),
 };
 
 export interface WriteRequestDescription {

@@ -13,7 +13,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_executeadopteddeviceaction",
       description: "Execute Adopted Device Action - generated from developer.ui.com/network/v11.0.97/executeadopteddeviceaction",
-      inputSchema: z.object({deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("RESTART").optional()}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
+      inputSchema: z.object({deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("RESTART")}), z.unknown()]).describe("JSON request body, sent as is. Top-level vendor fields only; full schema: vendor docs page in the description. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { schemaToZodSource } from "../../src/codegen/schemaFromDoc.js";
+import { BODY_ENUM_CAP, schemaToZodSource } from "../../src/codegen/schemaFromDoc.js";
 
 /** Evaluates emitted zod source, as the generated tool files do. */
 function compile(source: string): z.ZodType {
@@ -122,17 +122,52 @@ describe("schemaToZodSource for typed request bodies (N-37, N-63)", () => {
     expect(typed("Zone").parse(input)).toEqual(input);
   });
 
-  it("emits property descriptions without em or en dashes", () => {
+  it("lists top-level properties with their plain type only (0.3.0 review: tools/list size)", () => {
     const src = schemaToZodSource(
-      { type: "object", properties: { a: { type: "string", description: "x \u2014 y \u2013 z" } } },
+      {
+        type: "object",
+        properties: {
+          a: { type: "string", description: "x \u2014 y", format: "uuid", minLength: 1 },
+          n: { type: "integer", minimum: 0 },
+          deep: { type: "object", properties: { inner: { type: "string", description: "d" } } },
+          list: { type: "array", items: { $ref: "#/components/schemas/Zone" } },
+        },
+      },
+      refs,
+      { loose: true },
+    );
+    expect(src).toBe(
+      "z.looseObject({a: z.string().optional(),n: z.number().optional(),deep: z.looseObject({}).optional(),list: z.array(z.unknown()).optional()})",
+    );
+    // Nested content is not checked, so nothing nested is dropped or rejected.
+    const input = { deep: { inner: 1, more: [1] }, list: [{ any: true }] };
+    expect(compile(src).parse(input)).toEqual(input);
+  });
+
+  it("lists a short string enum, a long one as plain string", () => {
+    expect(BODY_ENUM_CAP).toBe(8); // named in CHANGELOG.md 0.3.0
+    const short = Array.from({ length: BODY_ENUM_CAP }, (_, i) => `V${i}`);
+    const long = [...short, "MORE"];
+    const src = schemaToZodSource(
+      {
+        type: "object",
+        properties: { s: { type: "string", enum: short }, l: { type: "string", enum: long } },
+      },
       {},
       { loose: true },
     );
-    expect(src).toContain('.describe("x - y - z")');
-    expect(src).not.toMatch(/[\u2013\u2014]/);
+    expect(src).toContain(`s: z.enum([${short.map((v) => JSON.stringify(v)).join(",")}])`);
+    expect(src).toContain("l: z.string().optional()");
   });
 
-  it("expands a discriminator into a union of its mapped schemas, with the tag as literal", () => {
+  it("keeps the properties of the base schema that holds the discriminator", () => {
+    const src = schemaToZodSource({ $ref: "#/components/schemas/Rule" }, refs, { loose: true });
+    expect(src).toBe(
+      'z.looseObject({type: z.enum(["IPV4","MAC"]),name: z.string(),protocol: z.enum(["TCP","UDP"]).optional(),mac: z.string().optional()})',
+    );
+  });
+
+  it("merges the mapped schemas of a discriminator into one object, the tag as enum", () => {
     const rule = typed("Rule");
     expect(rule.safeParse({ type: "IPV4", name: "r", protocol: "TCP" }).success).toBe(true);
     expect(rule.safeParse({ type: "MAC", name: "r", mac: "aa" }).success).toBe(true);

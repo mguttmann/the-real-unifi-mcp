@@ -13,7 +13,7 @@ export interface EmitInput {
 }
 
 const BODY_TEXT =
-  "JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is.";
+  "JSON request body, sent as is. Top-level vendor fields only; full schema: vendor docs page in the description.";
 
 const READ_ONLY = `{ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true }`;
 const WRITE_ONCE = `{ readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }`;

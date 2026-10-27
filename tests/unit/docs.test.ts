@@ -65,6 +65,12 @@ describe("server instructions", () => {
   it("state the confirm-writes default (N-4)", () => {
     expect(defaults.confirmWrites).toBe(true);
     expect(instructions).toContain("`UNIFI_CONFIRM_WRITES` unset or true");
+    expect(instructions).toContain("false, 0, no or off");
+  });
+
+  it("point to the vendor docs for the full body schema of generated tools", () => {
+    expect(instructions).toContain("top-level fields");
+    expect(instructions).toContain("developer.ui.com");
   });
 
   it("make no coverage claim (N-56)", () => {

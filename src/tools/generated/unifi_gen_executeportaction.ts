@@ -13,7 +13,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_executeportaction",
       description: "Execute Port Action - generated from developer.ui.com/network/v11.0.97/executeportaction",
-      inputSchema: z.object({portIdx: z.number().int(), deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("POWER_CYCLE").optional()}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
+      inputSchema: z.object({portIdx: z.number().int(), deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("POWER_CYCLE")}), z.unknown()]).describe("JSON request body, sent as is. Top-level vendor fields only; full schema: vendor docs page in the description. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {

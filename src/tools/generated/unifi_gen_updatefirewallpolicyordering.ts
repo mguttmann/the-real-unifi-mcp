@@ -13,7 +13,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     {
       title: "unifi_gen_updatefirewallpolicyordering",
       description: "Reorder User-Defined Firewall Policies - generated from developer.ui.com/network/v11.0.97/updatefirewallpolicyordering",
-      inputSchema: z.object({sourceFirewallZoneId: z.string().guid(), destinationFirewallZoneId: z.string().guid(), body: z.union([z.looseObject({orderedFirewallPolicyIds: z.looseObject({afterSystemDefined: z.array(z.string().guid()),beforeSystemDefined: z.array(z.string().guid())})}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
+      inputSchema: z.object({sourceFirewallZoneId: z.string().guid(), destinationFirewallZoneId: z.string().guid(), body: z.union([z.looseObject({orderedFirewallPolicyIds: z.looseObject({})}), z.unknown()]).describe("JSON request body, sent as is. Top-level vendor fields only; full schema: vendor docs page in the description. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {

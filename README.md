@@ -1,7 +1,7 @@
 # the-real-unifi-mcp
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)](https://nodejs.org/)
+[![Node](https://img.shields.io/badge/node-22.12%2B%20%7C%2024%20%7C%2026%2B-brightgreen)](https://nodejs.org/)
 [![MCP SDK](https://img.shields.io/badge/MCP%20SDK-2.x-blue)](https://github.com/modelcontextprotocol/typescript-sdk)
 [![CI](https://github.com/mguttmann/the-real-unifi-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/mguttmann/the-real-unifi-mcp/actions/workflows/ci.yml)
 
@@ -22,7 +22,7 @@ Point it at a UniFi Site Manager API key and your MCP client can list consoles, 
 
 ## Requirements
 
-- Node.js >= 22.12.
+- Node.js 22.12 or a later 22.x, 24.x, or 26 and newer (`engines`: `^22.12.0 || ^24.0.0 || >=26.0.0`, the range of the test toolchain vitest). Node 23 and 25 are not supported.
 - UniFi Site Manager API key with Network scope. Create one at [unifi.ui.com](https://unifi.ui.com) under Settings → API.
 - UniFi Console with firmware ≥ 5.0.3 (required by the Network API).
 
@@ -63,6 +63,8 @@ npm ci
 npm run build:mcpb
 # Writes release/the-real-unifi-mcp-<version>.mcpb (install it in Claude Desktop) and its SBOM.
 ```
+
+The bundle maps its settings (API key, confirm writes, read-only, hide secrets, log level) to the environment variables below as `${user_config.<key>}` placeholders. If a host starts the server without substituting them, a value that is still such a placeholder counts as unset: each switch keeps its default, the missing key stops the server, and a warning names the variable.
 
 Releases from v0.2.0 on attach the `.mcpb`, the npm tarball, CycloneDX SBOMs and `SHA256SUMS`; see [docs/RELEASING.md](./docs/RELEASING.md).
 

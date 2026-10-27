@@ -34,6 +34,44 @@ function parseOptIn(name: string, raw: string | undefined, warn: (msg: string) =
   return true;
 }
 
+/**
+ * Variables that `mcpb/manifest.json` fills from MCPB user settings as
+ * `${user_config.<key>}` (held equal to the manifest by
+ * tests/unit/mcpbPlaceholders.test.ts).
+ */
+export const MCPB_MAPPED_ENV: readonly string[] = [
+  "UNIFI_API_KEY",
+  "UNIFI_CONFIRM_WRITES",
+  "UNIFI_LOG_LEVEL",
+  "UNIFI_READ_ONLY",
+  "UNIFI_REDACT_SECRETS",
+];
+
+const PLACEHOLDER = /^\$\{[^}]*\}$/;
+
+/**
+ * A host that does not substitute the MCPB placeholders passes the literal
+ * `${user_config.<key>}`. Such a value counts as unset, so each switch keeps
+ * its default (and a missing key still stops the server), with a warning;
+ * it is not an unknown value that turns a switch on.
+ */
+function withoutPlaceholders(
+  env: NodeJS.ProcessEnv,
+  warn: (msg: string) => void,
+): NodeJS.ProcessEnv {
+  const out = { ...env };
+  for (const name of MCPB_MAPPED_ENV) {
+    const raw = out[name];
+    if (raw !== undefined && PLACEHOLDER.test(raw.trim())) {
+      warn(
+        `${name} is the unsubstituted MCPB placeholder ${JSON.stringify(raw.trim())}; treated as unset`,
+      );
+      delete out[name];
+    }
+  }
+  return out;
+}
+
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 
 /**
@@ -90,13 +128,15 @@ function fieldError(field: string, msg: string): never {
 
 /**
  * Reads the configuration from the environment. Problems that keep a safe
- * value (an unknown UNIFI_CONFIRM_WRITES) go to `warn`; the default writes
+ * value (an unknown UNIFI_CONFIRM_WRITES, an unsubstituted MCPB placeholder)
+ * go to `warn`; the default writes
  * to stderr, because the logger does not exist yet.
  */
 export function loadConfig(
-  env: NodeJS.ProcessEnv = process.env,
+  rawEnv: NodeJS.ProcessEnv = process.env,
   warn: (msg: string) => void = (msg) => process.stderr.write(`warn ${msg}\n`),
 ): Config {
+  const env = withoutPlaceholders(rawEnv, warn);
   const apiKey = env.UNIFI_API_KEY?.trim();
   // Not "UNIFI_API_KEY: missing": the log scrubber treats "api_key: <word>" as
   // a secret and would hide the reason (audit N-89).
