@@ -7,7 +7,7 @@ export function registerNetworkHealthPrompt(server: McpServer): void {
     {
       title: "Network health summary",
       description:
-        "Summarises WAN status, device online/offline counts, and top clients by activity.",
+        "Summarises configured WANs, device states and firmware updates, and connected clients.",
       argsSchema: z.object({}),
     },
     () => ({
@@ -18,9 +18,10 @@ export function registerNetworkHealthPrompt(server: McpServer): void {
             type: "text",
             text: [
               "Produce a UniFi network health summary.",
-              "1. Call `unifi_net_list_wans`: list each WAN with status.",
-              "2. Call `unifi_net_list_devices`: count online vs offline, list any offline device with last-seen.",
-              "3. Call `unifi_net_list_clients`: top 10 by recent activity.",
+              "Use the paging params (offset, limit) until every page is read.",
+              "1. Call `unifi_net_list_wans`: list the configured WANs by `name` (the list has no link status).",
+              "2. Call `unifi_net_list_devices`: count devices per `state`; list every device that is not ONLINE with `name`, `model` and `ipAddress`, and every device with `firmwareUpdatable` true.",
+              "3. Call `unifi_net_list_clients`: count clients per `type` (wired, wireless) and list the 10 most recently connected (`connectedAt`) with `name` and `ipAddress`.",
               "4. Highlight anomalies and recommend actions.",
             ].join("\n"),
           },

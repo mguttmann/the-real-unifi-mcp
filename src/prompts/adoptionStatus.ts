@@ -18,7 +18,7 @@ export function registerAdoptionStatusPrompt(server: McpServer): void {
             text: [
               "Check UniFi adoption status.",
               "1. Call `unifi_net_list_pending_devices`. If empty, report all clear.",
-              "2. For each pending device, show MAC, model, and any IP seen.",
+              "2. For each pending device, show `macAddress`, `model`, `ipAddress`, `state` and `firmwareVersion`.",
               "3. Recommend adopt / leave / investigate per device based on whether the MAC is known and expected.",
             ].join("\n"),
           },

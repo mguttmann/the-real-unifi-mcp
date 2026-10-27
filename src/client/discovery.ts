@@ -98,10 +98,14 @@ export class Discovery {
   private async resolveConsoleId(): Promise<string> {
     const res = await this.client.request<{ data: Host[] }>("GET", "/v1/hosts", SHARED);
     const hosts = res.data?.data ?? [];
-    const matches = hosts.filter((h) => h.type === "console" && h.owner === true);
+    // Owned consoles first; only when there is none, an owned UniFi OS Server
+    // (type "ucore", as in the vendor example) is used (audit N-42).
+    const owned = (type: string) => hosts.filter((h) => h.type === type && h.owner === true);
+    const consoles = owned("console");
+    const matches = consoles.length > 0 ? consoles : owned("ucore");
     if (matches.length === 0) {
       throw new Error(
-        "Discovery: no console found (need type=console, owner=true). Check API key scope.",
+        "Discovery: no console found (need type=console or ucore, owner=true). Check API key scope or set UNIFI_CONSOLE_ID.",
       );
     }
     if (matches.length > 1) {

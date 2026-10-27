@@ -106,3 +106,45 @@ describe("Discovery", () => {
     expect(request).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("Discovery host types (N-42)", () => {
+  it("falls back to the one owned ucore host when no console matches", async () => {
+    const { client, request } = clientMock();
+    request.mockResolvedValueOnce(
+      ok({
+        data: [
+          { id: "U", type: "ucore", owner: true },
+          { id: "N", type: "network-server", owner: true },
+          { id: "V", type: "ucore", owner: false },
+        ],
+      }),
+    );
+    expect(await new Discovery(client, {}).consoleId()).toBe("U");
+  });
+
+  it("keeps preferring an owned console over a ucore host", async () => {
+    const { client, request } = clientMock();
+    request.mockResolvedValueOnce(
+      ok({
+        data: [
+          { id: "U", type: "ucore", owner: true },
+          { id: "C", type: "console", owner: true },
+        ],
+      }),
+    );
+    expect(await new Discovery(client, {}).consoleId()).toBe("C");
+  });
+
+  it("asks for UNIFI_CONSOLE_ID when several ucore hosts match", async () => {
+    const { client, request } = clientMock();
+    request.mockResolvedValueOnce(
+      ok({
+        data: [
+          { id: "U1", type: "ucore", owner: true },
+          { id: "U2", type: "ucore", owner: true },
+        ],
+      }),
+    );
+    await expect(new Discovery(client, {}).consoleId()).rejects.toThrow(/U1, U2.*UNIFI_CONSOLE_ID/);
+  });
+});

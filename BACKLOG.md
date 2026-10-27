@@ -8,8 +8,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 ## Tools and client
 
-- **N-41, N-79** The prompts reference fields the API does not return (WAN status, last seen, client activity, firewall creation time; `src/prompts/networkHealth.ts`, `auditFirewall.ts` has an unused `siteId` arg), and the README describes `unifi-network-health` with those fields. Fix: rewrite prompts and README line to the available fields.
-- **N-42** Discovery matches hosts of type `console` only (`src/client/discovery.ts`); the vendor example also shows `ucore`. Fix: match an owned host with a Network controller, or document `UNIFI_CONSOLE_ID`.
 - **N-46** `npm test` includes the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is exported and asserts counts of one specific network. Fix: exclude it from `npm test`, opt in with `UNIFI_LIVE=1`, assert shapes only.
 - **N-48** Dead code: the trailing throw in `src/client/retry.ts`, `Discovery.reset()`.
 - **N-80** One stdio message above the SDK line limit closes the transport and the process exits with code 0 and no log line (`src/index.ts`). Fix: log the transport close at `error` and exit non-zero.

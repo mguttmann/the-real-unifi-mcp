@@ -75,7 +75,7 @@ Releases from v0.2.0 on attach the `.mcpb`, the npm tarball, CycloneDX SBOMs and
 | `UNIFI_CONFIRM_WRITES` | `true` | If on, destructive tools require `confirm: "YES"`. Only `false`, `0`, `no` or `off` (any case) turn it off. Unset, empty, `true`, `1`, `yes` and `on` keep it on; an unknown value keeps it on and logs a warning. |
 | `UNIFI_TIMEOUT_MS` | `30000` | Per-request timeout (ms), covering the response headers and the body |
 | `UNIFI_LOG_LEVEL` | `info` | `debug` \| `info` \| `warn` \| `error` |
-| `UNIFI_CONSOLE_ID` | (unset) | Override discovery (pin to a specific console) |
+| `UNIFI_CONSOLE_ID` | (unset) | Override discovery (pin to a specific console; needed when the account owns several consoles or a host of another type) |
 | `UNIFI_NETWORK_SITE_ID` | (unset) | Override discovery (pin to a specific Network site) |
 | `UNIFI_SITE_MANAGER_SITE_ID` | (unset) | Override discovery (pin to a specific Site Manager site) |
 | `UNIFI_READ_ONLY` | `false` | If on, every tool with a `confirm` param (all write tools, and `unifi_raw_request` for methods other than `GET`) returns an error with `code: "READ_ONLY"` and sends no request; the tools stay listed. Same values as `UNIFI_CONFIRM_WRITES`; an unknown value turns it on and logs a warning. |
@@ -177,7 +177,7 @@ A failed call returns an error result whose `details` carry the HTTP `statusCode
 ## Prompts
 
 - `unifi-audit-firewall`: walks firewall zones and policies, flags weak rules, suggests hardening
-- `unifi-network-health`: WAN status, online/offline device counts, top clients by activity
+- `unifi-network-health`: configured WANs, device counts per state and pending firmware updates, connected clients by type and the most recently connected
 - `unifi-adoption-status`: pending adoptions report with adopt/reject recommendation
 
 ## Write safety
@@ -224,6 +224,9 @@ Destructive examples respect `UNIFI_CONFIRM_WRITES` (default `true`): the model 
 
 ## Troubleshooting
 
+**"Discovery: no console found …"**
+Discovery takes the host of type `console` that your key owns; only when there is none, an owned host of type `ucore` (UniFi OS Server). If your console has another type, or the key owns none, set `UNIFI_CONSOLE_ID=<id>` (the `id` from `unifi_sm_list_hosts`).
+
 **"Discovery: multiple consoles match …"**
 Your Site Manager account has more than one UniFi console. Set `UNIFI_CONSOLE_ID=<id>` from one of the listed IDs. The same pattern applies to multi-Network-site (`UNIFI_NETWORK_SITE_ID`) and multi-Site-Manager-site (`UNIFI_SITE_MANAGER_SITE_ID`) cases.
 
@@ -256,7 +259,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full workflow.
 
 **Three-layer tool design.** Hand-wrappers (`unifi_sm_*`, `unifi_net_*`) provide ergonomic, well-documented entry points for common operations with auto-resolved IDs and named arguments. The 82 auto-generated tools (`unifi_gen_*`) cover the endpoints listed in the codegen catalog (`src/codegen/catalog.ts`), with input schemas derived from the upstream UniFi docs. `unifi_raw_request` is the escape hatch for anything not covered by the first two layers.
 
-**Lazy ID discovery.** On first use, the server calls `GET /v1/hosts` to find the owned console, then `GET /v1/sites` (Network and Site Manager) to discover both siteIds. Results are cached for the process lifetime. Concurrent callers share a single in-flight request via stored promises. All three IDs can be pinned via environment variables for multi-console / multi-site accounts.
+**Lazy ID discovery.** On first use, the server calls `GET /v1/hosts` to find the owned console (type `console`, or `ucore` when no console matches), then `GET /v1/sites` (Network and Site Manager) to discover both siteIds. Results are cached for the process lifetime. Concurrent callers share a single in-flight request via stored promises. All three IDs can be pinned via environment variables for multi-console / multi-site accounts.
 
 **Retries.** A request is tried at most 3 times. `429` is retried on every method, honouring `Retry-After` (capped at 60 s), because the server rejected the request. `5xx` and dropped connections are retried only for `GET`; a `POST`, `PUT`, `PATCH` or `DELETE` is resent after a network error only when the connection was never established (for example `ECONNREFUSED`, `ENOTFOUND`), so a write that may already have reached UniFi is never duplicated. Redirects are refused (the API key never leaves the configured host) and timeouts are not retried. Network failures are returned as an error with the cause and logged at `warn`.
 
