@@ -5,7 +5,7 @@
  * clients send a `server/discover` probe first and fall back to `initialize`
  * when it is refused). A 2026-07-28 client opens with `server/discover` and
  * the per-request envelope. Both eras must be served by the same process with the
- * same 167 tools (tests/contract/tools-contract.json).
+ * same tools (tests/contract/tools-contract.json).
  *
  * Runs with `npm run test:stdio` after `npm run build` (not part of `npm test`,
  * because it needs dist/). Never reaches api.ui.com: dummy key, unreachable base.

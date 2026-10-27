@@ -25,8 +25,10 @@ describe("type-checked and linted scope (N-16, N-61)", () => {
     );
   });
 
-  it("npm run lint lints the whole repository with type information", () => {
-    expect(pkg.scripts.lint).toBe("eslint .");
+  it("npm run lint lints src, tests, scripts and the config files with type information", () => {
+    // Named paths, not `eslint .`: a stray file in a consumer's checkout must
+    // not fail their `npm run build` (prebuild runs the linter).
+    expect(pkg.scripts.lint).toBe('eslint src tests scripts eslint.config.js "vitest.*.ts"');
     const config = read("eslint.config.js");
     expect(config).toContain("tseslint.configs.recommendedTypeChecked");
     expect(config).toContain('project: "./tsconfig.tests.json"');

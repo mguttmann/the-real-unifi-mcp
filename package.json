@@ -1,6 +1,6 @@
 {
   "name": "the-real-unifi-mcp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Unofficial MCP server for the UniFi Site Manager and Network cloud APIs: hand-written tools, tools generated from the documented endpoints, and a write-confirm guard",
   "license": "MIT",
   "type": "module",
@@ -21,8 +21,8 @@
     "codegen": "tsx src/codegen/generate.ts",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint src tests scripts eslint.config.js \"vitest.*.ts\"",
+    "lint:fix": "eslint src tests scripts eslint.config.js \"vitest.*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json",
