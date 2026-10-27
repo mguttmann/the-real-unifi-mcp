@@ -6,14 +6,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 "Contract" marks items whose fix changes the tool contract (`tests/contract/tools-contract.json`) and therefore needs a "Behaviour changes for callers" entry.
 
-## Planned for 0.3.0 (code generator and tool schemas)
-
-- **N-39** Hand-written list tools omit pagination and filter params, so only the first page is reachable (`src/tools/network/acl.ts`, `dns.ts`, `trafficLists.ts`, `hotspot.ts`, `switching.ts`, `src/tools/siteManager.ts`). Fix: optional params. Contract: additive optional params.
-- **N-40** `unifi_sm_get_isp_metrics` lacks the vendor `duration` param (24h, 7d, 30d). Fix: optional enum. Contract: additive.
-- **N-45** Hand-written tool handlers are only partly covered: `tests/unit/network.handlers.test.ts` drives every `unifi_net_*` tool through the real client with a fake `fetch`, but asserts method, path, query and body only for some tools; the other CRUD tools are checked for the path only. Fix: table-driven cases for all of them.
-- **N-26** The confirm preview of generated write tools omits query params (bulk filter, force); execution sends them (`src/codegen/emit.ts`). Fix: include the query in the preview URL and regenerate.
-- **N-27** Annotation inaccuracies: `unifi_gen_queryispmetrics` is marked destructive (its twin `unifi_sm_query_isp_metrics` is read-only), creates are marked destructive, block is not idempotent. Fix: a codegen override list. Contract: annotations change.
-
 ## Tools and client
 
 - **N-22 (rest)** Read tools return WiFi passphrases and pre-shared keys as the API returns them (documented in `SECURITY.md`). Possible opt-in masking of secrets in read results; changes output, so only behind a new optional variable.
@@ -22,12 +14,8 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 - **N-41, N-79** The prompts reference fields the API does not return (WAN status, last seen, client activity, firewall creation time; `src/prompts/networkHealth.ts`, `auditFirewall.ts` has an unused `siteId` arg), and the README describes `unifi-network-health` with those fields. Fix: rewrite prompts and README line to the available fields.
 - **N-42** Discovery matches hosts of type `console` only (`src/client/discovery.ts`); the vendor example also shows `ucore`. Fix: match an owned host with a Network controller, or document `UNIFI_CONSOLE_ID`.
 - **N-46** `npm test` includes the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is exported and asserts counts of one specific network. Fix: exclude it from `npm test`, opt in with `UNIFI_LIVE=1`, assert shapes only.
-- **N-47** Duplicate request helpers in the hand-written tool files (`netGet` in 10 files, `netWrite` in 7 with 3 variants). Fix: one shared module.
 - **N-48** Dead code: the trailing throw in `src/client/retry.ts`, `Discovery.reset()`.
-- **N-65** `unifi_net_port_action` spreads the caller `body` after the mapped action, so `body.action` overrides the vendor value (`src/tools/network/devices.ts`). Fix: spread `body` first, then `action`.
-- **N-66** Confirm previews of hand-written write tools show the console id unencoded in the URL (display only; the request encodes it). Fix: build the preview URL with one helper.
 - **N-80** One stdio message above the SDK line limit closes the transport and the process exits with code 0 and no log line (`src/index.ts`). Fix: log the transport close at `error` and exit non-zero.
-- **N-86** Error details for the same network failure differ between tools (`unifi_sm_*` returns `details.code`, most `unifi_net_*` only `statusCode`). Fix: one error-mapping helper.
 - **N-94** The SDK stdio transport prints `MaxListenersExceededWarning` on stderr at about 30 parallel calls; log noise only, upstream.
 
 ## Build, CI and release

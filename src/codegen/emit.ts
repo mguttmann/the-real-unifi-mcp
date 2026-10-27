@@ -19,8 +19,15 @@ const READ_ONLY = `{ readOnlyHint: true, destructiveHint: false, idempotentHint:
 const WRITE_ONCE = `{ readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }`;
 const WRITE_IDEMP = `{ readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true }`;
 
-function annotationFor(method: EndpointSpec["method"]): string {
-  if (method === "GET") return READ_ONLY;
+/**
+ * Tools whose method suggests a write but which only read (audit N-27): the
+ * ISP metrics query POSTs a time window, like its hand-written twin
+ * `unifi_sm_query_isp_metrics`. Annotations only; the confirm guard stays.
+ */
+export const READ_ONLY_OVERRIDES: ReadonlySet<string> = new Set(["unifi_gen_queryispmetrics"]);
+
+function annotationFor(method: EndpointSpec["method"], toolName: string): string {
+  if (method === "GET" || READ_ONLY_OVERRIDES.has(toolName)) return READ_ONLY;
   if (method === "POST") return WRITE_ONCE;
   return WRITE_IDEMP;
 }
@@ -91,7 +98,7 @@ export function emitToolFile(input: EmitInput): string {
     `${endpoint.summary ?? endpoint.description ?? toolName} - generated from developer.ui.com/${docPath}${removedNote}`,
   );
   const inputShape = buildInputShape(endpoint, isWrite, refs);
-  const annotation = annotationFor(method);
+  const annotation = annotationFor(method, toolName);
 
   const path = endpoint.path;
   const pathExpr = `\`${pathTemplate(path, surface)}\``;
@@ -103,16 +110,17 @@ export function emitToolFile(input: EmitInput): string {
       ? `await ctx.client.requestNetwork("${method}", await ctx.discovery.consoleId(), ${pathExpr}, { body: ${bodyExpr}, query: ${queryExpr} })`
       : `await ctx.client.request("${method}", ${pathExpr}, { body: ${bodyExpr}, query: ${queryExpr} })`;
 
+  // The preview names the request target: console id encoded like the
+  // request (N-66) and the query as sent (N-26).
   const guardUrlExpr =
     surface === "network"
-      ? `\`/v1/connector/consoles/\${await ctx.discovery.consoleId()}/proxy/network/integration${pathTemplate(path, surface)}\``
-      : `\`${pathTemplate(path, surface)}\``;
+      ? `withQuery(networkPath(await ctx.discovery.consoleId(), ${pathExpr}), ${queryExpr})`
+      : `withQuery(${pathExpr}, ${queryExpr})`;
 
   const catchApiError = (indent: string): string =>
     (removedUpstream
       ? `if (err instanceof UnifiApiError && err.statusCode === 404) return removedUpstreamResult(${JSON.stringify(toolName)}, ${JSON.stringify(removedUpstream)});\n${indent}`
-      : "") +
-    `if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });`;
+      : "") + `if (err instanceof UnifiApiError) return apiErrorResult(err);`;
 
   const handlerBody = isWrite
     ? `
@@ -138,9 +146,9 @@ export function emitToolFile(input: EmitInput): string {
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { ${removedUpstream ? "jsonResult, errorResult, removedUpstreamResult" : "jsonResult, errorResult"} } from "../helpers.js";
+import { ${removedUpstream ? "jsonResult, apiErrorResult, removedUpstreamResult" : "jsonResult, apiErrorResult"} } from "../helpers.js";
 import { runGuarded, confirmShape } from "../destructiveGuard.js";
-import { UnifiApiError } from "../../client/errors.js";
+import { UnifiApiError } from "../../client/errors.js";${isWrite ? `\nimport { ${surface === "network" ? "networkPath, withQuery" : "withQuery"} } from "../../client/unifiClient.js";` : ""}
 
 export function register(server: McpServer, ctx: ServerContext): void {
   server.registerTool(

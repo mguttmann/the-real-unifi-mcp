@@ -1,56 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult, apiPath } from "../helpers.js";
-import { UnifiApiError } from "../../client/errors.js";
-
-const readOnly = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-
-const pagShape = {
-  offset: z.number().int().nonnegative().optional(),
-  limit: z.number().int().positive().max(200).optional(),
-  filter: z.string().optional(),
-};
-
-async function netGetSite(
-  ctx: ServerContext,
-  path: (sid: string) => string,
-  query?: Record<string, string | number | undefined>,
-) {
-  try {
-    const [cid, sid] = await Promise.all([
-      ctx.discovery.consoleId(),
-      ctx.discovery.networkSiteId(),
-    ]);
-    const res = await ctx.client.requestNetwork("GET", cid, path(sid), { query });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
-
-async function netGetRoot(
-  ctx: ServerContext,
-  path: string,
-  query?: Record<string, string | number | undefined>,
-) {
-  try {
-    const cid = await ctx.discovery.consoleId();
-    const res = await ctx.client.requestNetwork("GET", cid, path, { query });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
+import { apiPath } from "../helpers.js";
+import { readOnly, pagShape, netGet, netGetRoot } from "./common.js";
 
 export function registerSupportingTools(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -62,7 +14,7 @@ export function registerSupportingTools(server: McpServer, ctx: ServerContext): 
       annotations: readOnly,
     },
     async (a) =>
-      netGetSite(ctx, (sid) => apiPath`/v1/sites/${sid}/wans`, {
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/wans`, {
         offset: a.offset,
         limit: a.limit,
         filter: a.filter,
@@ -77,7 +29,7 @@ export function registerSupportingTools(server: McpServer, ctx: ServerContext): 
       annotations: readOnly,
     },
     async (a) =>
-      netGetSite(ctx, (sid) => apiPath`/v1/sites/${sid}/vpn/site-to-site-tunnels`, {
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/vpn/site-to-site-tunnels`, {
         offset: a.offset,
         limit: a.limit,
         filter: a.filter,
@@ -92,7 +44,7 @@ export function registerSupportingTools(server: McpServer, ctx: ServerContext): 
       annotations: readOnly,
     },
     async (a) =>
-      netGetSite(ctx, (sid) => apiPath`/v1/sites/${sid}/vpn/servers`, {
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/vpn/servers`, {
         offset: a.offset,
         limit: a.limit,
         filter: a.filter,
@@ -107,7 +59,7 @@ export function registerSupportingTools(server: McpServer, ctx: ServerContext): 
       annotations: readOnly,
     },
     async (a) =>
-      netGetSite(ctx, (sid) => apiPath`/v1/sites/${sid}/radius/profiles`, {
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/radius/profiles`, {
         offset: a.offset,
         limit: a.limit,
         filter: a.filter,
@@ -122,7 +74,7 @@ export function registerSupportingTools(server: McpServer, ctx: ServerContext): 
       annotations: readOnly,
     },
     async (a) =>
-      netGetSite(ctx, (sid) => apiPath`/v1/sites/${sid}/device-tags`, {
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/device-tags`, {
         offset: a.offset,
         limit: a.limit,
         filter: a.filter,

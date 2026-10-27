@@ -1,34 +1,8 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult, apiPath } from "../helpers.js";
-import { UnifiApiError } from "../../client/errors.js";
-
-const readOnly = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-
-async function netGet(
-  ctx: ServerContext,
-  path: (sid: string) => string,
-  query?: Record<string, string | number | undefined>,
-) {
-  try {
-    const [cid, sid] = await Promise.all([
-      ctx.discovery.consoleId(),
-      ctx.discovery.networkSiteId(),
-    ]);
-    const res = await ctx.client.requestNetwork("GET", cid, path(sid), { query });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
+import { apiPath } from "../helpers.js";
+import { readOnly, netGet, lenientPagShape, lenientPagQuery } from "./common.js";
 
 export function registerSwitchingTools(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -36,10 +10,15 @@ export function registerSwitchingTools(server: McpServer, ctx: ServerContext): v
     {
       title: "List switch stacks",
       description: "Switch stacks configured on the current site.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(lenientPagShape(200)),
       annotations: readOnly,
     },
-    async () => netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/switching/switch-stacks`),
+    async (a) =>
+      netGet(
+        ctx,
+        (sid) => apiPath`/v1/sites/${sid}/switching/switch-stacks`,
+        lenientPagQuery(a, 200),
+      ),
   );
   server.registerTool(
     "unifi_net_get_switch_stack",
@@ -56,10 +35,15 @@ export function registerSwitchingTools(server: McpServer, ctx: ServerContext): v
     {
       title: "List MCLAG domains",
       description: "MCLAG domains configured on the current site.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(lenientPagShape(200)),
       annotations: readOnly,
     },
-    async () => netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/switching/mc-lag-domains`),
+    async (a) =>
+      netGet(
+        ctx,
+        (sid) => apiPath`/v1/sites/${sid}/switching/mc-lag-domains`,
+        lenientPagQuery(a, 200),
+      ),
   );
   server.registerTool(
     "unifi_net_get_mclag_domain",
@@ -76,10 +60,11 @@ export function registerSwitchingTools(server: McpServer, ctx: ServerContext): v
     {
       title: "List LAGs",
       description: "Link Aggregation Groups (LAGs) configured on the current site.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(lenientPagShape(200)),
       annotations: readOnly,
     },
-    async () => netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/switching/lags`),
+    async (a) =>
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/switching/lags`, lenientPagQuery(a, 200)),
   );
   server.registerTool(
     "unifi_net_get_lag",

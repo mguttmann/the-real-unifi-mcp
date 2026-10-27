@@ -1,47 +1,9 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult, apiPath, vendorAction } from "../helpers.js";
-import { runGuarded, confirmShape } from "../destructiveGuard.js";
-import { UnifiApiError } from "../../client/errors.js";
-
-const readOnly = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-const writeOnce = {
-  readOnlyHint: false,
-  destructiveHint: true,
-  idempotentHint: false,
-  openWorldHint: true,
-} as const;
-
-const pagShape = {
-  offset: z.number().int().nonnegative().optional(),
-  limit: z.number().int().positive().max(200).optional(),
-  filter: z.string().optional(),
-};
-
-async function netGet(
-  ctx: ServerContext,
-  path: (sid: string) => string,
-  query?: Record<string, string | number | undefined>,
-) {
-  try {
-    const [cid, sid] = await Promise.all([
-      ctx.discovery.consoleId(),
-      ctx.discovery.networkSiteId(),
-    ]);
-    const res = await ctx.client.requestNetwork("GET", cid, path(sid), { query });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
+import { errorResult, apiPath, vendorAction } from "../helpers.js";
+import { confirmShape } from "../destructiveGuard.js";
+import { readOnly, writeOnce, writeIdempotent, pagShape, netGet, netWrite } from "./common.js";
 
 /**
  * The vendor client action discriminator only knows AUTHORIZE_GUEST_ACCESS and
@@ -95,30 +57,15 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       }),
       annotations: writeOnce,
     },
-    async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
-      const docPath = apiPath`/v1/sites/${sid}/clients/${a.clientId}/actions`;
-      const body = { action: vendorAction(a.action) };
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-      return runGuarded(
-        ctx.cfg,
+    async (a) =>
+      netWrite(
+        ctx,
         a,
-        { toolName: "unifi_net_client_action", method: "POST", url: fullUrl, body },
-        async () => {
-          try {
-            const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
-            return jsonResult(res.data);
-          } catch (err) {
-            if (err instanceof UnifiApiError)
-              return errorResult(err.message, { statusCode: err.statusCode });
-            throw err;
-          }
-        },
-      );
-    },
+        "unifi_net_client_action",
+        "POST",
+        (sid) => apiPath`/v1/sites/${sid}/clients/${a.clientId}/actions`,
+        { action: vendorAction(a.action) },
+      ),
   );
 
   server.registerTool(
@@ -128,7 +75,8 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       description:
         "Not supported: the UniFi Network API defines no block action for clients, so this tool returns an error and sends nothing. Kept for compatibility.",
       inputSchema: z.object({ clientId: z.string(), ...confirmShape }),
-      annotations: writeOnce,
+      // Blocking (unblocking) twice equals doing it once (audit N-27).
+      annotations: writeIdempotent,
     },
     async () => notSupported("unifi_net_block_client"),
   );
@@ -140,7 +88,8 @@ export function registerClientTools(server: McpServer, ctx: ServerContext): void
       description:
         "Not supported: the UniFi Network API defines no unblock action for clients, so this tool returns an error and sends nothing. Kept for compatibility.",
       inputSchema: z.object({ clientId: z.string(), ...confirmShape }),
-      annotations: writeOnce,
+      // Blocking (unblocking) twice equals doing it once (audit N-27).
+      annotations: writeIdempotent,
     },
     async () => notSupported("unifi_net_unblock_client"),
   );

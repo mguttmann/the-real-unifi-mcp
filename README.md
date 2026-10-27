@@ -125,11 +125,11 @@ claude mcp add --scope user unifi -- node \
 
 Account-level tools against `api.ui.com` directly:
 
-- `unifi_sm_list_hosts`: list all UniFi consoles on the account
+- `unifi_sm_list_hosts`: list all UniFi consoles on the account (optional `pageSize`, `nextToken`)
 - `unifi_sm_get_host`: detail for a single console
-- `unifi_sm_list_sites`: account-level sites
-- `unifi_sm_list_devices`: account-level device list
-- `unifi_sm_get_isp_metrics`: ISP metrics by bucket (5m/1h)
+- `unifi_sm_list_sites`: account-level sites (optional `pageSize`, `nextToken`)
+- `unifi_sm_list_devices`: account-level device list (optional `hostIds`, `time`, `pageSize`, `nextToken`)
+- `unifi_sm_get_isp_metrics`: ISP metrics by bucket (5m/1h), for `beginTimestamp`/`endTimestamp` or a `duration` (24h, 7d, 30d)
 - `unifi_sm_query_isp_metrics`: query ISP metrics with a time window
 - `unifi_sm_list_sdwan_configs`: SD-WAN configurations
 - `unifi_sm_get_sdwan_config`: single SD-WAN configuration
@@ -138,7 +138,7 @@ Account-level tools against `api.ui.com` directly:
 
 ### Network hand-wrappers (76)
 
-Per-console tools via the Cloud Connector proxy, grouped by resource:
+Per-console tools via the Cloud Connector proxy, grouped by resource. Every `unifi_net_list_*` tool takes optional `offset`, `limit` and `filter` (vendor filter syntax); a result with more items carries a `pagination` hint with the next offset.
 
 - **Info / Sites (2):** `unifi_net_get_info`, `unifi_net_list_sites`
 - **Devices (9):** `unifi_net_list_devices`, `unifi_net_get_device`, `unifi_net_get_device_stats`, `unifi_net_list_pending_devices`, `unifi_net_adopt_devices`, `unifi_net_device_action`, `unifi_net_reboot_device`, `unifi_net_port_action`, `unifi_net_remove_device`
@@ -160,6 +160,10 @@ Named `unifi_gen_<operationid>` (the vendor operationId in lower case, e.g. `uni
 ### Escape hatch (1)
 
 `unifi_raw_request(method, path, body?, query?)`: execute any HTTP method against `api.ui.com{path}`. The path must be relative; see [SECURITY.md](./SECURITY.md) for what is refused. Auth, retry, error parsing, and pagination hints are handled automatically. Useful when no dedicated tool exists.
+
+### Errors
+
+A failed call returns an error result whose `details` carry the HTTP `statusCode` (0 when no response arrived) and, when known, a `code`: the code from the UniFi API, or `NETWORK_ERROR`, `REDIRECT_REFUSED`, `TIMEOUT` or `CANCELLED` (the client cancelled the call).
 
 ## Resources
 

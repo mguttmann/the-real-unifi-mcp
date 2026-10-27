@@ -2,9 +2,10 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult } from "../helpers.js";
+import { jsonResult, apiErrorResult } from "../helpers.js";
 import { runGuarded, confirmShape } from "../destructiveGuard.js";
 import { UnifiApiError } from "../../client/errors.js";
+import { networkPath, withQuery } from "../../client/unifiClient.js";
 
 export function register(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -16,12 +17,12 @@ export function register(server: McpServer, ctx: ServerContext): void {
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {
-      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_createfirewallpolicy", method: "POST", url: `/v1/connector/consoles/${await ctx.discovery.consoleId()}/proxy/network/integration/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies`, body: a.body }, async () => {
+      return runGuarded(ctx.cfg, a, { toolName: "unifi_gen_createfirewallpolicy", method: "POST", url: withQuery(networkPath(await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies`), undefined), body: a.body }, async () => {
         try {
           const res = await ctx.client.requestNetwork("POST", await ctx.discovery.consoleId(), `/v1/sites/${encodeURIComponent(String(await ctx.discovery.networkSiteId()))}/firewall/policies`, { body: a.body, query: undefined });
           return jsonResult(res.data);
         } catch (err) {
-          if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });
+          if (err instanceof UnifiApiError) return apiErrorResult(err);
           throw err;
         }
       });

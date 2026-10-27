@@ -1,7 +1,8 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../server.js";
-import { jsonResult, errorResult } from "./helpers.js";
+import { jsonResult, apiErrorResult } from "./helpers.js";
+import { withQuery } from "../client/unifiClient.js";
 import { runGuarded, confirmShape } from "./destructiveGuard.js";
 import { UnifiApiError } from "../client/errors.js";
 
@@ -52,9 +53,7 @@ export function registerRawRequestTool(server: McpServer, ctx: ServerContext): v
           });
           return jsonResult(res.data, { pagination: res.pagination });
         } catch (err) {
-          if (err instanceof UnifiApiError) {
-            return errorResult(err.message, { statusCode: err.statusCode, code: err.code });
-          }
+          if (err instanceof UnifiApiError) return apiErrorResult(err);
           throw err;
         }
       };
@@ -65,7 +64,7 @@ export function registerRawRequestTool(server: McpServer, ctx: ServerContext): v
         {
           toolName: "unifi_raw_request",
           method: method as "POST" | "PUT" | "PATCH" | "DELETE",
-          url: args.path,
+          url: withQuery(args.path, args.query),
           body: args.body,
         },
         performExecute,

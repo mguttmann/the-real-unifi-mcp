@@ -95,6 +95,17 @@ export function encodeQuery(query: Record<string, unknown> | undefined): string 
   return params.toString();
 }
 
+/** Cloud Connector path of a Network API doc path on one console (console id encoded). */
+export function networkPath(consoleId: string, docPath: string): string {
+  return `/v1/connector/consoles/${encodeURIComponent(consoleId)}${NETWORK_PROXY_PREFIX}${docPath.startsWith("/") ? "" : "/"}${docPath}`;
+}
+
+/** Path plus the query string exactly as the client sends it (confirm previews, N-26, N-66). */
+export function withQuery(path: string, query?: Record<string, unknown>): string {
+  const qs = encodeQuery(query);
+  return qs ? `${path}?${qs}` : path;
+}
+
 export class UnifiClient {
   constructor(
     private cfg: Config,
@@ -127,8 +138,7 @@ export class UnifiClient {
     docPath: string,
     options: RequestOptions = {},
   ): Promise<UnifiResponse<T>> {
-    const path = `/v1/connector/consoles/${encodeURIComponent(consoleId)}${NETWORK_PROXY_PREFIX}${docPath.startsWith("/") ? "" : "/"}${docPath}`;
-    return this.request<T>(method, path, options);
+    return this.request<T>(method, networkPath(consoleId, docPath), options);
   }
 
   private apiOrigin(): string {

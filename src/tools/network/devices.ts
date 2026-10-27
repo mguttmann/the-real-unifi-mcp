@@ -1,54 +1,19 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult, apiPath, vendorAction } from "../helpers.js";
+import { jsonResult, errorResult, apiErrorResult, apiPath, vendorAction } from "../helpers.js";
 import { runGuarded, confirmShape } from "../destructiveGuard.js";
 import { UnifiApiError } from "../../client/errors.js";
-
-const readOnly = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-const writeOnce = {
-  readOnlyHint: false,
-  destructiveHint: true,
-  idempotentHint: false,
-  openWorldHint: true,
-} as const;
-const writeIdempotent = {
-  readOnlyHint: false,
-  destructiveHint: true,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-
-async function getAt(
-  ctx: ServerContext,
-  method: "GET" | "POST" | "DELETE",
-  path: (siteId: string) => string,
-  body?: unknown,
-) {
-  try {
-    const [cid, sid] = await Promise.all([
-      ctx.discovery.consoleId(),
-      ctx.discovery.networkSiteId(),
-    ]);
-    const res = await ctx.client.requestNetwork(method, cid, path(sid), { body });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
-
-const pagShape = {
-  offset: z.number().int().nonnegative().optional(),
-  limit: z.number().int().positive().max(200).optional(),
-  filter: z.string().optional(),
-};
+import { networkPath } from "../../client/unifiClient.js";
+import {
+  readOnly,
+  writeOnce,
+  writeIdempotent,
+  pagShape,
+  netGet,
+  netGetRoot,
+  netWrite,
+} from "./common.js";
 
 export function registerDeviceTools(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -59,22 +24,12 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       inputSchema: z.object(pagShape),
       annotations: readOnly,
     },
-    async (a) => {
-      try {
-        const [cid, sid] = await Promise.all([
-          ctx.discovery.consoleId(),
-          ctx.discovery.networkSiteId(),
-        ]);
-        const res = await ctx.client.requestNetwork("GET", cid, apiPath`/v1/sites/${sid}/devices`, {
-          query: { offset: a.offset, limit: a.limit, filter: a.filter },
-        });
-        return jsonResult(res.data, { pagination: res.pagination });
-      } catch (err) {
-        if (err instanceof UnifiApiError)
-          return errorResult(err.message, { statusCode: err.statusCode });
-        throw err;
-      }
-    },
+    async (a) =>
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/devices`, {
+        offset: a.offset,
+        limit: a.limit,
+        filter: a.filter,
+      }),
   );
 
   server.registerTool(
@@ -85,7 +40,7 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       inputSchema: z.object({ deviceId: z.string() }),
       annotations: readOnly,
     },
-    async (a) => getAt(ctx, "GET", (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}`),
+    async (a) => netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}`),
   );
 
   server.registerTool(
@@ -97,7 +52,7 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       annotations: readOnly,
     },
     async (a) =>
-      getAt(ctx, "GET", (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}/statistics/latest`),
+      netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}/statistics/latest`),
   );
 
   server.registerTool(
@@ -108,19 +63,12 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       inputSchema: z.object(pagShape),
       annotations: readOnly,
     },
-    async (a) => {
-      try {
-        const cid = await ctx.discovery.consoleId();
-        const res = await ctx.client.requestNetwork("GET", cid, `/v1/pending-devices`, {
-          query: { offset: a.offset, limit: a.limit, filter: a.filter },
-        });
-        return jsonResult(res.data, { pagination: res.pagination });
-      } catch (err) {
-        if (err instanceof UnifiApiError)
-          return errorResult(err.message, { statusCode: err.statusCode });
-        throw err;
-      }
-    },
+    async (a) =>
+      netGetRoot(ctx, `/v1/pending-devices`, {
+        offset: a.offset,
+        limit: a.limit,
+        filter: a.filter,
+      }),
   );
 
   server.registerTool(
@@ -136,19 +84,27 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       annotations: writeOnce,
     },
     async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
+      let cid: string;
+      let sid: string;
+      try {
+        [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
+      } catch (err) {
+        if (err instanceof UnifiApiError) return apiErrorResult(err);
+        throw err;
+      }
       // The vendor adopts one device per call: POST /v1/sites/{siteId}/devices
       // with {macAddress, ignoreDeviceLimit} (audit M-5).
       const docPath = apiPath`/v1/sites/${sid}/devices`;
       const bodies = a.macs.map((mac) => ({ macAddress: mac, ignoreDeviceLimit: false }));
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
       return runGuarded(
         ctx.cfg,
         a,
-        { toolName: "unifi_net_adopt_devices", method: "POST", url: fullUrl, body: bodies },
+        {
+          toolName: "unifi_net_adopt_devices",
+          method: "POST",
+          url: networkPath(cid, docPath),
+          body: bodies,
+        },
         async () => {
           const results: Array<{
             mac: string;
@@ -156,6 +112,7 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
             data?: unknown;
             error?: string;
             statusCode?: number;
+            code?: string;
           }> = [];
           for (const body of bodies) {
             try {
@@ -168,6 +125,7 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
                 ok: false,
                 error: err.message,
                 statusCode: err.statusCode,
+                code: err.code,
               });
             }
           }
@@ -193,30 +151,15 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       }),
       annotations: writeOnce,
     },
-    async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
-      const docPath = apiPath`/v1/sites/${sid}/devices/${a.deviceId}/actions`;
-      const body = { action: vendorAction(a.action) };
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-      return runGuarded(
-        ctx.cfg,
+    async (a) =>
+      netWrite(
+        ctx,
         a,
-        { toolName: "unifi_net_device_action", method: "POST", url: fullUrl, body },
-        async () => {
-          try {
-            const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
-            return jsonResult(res.data);
-          } catch (err) {
-            if (err instanceof UnifiApiError)
-              return errorResult(err.message, { statusCode: err.statusCode });
-            throw err;
-          }
-        },
-      );
-    },
+        "unifi_net_device_action",
+        "POST",
+        (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}/actions`,
+        { action: vendorAction(a.action) },
+      ),
   );
 
   server.registerTool(
@@ -227,30 +170,15 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       inputSchema: z.object({ deviceId: z.string(), ...confirmShape }),
       annotations: writeOnce,
     },
-    async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
-      const docPath = apiPath`/v1/sites/${sid}/devices/${a.deviceId}/actions`;
-      const body = { action: "RESTART" };
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-      return runGuarded(
-        ctx.cfg,
+    async (a) =>
+      netWrite(
+        ctx,
         a,
-        { toolName: "unifi_net_reboot_device", method: "POST", url: fullUrl, body },
-        async () => {
-          try {
-            const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
-            return jsonResult(res.data);
-          } catch (err) {
-            if (err instanceof UnifiApiError)
-              return errorResult(err.message, { statusCode: err.statusCode });
-            throw err;
-          }
-        },
-      );
-    },
+        "unifi_net_reboot_device",
+        "POST",
+        (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}/actions`,
+        { action: "RESTART" },
+      ),
   );
 
   server.registerTool(
@@ -263,38 +191,25 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
         deviceId: z.string(),
         portIdx: z.number().int(),
         action: z.string().describe('e.g. "POWER_CYCLE"'),
-        body: z.unknown().optional().describe("Extra action payload"),
+        body: z
+          .unknown()
+          .optional()
+          .describe("Extra action payload; its `action` key is ignored, `action` above wins"),
         ...confirmShape,
       }),
       annotations: writeOnce,
     },
-    async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
-      const docPath = apiPath`/v1/sites/${sid}/devices/${a.deviceId}/interfaces/ports/${a.portIdx}/actions`;
-      const body = {
-        action: vendorAction(a.action),
-        ...(a.body as Record<string, unknown> | undefined),
-      };
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-      return runGuarded(
-        ctx.cfg,
+    async (a) =>
+      netWrite(
+        ctx,
         a,
-        { toolName: "unifi_net_port_action", method: "POST", url: fullUrl, body },
-        async () => {
-          try {
-            const res = await ctx.client.requestNetwork("POST", cid, docPath, { body });
-            return jsonResult(res.data);
-          } catch (err) {
-            if (err instanceof UnifiApiError)
-              return errorResult(err.message, { statusCode: err.statusCode });
-            throw err;
-          }
-        },
-      );
-    },
+        "unifi_net_port_action",
+        "POST",
+        (sid) =>
+          apiPath`/v1/sites/${sid}/devices/${a.deviceId}/interfaces/ports/${a.portIdx}/actions`,
+        // The mapped action goes last, so `body.action` cannot replace it (audit N-65).
+        { ...(a.body as Record<string, unknown> | undefined), action: vendorAction(a.action) },
+      ),
   );
 
   server.registerTool(
@@ -305,28 +220,13 @@ export function registerDeviceTools(server: McpServer, ctx: ServerContext): void
       inputSchema: z.object({ deviceId: z.string(), ...confirmShape }),
       annotations: writeIdempotent,
     },
-    async (a) => {
-      const [cid, sid] = await Promise.all([
-        ctx.discovery.consoleId(),
-        ctx.discovery.networkSiteId(),
-      ]);
-      const docPath = apiPath`/v1/sites/${sid}/devices/${a.deviceId}`;
-      const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-      return runGuarded(
-        ctx.cfg,
+    async (a) =>
+      netWrite(
+        ctx,
         a,
-        { toolName: "unifi_net_remove_device", method: "DELETE", url: fullUrl },
-        async () => {
-          try {
-            const res = await ctx.client.requestNetwork("DELETE", cid, docPath);
-            return jsonResult(res.data);
-          } catch (err) {
-            if (err instanceof UnifiApiError)
-              return errorResult(err.message, { statusCode: err.statusCode });
-            throw err;
-          }
-        },
-      );
-    },
+        "unifi_net_remove_device",
+        "DELETE",
+        (sid) => apiPath`/v1/sites/${sid}/devices/${a.deviceId}`,
+      ),
   );
 }

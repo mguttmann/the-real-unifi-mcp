@@ -1,70 +1,17 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult, apiPath } from "../helpers.js";
-import { runGuarded, confirmShape } from "../destructiveGuard.js";
-import { UnifiApiError } from "../../client/errors.js";
-
-const readOnly = {
-  readOnlyHint: true,
-  destructiveHint: false,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-const writeOnce = {
-  readOnlyHint: false,
-  destructiveHint: true,
-  idempotentHint: false,
-  openWorldHint: true,
-} as const;
-const writeIdempotent = {
-  readOnlyHint: false,
-  destructiveHint: true,
-  idempotentHint: true,
-  openWorldHint: true,
-} as const;
-
-async function netGet(
-  ctx: ServerContext,
-  path: (sid: string) => string,
-  query?: Record<string, string | number | undefined>,
-) {
-  try {
-    const [cid, sid] = await Promise.all([
-      ctx.discovery.consoleId(),
-      ctx.discovery.networkSiteId(),
-    ]);
-    const res = await ctx.client.requestNetwork("GET", cid, path(sid), { query });
-    return jsonResult(res.data, { pagination: res.pagination });
-  } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode });
-    throw err;
-  }
-}
-
-async function netWrite(
-  ctx: ServerContext,
-  a: { confirm?: "YES" },
-  toolName: string,
-  method: "POST" | "PUT" | "DELETE",
-  pathBuilder: (sid: string) => string,
-  body?: unknown,
-) {
-  const [cid, sid] = await Promise.all([ctx.discovery.consoleId(), ctx.discovery.networkSiteId()]);
-  const docPath = pathBuilder(sid);
-  const fullUrl = `/v1/connector/consoles/${cid}/proxy/network/integration${docPath}`;
-  return runGuarded(ctx.cfg, a, { toolName, method, url: fullUrl, body }, async () => {
-    try {
-      const res = await ctx.client.requestNetwork(method, cid, docPath, { body });
-      return jsonResult(res.data);
-    } catch (err) {
-      if (err instanceof UnifiApiError)
-        return errorResult(err.message, { statusCode: err.statusCode });
-      throw err;
-    }
-  });
-}
+import { apiPath } from "../helpers.js";
+import { confirmShape } from "../destructiveGuard.js";
+import {
+  readOnly,
+  writeOnce,
+  writeIdempotent,
+  netGet,
+  netWrite,
+  lenientPagShape,
+  lenientPagQuery,
+} from "./common.js";
 
 export function registerTrafficListTools(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -72,10 +19,15 @@ export function registerTrafficListTools(server: McpServer, ctx: ServerContext):
     {
       title: "List traffic matching lists",
       description: "Lists all traffic matching lists configured on the current site.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(lenientPagShape(200)),
       annotations: readOnly,
     },
-    async () => netGet(ctx, (sid) => apiPath`/v1/sites/${sid}/traffic-matching-lists`),
+    async (a) =>
+      netGet(
+        ctx,
+        (sid) => apiPath`/v1/sites/${sid}/traffic-matching-lists`,
+        lenientPagQuery(a, 200),
+      ),
   );
   server.registerTool(
     "unifi_net_get_traffic_list",

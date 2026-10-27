@@ -1294,10 +1294,10 @@
       ],
       "defaults": {},
       "annotations": {
-        "destructiveHint": true,
-        "idempotentHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
         "openWorldHint": true,
-        "readOnlyHint": false
+        "readOnlyHint": true
       },
       "textSha256": "30d5c4436f4e74ca",
       "inputSchemaSha256": "fdebcff88c96a065"
@@ -1531,7 +1531,7 @@
       "defaults": {},
       "annotations": {
         "destructiveHint": true,
-        "idempotentHint": false,
+        "idempotentHint": true,
         "openWorldHint": true,
         "readOnlyHint": false
       },
@@ -2201,7 +2201,11 @@
     {
       "name": "unifi_net_list_acl_rules",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2210,7 +2214,7 @@
         "readOnlyHint": true
       },
       "textSha256": "49530ec0073a9b86",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_clients",
@@ -2287,7 +2291,11 @@
     {
       "name": "unifi_net_list_dns_policies",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2296,7 +2304,7 @@
         "readOnlyHint": true
       },
       "textSha256": "bd5aa49691453679",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_dpi_application_categories",
@@ -2373,7 +2381,11 @@
     {
       "name": "unifi_net_list_lags",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2382,12 +2394,16 @@
         "readOnlyHint": true
       },
       "textSha256": "b4d698e5a98f8352",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_mclag_domains",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2396,7 +2412,7 @@
         "readOnlyHint": true
       },
       "textSha256": "fc808288375896c2",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_networks",
@@ -2473,7 +2489,11 @@
     {
       "name": "unifi_net_list_sites",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2482,12 +2502,16 @@
         "readOnlyHint": true
       },
       "textSha256": "a14fec7af909a0f0",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_switch_stacks",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2496,12 +2520,16 @@
         "readOnlyHint": true
       },
       "textSha256": "692c2b070506d6e6",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_traffic_lists",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2510,12 +2538,16 @@
         "readOnlyHint": true
       },
       "textSha256": "cf11770bc9eb47e5",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "be6583d0e0155339"
     },
     {
       "name": "unifi_net_list_vouchers",
       "required": [],
-      "properties": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2524,7 +2556,7 @@
         "readOnlyHint": true
       },
       "textSha256": "0294e07c13670617",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "a859245c52608153"
     },
     {
       "name": "unifi_net_list_vpn_servers",
@@ -2622,7 +2654,7 @@
         "readOnlyHint": false
       },
       "textSha256": "f05b8bae5345ce66",
-      "inputSchemaSha256": "4bf4ec3f71145f50"
+      "inputSchemaSha256": "ead630b54e84256a"
     },
     {
       "name": "unifi_net_reboot_device",
@@ -2708,7 +2740,7 @@
       "defaults": {},
       "annotations": {
         "destructiveHint": true,
-        "idempotentHint": false,
+        "idempotentHint": true,
         "openWorldHint": true,
         "readOnlyHint": false
       },
@@ -2903,6 +2935,7 @@
       ],
       "properties": [
         "beginTimestamp",
+        "duration",
         "endTimestamp",
         "type"
       ],
@@ -2914,7 +2947,7 @@
         "readOnlyHint": true
       },
       "textSha256": "011a7f577a906dcb",
-      "inputSchemaSha256": "c08e1b6cf2c51d0d"
+      "inputSchemaSha256": "6d27397d285ccfc2"
     },
     {
       "name": "unifi_sm_get_sdwan_config",
@@ -2969,7 +3002,12 @@
     {
       "name": "unifi_sm_list_devices",
       "required": [],
-      "properties": [],
+      "properties": [
+        "hostIds",
+        "nextToken",
+        "pageSize",
+        "time"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2978,12 +3016,15 @@
         "readOnlyHint": true
       },
       "textSha256": "9da2ad40a6267b53",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "3545687e9be2c9a9"
     },
     {
       "name": "unifi_sm_list_hosts",
       "required": [],
-      "properties": [],
+      "properties": [
+        "nextToken",
+        "pageSize"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -2992,7 +3033,7 @@
         "readOnlyHint": true
       },
       "textSha256": "737f20818f4a621f",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "d46c2e542c1de93b"
     },
     {
       "name": "unifi_sm_list_sdwan_configs",
@@ -3011,7 +3052,10 @@
     {
       "name": "unifi_sm_list_sites",
       "required": [],
-      "properties": [],
+      "properties": [
+        "nextToken",
+        "pageSize"
+      ],
       "defaults": {},
       "annotations": {
         "destructiveHint": false,
@@ -3020,7 +3064,7 @@
         "readOnlyHint": true
       },
       "textSha256": "cb3df761b4454901",
-      "inputSchemaSha256": "93ab7499dc3c616f"
+      "inputSchemaSha256": "d46c2e542c1de93b"
     },
     {
       "name": "unifi_sm_query_isp_metrics",

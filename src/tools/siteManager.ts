@@ -1,7 +1,13 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../server.js";
-import { errorResult, jsonResult } from "./helpers.js";
+import {
+  apiErrorResult,
+  errorResult,
+  jsonResult,
+  lenientOptional,
+  validOrUndefined,
+} from "./helpers.js";
 import { UnifiApiError } from "../client/errors.js";
 
 const readOnly = {
@@ -15,17 +21,38 @@ async function getJson(
   ctx: ServerContext,
   method: "GET" | "POST",
   path: string,
-  opts?: { body?: unknown; query?: Record<string, string | number | undefined> },
+  opts?: { body?: unknown; query?: Record<string, unknown> },
 ) {
   try {
     const res = await ctx.client.request(method, path, opts ?? {});
     return jsonResult(res.data, { pagination: res.pagination });
   } catch (err) {
-    if (err instanceof UnifiApiError)
-      return errorResult(err.message, { statusCode: err.statusCode, code: err.code });
+    if (err instanceof UnifiApiError) return apiErrorResult(err);
     throw err;
   }
 }
+
+// Site Manager paging (audit N-39): the vendor types pageSize as a string;
+// a number is sent as its decimal text. Added in 0.3.0, so lenient (see
+// lenientOptional): a value of another type is left out, as 0.2.1 did.
+const pageSizeSchema = z.union([z.number().int().positive(), z.string().min(1)]);
+const tokenSchema = z.string().min(1);
+const pageShape = {
+  pageSize: lenientOptional(pageSizeSchema, "Number of items per page"),
+  nextToken: lenientOptional(
+    tokenSchema,
+    "Token from the previous page (`nextToken` of the response) for the next page",
+  ),
+};
+function pageQuery(a: { pageSize?: unknown; nextToken?: unknown }) {
+  return {
+    pageSize: validOrUndefined(pageSizeSchema, a.pageSize),
+    nextToken: validOrUndefined(tokenSchema, a.nextToken),
+  };
+}
+const hostIdsSchema = z.array(z.string());
+const timeSchema = z.string().min(1);
+const durationSchema = z.enum(["24h", "7d", "30d"]);
 
 export function registerSiteManagerTools(server: McpServer, ctx: ServerContext): void {
   server.registerTool(
@@ -33,10 +60,10 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
     {
       title: "List hosts",
       description: "Account-level: list all UniFi consoles linked to this Site Manager account.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(pageShape),
       annotations: readOnly,
     },
-    async () => getJson(ctx, "GET", "/v1/hosts"),
+    async (a) => getJson(ctx, "GET", "/v1/hosts", { query: pageQuery(a) }),
   );
 
   server.registerTool(
@@ -55,10 +82,10 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
     {
       title: "List Site Manager sites",
       description: "Account-level sites.",
-      inputSchema: z.object({}),
+      inputSchema: z.object(pageShape),
       annotations: readOnly,
     },
-    async () => getJson(ctx, "GET", "/v1/sites"),
+    async (a) => getJson(ctx, "GET", "/v1/sites", { query: pageQuery(a) }),
   );
 
   server.registerTool(
@@ -66,10 +93,24 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
     {
       title: "List devices (account)",
       description: "Account-level devices view (not the deep Network-API per-site list).",
-      inputSchema: z.object({}),
+      inputSchema: z.object({
+        hostIds: lenientOptional(hostIdsSchema, "Only devices of these host (console) ids"),
+        time: lenientOptional(
+          timeSchema,
+          "Last processed timestamp of devices (RFC 3339), as in the vendor docs",
+        ),
+        ...pageShape,
+      }),
       annotations: readOnly,
     },
-    async () => getJson(ctx, "GET", "/v1/devices"),
+    async (a) =>
+      getJson(ctx, "GET", "/v1/devices", {
+        query: {
+          "hostIds[]": validOrUndefined(hostIdsSchema, a.hostIds),
+          time: validOrUndefined(timeSchema, a.time),
+          ...pageQuery(a),
+        },
+      }),
   );
 
   server.registerTool(
@@ -81,12 +122,20 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
         type: z.enum(["5m", "1h"]).describe("Granularity"),
         beginTimestamp: z.string().optional().describe("ISO timestamp (begin)"),
         endTimestamp: z.string().optional().describe("ISO timestamp (end)"),
+        duration: lenientOptional(
+          durationSchema,
+          "Time range ending now: 24h, 7d or 30d (vendor values). Do not combine with beginTimestamp or endTimestamp; the API decides how it treats both.",
+        ),
       }),
       annotations: readOnly,
     },
     async (a) =>
-      getJson(ctx, "GET", `/v1/isp-metrics/${a.type}`, {
-        query: { beginTimestamp: a.beginTimestamp, endTimestamp: a.endTimestamp },
+      getJson(ctx, "GET", `/v1/isp-metrics/${encodeURIComponent(a.type)}`, {
+        query: {
+          beginTimestamp: a.beginTimestamp,
+          endTimestamp: a.endTimestamp,
+          duration: validOrUndefined(durationSchema, a.duration),
+        },
       }),
   );
 
@@ -101,7 +150,8 @@ export function registerSiteManagerTools(server: McpServer, ctx: ServerContext):
       }),
       annotations: readOnly,
     },
-    async (a) => getJson(ctx, "POST", `/v1/isp-metrics/${a.type}/query`, { body: a.body }),
+    async (a) =>
+      getJson(ctx, "POST", `/v1/isp-metrics/${encodeURIComponent(a.type)}/query`, { body: a.body }),
   );
 
   server.registerTool(

@@ -1,5 +1,7 @@
 import type { CallToolResult } from "@modelcontextprotocol/server";
+import { z } from "zod";
 import type { PaginationHint } from "../client/pagination.js";
+import type { UnifiApiError } from "../client/errors.js";
 
 export interface ResultOptions {
   pagination?: PaginationHint | undefined;
@@ -20,6 +22,33 @@ export function errorResult(message: string, details?: unknown): CallToolResult 
     content: [{ type: "text", text: JSON.stringify(payload, null, 2) }],
     isError: true,
   };
+}
+
+/**
+ * Error result of a failed API call, the same for every tool (audit N-86):
+ * the message plus `statusCode` and, when known, `code` (an API code or one
+ * of NETWORK_ERROR, REDIRECT_REFUSED, TIMEOUT, CANCELLED).
+ */
+export function apiErrorResult(err: UnifiApiError): CallToolResult {
+  return errorResult(err.message, { statusCode: err.statusCode, code: err.code });
+}
+
+/**
+ * An optional param added after 0.2.1 to an existing tool. 0.2.1 stripped
+ * unknown keys, so a value of any type was accepted; the schema keeps
+ * accepting every value (JSON schema `anyOf: [<typed>, {}]`) and `validOrUndefined`
+ * drops a value that does not match, so such a call sends what 0.2.1 sent.
+ */
+export function lenientOptional<T extends z.ZodType>(schema: T, description: string) {
+  return z.union([schema, z.unknown()]).optional().describe(description);
+}
+
+export function validOrUndefined<T extends z.ZodType>(
+  schema: T,
+  value: unknown,
+): z.infer<T> | undefined {
+  const r = schema.safeParse(value);
+  return r.success ? r.data : undefined;
 }
 
 // Body fields whose value is hidden in confirm previews (audit N-22): passwords,
