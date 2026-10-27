@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.3.0] - Unreleased
+## [0.3.0] - 2026-10-27
 
 ### Behaviour changes for callers
 - dotenv 18 (was 16.6.1): the server still reads a `.env` from its working directory and fills only unset variables (`DOTENV_CONFIG_PATH`, `DOTENV_CONFIG_ENCODING`, `DOTENV_CONFIG_OVERRIDE` and their new aliases `DOTENV_PATH`, `DOTENV_ENCODING`, `DOTENV_OVERRIDE` still apply; new in dotenv 18, `DOTENV_FAST` or `DOTENV_CONFIG_FAST` switches dotenv to its faster `.env` parser). No longer read: `.env.vault` files and the `dotenv_config_*=` command-line options. dotenv now never prints: 0.2.1 wrote dotenv log lines to stdout, which broke the stdio protocol, when `DOTENV_CONFIG_QUIET=false` or `DOTENV_CONFIG_DEBUG=true` was set; `DOTENV_QUIET`, `DOTENV_DEBUG` and the `DOTENV_CONFIG_*` switches no longer have an effect on output (`tests/stdio/dotenv.test.ts`). BACKLOG N-58 is closed with the behaviour kept: dropping dotenv would stop npm users' `.env` files from working; SECURITY.md now states that a `.env` in the working directory is read.
