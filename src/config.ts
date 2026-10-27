@@ -111,14 +111,14 @@ function parseApiBase(raw: string): string {
 const NO_CAP = new Set(["0", "off", "none"]);
 
 /**
- * UNIFI_MAX_RESULT_BYTES (0.4.0): unset or empty is the default cap; 0, off
- * or none (any case) is no cap (0); a positive integer is the cap. Anything
- * else stops the server.
+ * UNIFI_MAX_RESULT_BYTES (0.4.0): unset or empty is the default cap; 0 (also
+ * written 00), off or none (any case) is no cap (0); a positive integer is
+ * the cap. Anything else stops the server.
  */
 function parseMaxResultBytes(raw: string | undefined): number {
   const v = (raw ?? "").trim();
   if (v === "") return DEFAULT_MAX_RESULT_BYTES;
-  if (NO_CAP.has(v.toLowerCase())) return 0;
+  if (NO_CAP.has(v.toLowerCase()) || /^0+$/.test(v)) return 0;
   if (!/^\d+$/.test(v) || Number(v) <= 0 || !Number.isSafeInteger(Number(v)))
     fieldError(
       "UNIFI_MAX_RESULT_BYTES",

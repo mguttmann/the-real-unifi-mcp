@@ -88,7 +88,8 @@ describe("config of the opt-in variables", () => {
     expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: " " }).maxResultBytes).toBe(
       DEFAULT_MAX_RESULT_BYTES,
     );
-    expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: "0" }).maxResultBytes).toBe(0);
+    for (const v of ["0", "00", "000"])
+      expect(loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: v }).maxResultBytes, v).toBe(0);
     for (const v of ["-1", "1.5", "abc"])
       expect(() => loadConfig({ ...base, UNIFI_MAX_RESULT_BYTES: v }), v).toThrow(
         /UNIFI_MAX_RESULT_BYTES/,
