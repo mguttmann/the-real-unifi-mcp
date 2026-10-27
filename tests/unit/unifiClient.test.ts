@@ -18,6 +18,26 @@ function mockFetch(impl: (req: { url: string; init: RequestInit }) => Promise<Re
 }
 
 describe("UnifiClient.request", () => {
+  it("times out a body read even if res.text() ignores the abort signal (N-5)", async () => {
+    // Some undici releases leave res.text() pending after the request signal
+    // aborts mid-body; the client must not depend on that rejection.
+    const stalled = {
+      status: 200,
+      ok: true,
+      headers: new Headers({ "content-type": "application/json" }),
+      body: null,
+      text: () => new Promise<string>(() => undefined),
+    } as unknown as Response;
+    const f = mockFetch(async () => stalled);
+    const c = new UnifiClient({ ...cfg, timeoutMs: 100 }, createLogger("error"), { fetch: f });
+    const started = Date.now();
+    const err = await c
+      .request("GET", "/v1/hosts", { retry: { maxAttempts: 1 } })
+      .catch((e: unknown) => e);
+    expect(Date.now() - started).toBeLessThan(2000);
+    expect(err).toMatchObject({ statusCode: 0, code: "TIMEOUT" });
+  });
+
   it("sends X-API-Key header on every call", async () => {
     const f = mockFetch(
       async () =>

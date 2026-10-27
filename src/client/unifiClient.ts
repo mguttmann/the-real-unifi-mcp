@@ -40,6 +40,34 @@ export interface UnifiClientOptions {
 }
 
 /**
+ * Reads the response body, but settles as soon as `signal` aborts. Some
+ * undici releases do not reject a pending `res.text()` when the request
+ * signal aborts mid-body, so a stalled body could outlive the timeout (N-5).
+ */
+function readBody(res: Response, signal: AbortSignal): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const onAbort = () => {
+      void res.body?.cancel().catch(() => undefined);
+      const err = new Error("The operation was aborted");
+      err.name = "AbortError";
+      reject(err);
+    };
+    if (signal.aborted) return onAbort();
+    signal.addEventListener("abort", onAbort, { once: true });
+    res.text().then(
+      (t) => {
+        signal.removeEventListener("abort", onAbort);
+        resolve(t);
+      },
+      (e: unknown) => {
+        signal.removeEventListener("abort", onAbort);
+        reject(e instanceof Error ? e : new Error(String(e)));
+      },
+    );
+  });
+}
+
+/**
  * Rejects any path that could redirect the request away from the configured
  * apiBase host: absolute URLs ("://"), protocol-relative ("//…"), userinfo
  * ("@"), backslash tricks, control characters and dot-segment traversal
@@ -219,7 +247,7 @@ export class UnifiClient {
       res = await f(url, { method, headers, body, signal: controller.signal, redirect: "error" });
       this.logger.debug(`${method} ${url} → ${res.status} (${Date.now() - started}ms)`);
       // The timeout also covers the body read, so a stalled body cannot hang the call (N-5).
-      text = res.status === 204 ? null : await res.text();
+      text = res.status === 204 ? null : await readBody(res, controller.signal);
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") {
         // The caller's cancellation is not a timeout (audit N-64).
