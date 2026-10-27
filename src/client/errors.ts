@@ -14,6 +14,8 @@ export interface UnifiErrorPayload {
 export const NETWORK_ERROR = "NETWORK_ERROR";
 export const REDIRECT_REFUSED = "REDIRECT_REFUSED";
 export const TIMEOUT = "TIMEOUT";
+/** The caller cancelled the MCP request (audit N-64); never retried. */
+export const CANCELLED = "CANCELLED";
 
 /**
  * Socket-level causes that prove the request never reached the server, so
@@ -75,6 +77,15 @@ export function wrapNetworkError(err: unknown, method: string, url: string): Uni
     message: `${method} ${url} failed: ${reason}${causeCode ? ` (${causeCode})` : ""}`,
     details: { causeCode, preConnect: causeCode !== undefined && PRE_CONNECT_CODES.has(causeCode) },
     cause: err,
+  });
+}
+
+export function cancelledError(what: string, cause?: unknown): UnifiApiError {
+  return new UnifiApiError({
+    statusCode: 0,
+    code: CANCELLED,
+    message: `${what} cancelled by the caller`,
+    cause,
   });
 }
 

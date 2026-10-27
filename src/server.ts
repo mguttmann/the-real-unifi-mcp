@@ -22,6 +22,7 @@ import { registerTrafficListTools } from "./tools/network/trafficLists.js";
 import { registerHotspotTools } from "./tools/network/hotspot.js";
 import { registerSwitchingTools } from "./tools/network/switching.js";
 import { registerSupportingTools } from "./tools/network/supporting.js";
+import { instrumentTools } from "./tools/instrument.js";
 
 export interface ServerContext {
   cfg: Config;
@@ -83,6 +84,7 @@ export function buildServer(
     },
   );
 
+  instrumentTools(server, ctx);
   registerRawRequestTool(server, ctx);
   registerSiteManagerTools(server, ctx);
   registerInfoTools(server, ctx);

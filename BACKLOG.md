@@ -13,15 +13,12 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 - **N-45** Hand-written tool handlers are only partly covered: `tests/unit/network.handlers.test.ts` drives every `unifi_net_*` tool through the real client with a fake `fetch`, but asserts method, path, query and body only for some tools; the other CRUD tools are checked for the path only. Fix: table-driven cases for all of them.
 - **N-26** The confirm preview of generated write tools omits query params (bulk filter, force); execution sends them (`src/codegen/emit.ts`). Fix: include the query in the preview URL and regenerate.
 - **N-27** Annotation inaccuracies: `unifi_gen_queryispmetrics` is marked destructive (its twin `unifi_sm_query_isp_metrics` is read-only), creates are marked destructive, block is not idempotent. Fix: a codegen override list. Contract: annotations change.
-- **N-43** An object-typed `filter` query value is serialised as `[object Object]` (`src/client/unifiClient.ts`, `String(v)`); v11 types the device tag filter as an object. Fix: force `z.string()` in codegen or JSON-encode.
 
 ## Tools and client
 
 - **N-22 (rest)** Read tools return WiFi passphrases and pre-shared keys as the API returns them (documented in `SECURITY.md`). Possible opt-in masking of secrets in read results; changes output, so only behind a new optional variable.
 - **N-23 (rest)** No read-only switch: an opt-in `UNIFI_READ_ONLY` that refuses write tools at call time (all tools stay registered), and handling of a `dry_run` argument, which is silently stripped today.
 - **N-32** No response size cap: the full body goes pretty-printed into the tool result; Site Manager list tools have no paging hint. Fix: byte cap with a truncation marker.
-- **N-35** MCP cancellation is not passed to `fetch`, and retry sleeps are not abortable (`src/client/unifiClient.ts`). Fix: thread the request signal, abortable sleep, remove the listener.
-- **N-64** A caller-supplied `signal` abort is reported as a timeout (`code: TIMEOUT`). Fix: distinguish `options.signal?.aborted`. No caller passes a signal today.
 - **N-41, N-79** The prompts reference fields the API does not return (WAN status, last seen, client activity, firewall creation time; `src/prompts/networkHealth.ts`, `auditFirewall.ts` has an unused `siteId` arg), and the README describes `unifi-network-health` with those fields. Fix: rewrite prompts and README line to the available fields.
 - **N-42** Discovery matches hosts of type `console` only (`src/client/discovery.ts`); the vendor example also shows `ucore`. Fix: match an owned host with a Network controller, or document `UNIFI_CONSOLE_ID`.
 - **N-46** `npm test` includes the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is exported and asserts counts of one specific network. Fix: exclude it from `npm test`, opt in with `UNIFI_LIVE=1`, assert shapes only.

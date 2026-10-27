@@ -1,10 +1,12 @@
-import { UnifiApiError, NETWORK_ERROR } from "./errors.js";
+import { UnifiApiError, NETWORK_ERROR, cancelledError } from "./errors.js";
 import { RETRY } from "../constants.js";
 
 export interface RetryOptions {
   maxAttempts: number;
   sleep?: (ms: number) => Promise<void>;
   idempotent?: boolean; // when false, 5xx and after-send network errors are not retried
+  /** Caller cancellation (audit N-35): stops a pending retry sleep at once. */
+  signal?: AbortSignal;
 }
 
 export function computeBackoff(attempt: number): number {
@@ -28,7 +30,33 @@ export function parseRetryAfter(header: string | undefined | null): number | nul
   return null;
 }
 
-const DEFAULT_SLEEP = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+/**
+ * Sleeps `ms`; with a signal it rejects with CANCELLED as soon as the signal
+ * aborts and clears its timer and listener. An injected `sleep` (tests) is
+ * raced against the signal.
+ */
+function sleepFor(
+  ms: number,
+  signal: AbortSignal | undefined,
+  sleep: ((ms: number) => Promise<void>) | undefined,
+): Promise<void> {
+  if (signal?.aborted) return Promise.reject(cancelledError("retry"));
+  return new Promise<void>((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const onAbort = () => {
+      if (timer !== undefined) clearTimeout(timer);
+      reject(cancelledError("retry"));
+    };
+    const done = (err?: unknown) => {
+      signal?.removeEventListener("abort", onAbort);
+      if (err === undefined) resolve();
+      else reject(err);
+    };
+    signal?.addEventListener("abort", onAbort, { once: true });
+    if (sleep) Promise.resolve(sleep(ms)).then(() => done(), done);
+    else timer = setTimeout(() => done(), ms);
+  });
+}
 
 export function isRetriable(err: unknown, opts: { idempotent?: boolean } = {}): boolean {
   if (err instanceof UnifiApiError) {
@@ -53,7 +81,6 @@ export function isRetriable(err: unknown, opts: { idempotent?: boolean } = {}): 
 }
 
 export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions): Promise<T> {
-  const sleep = opts.sleep ?? DEFAULT_SLEEP;
   let lastErr: unknown;
   for (let attempt = 0; attempt < opts.maxAttempts; attempt++) {
     try {
@@ -67,7 +94,7 @@ export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions): Pr
           ? (err.details as { retryAfterMs?: number } | undefined)?.retryAfterMs
           : undefined;
       const delay = retryAfter ?? computeBackoff(attempt);
-      await sleep(delay);
+      await sleepFor(delay, opts.signal, opts.sleep);
     }
   }
   throw lastErr;

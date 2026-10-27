@@ -1,5 +1,11 @@
 import type { UnifiClient } from "./unifiClient.js";
 
+/**
+ * The id lookups are cached and shared by concurrent tool calls, so one
+ * caller's cancellation must not fail the others: no caller signal.
+ */
+const SHARED = { signal: null };
+
 interface DiscoveryDeps {
   consoleIdOverride?: string;
   networkSiteIdOverride?: string;
@@ -90,7 +96,7 @@ export class Discovery {
   }
 
   private async resolveConsoleId(): Promise<string> {
-    const res = await this.client.request<{ data: Host[] }>("GET", "/v1/hosts");
+    const res = await this.client.request<{ data: Host[] }>("GET", "/v1/hosts", SHARED);
     const hosts = res.data?.data ?? [];
     const matches = hosts.filter((h) => h.type === "console" && h.owner === true);
     if (matches.length === 0) {
@@ -109,7 +115,12 @@ export class Discovery {
 
   private async resolveNetworkSiteId(): Promise<string> {
     const c = await this.consoleId();
-    const res = await this.client.requestNetwork<{ data: { id: string }[] }>("GET", c, "/v1/sites");
+    const res = await this.client.requestNetwork<{ data: { id: string }[] }>(
+      "GET",
+      c,
+      "/v1/sites",
+      SHARED,
+    );
     const sites = res.data?.data ?? [];
     if (sites.length === 0) throw new Error("Discovery: Network API returned zero sites.");
     if (sites.length > 1) {
@@ -122,7 +133,11 @@ export class Discovery {
   }
 
   private async resolveSiteManagerSiteId(): Promise<string> {
-    const res = await this.client.request<{ data: { siteId: string }[] }>("GET", "/v1/sites");
+    const res = await this.client.request<{ data: { siteId: string }[] }>(
+      "GET",
+      "/v1/sites",
+      SHARED,
+    );
     const sites = res.data?.data ?? [];
     if (sites.length === 0) throw new Error("Discovery: Site Manager returned zero sites.");
     if (sites.length > 1) {

@@ -1,4 +1,11 @@
-import { UnifiApiError, parseApiError, wrapNetworkError, TIMEOUT } from "./errors.js";
+import {
+  UnifiApiError,
+  parseApiError,
+  wrapNetworkError,
+  TIMEOUT,
+  cancelledError,
+} from "./errors.js";
+import { callerSignal } from "./callerSignal.js";
 import { withRetry, parseRetryAfter } from "./retry.js";
 import { parsePaginationHint, type PaginationHint } from "./pagination.js";
 import type { Config } from "../config.js";
@@ -13,7 +20,12 @@ export interface RequestOptions {
   headers?: Record<string, string>;
   idempotent?: boolean;
   retry?: { maxAttempts?: number };
-  signal?: AbortSignal;
+  /**
+   * Caller cancellation (audit N-35). Unset: the signal of the MCP request
+   * being handled (`callerSignal()`); `null`: none (shared discovery lookups,
+   * which other calls may be waiting for).
+   */
+  signal?: AbortSignal | null;
 }
 
 export interface UnifiResponse<T> {
@@ -64,6 +76,25 @@ function assertSafePath(path: string): void {
   }
 }
 
+/**
+ * Query string as sent (audit N-43): strings, numbers and booleans as text, a
+ * plain object as JSON, an array as one `key=value` pair per element;
+ * `undefined` and `null` are left out. Also used for confirm previews, so a
+ * preview shows the query exactly as it would be sent (audit N-26).
+ */
+export function encodeQuery(query: Record<string, unknown> | undefined): string {
+  const params = new URLSearchParams();
+  const one = (v: unknown): string =>
+    v !== null && typeof v === "object" ? JSON.stringify(v) : String(v);
+  for (const [k, v] of Object.entries(query ?? {})) {
+    if (v === undefined || v === null) continue;
+    if (Array.isArray(v)) {
+      for (const item of v) if (item !== undefined && item !== null) params.append(k, one(item));
+    } else params.append(k, one(v));
+  }
+  return params.toString();
+}
+
 export class UnifiClient {
   constructor(
     private cfg: Config,
@@ -81,7 +112,13 @@ export class UnifiClient {
     // Only GET is treated as idempotent by default: a POST/PUT/PATCH/DELETE
     // is not resent after a 5xx or a dropped connection (M-2).
     const idempotent = options.idempotent ?? method === "GET";
-    return withRetry(() => this.doRequest<T>(method, url, options), { maxAttempts, idempotent });
+    const signal = options.signal === undefined ? callerSignal() : (options.signal ?? undefined);
+    if (signal?.aborted) throw cancelledError(`${method} ${url}`);
+    return withRetry(() => this.doRequest<T>(method, url, options, signal), {
+      maxAttempts,
+      idempotent,
+      signal,
+    });
   }
 
   async requestNetwork<T = unknown>(
@@ -111,12 +148,8 @@ export class UnifiClient {
         message: `refusing request: resolved host ${u.origin} does not match configured apiBase ${origin}`,
       });
     }
-    if (query) {
-      for (const [k, v] of Object.entries(query)) {
-        if (v === undefined || v === null) continue;
-        u.searchParams.set(k, String(v));
-      }
-    }
+    const qs = encodeQuery(query);
+    if (qs) u.search = qs;
     return u.toString();
   }
 
@@ -124,7 +157,9 @@ export class UnifiClient {
     method: HttpMethod,
     url: string,
     options: RequestOptions,
+    signal: AbortSignal | undefined,
   ): Promise<UnifiResponse<T>> {
+    if (signal?.aborted) throw cancelledError(`${method} ${url}`);
     const headers: Record<string, string> = {
       Accept: "application/json",
       ...(options.headers ?? {}),
@@ -142,10 +177,8 @@ export class UnifiClient {
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.cfg.timeoutMs);
-    if (options.signal) {
-      if (options.signal.aborted) controller.abort();
-      else options.signal.addEventListener("abort", () => controller.abort(), { once: true });
-    }
+    const onCallerAbort = () => controller.abort();
+    signal?.addEventListener("abort", onCallerAbort, { once: true });
 
     const f = this.opts.fetch ?? globalThis.fetch;
     const started = Date.now();
@@ -162,6 +195,8 @@ export class UnifiClient {
       text = res.status === 204 ? null : await res.text();
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") {
+        // The caller's cancellation is not a timeout (audit N-64).
+        if (signal?.aborted) throw cancelledError(`${method} ${url}`, err);
         throw new UnifiApiError({
           statusCode: 0,
           code: TIMEOUT,
@@ -174,6 +209,7 @@ export class UnifiClient {
       throw wrapped;
     } finally {
       clearTimeout(timer);
+      signal?.removeEventListener("abort", onCallerAbort);
     }
 
     if (text === null) {
