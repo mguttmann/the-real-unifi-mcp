@@ -147,6 +147,65 @@ describe("caller cancellation (N-35, N-64)", () => {
   });
 });
 
+/**
+ * A response whose stream body sends a first chunk and then stalls; fetch
+ * ignores its signal, so only readBody can settle the call (review of 4422141).
+ */
+function stalledBodyFetch() {
+  const cancel = vi.fn();
+  let res!: Response;
+  const f = vi.fn(async () => {
+    const stream = new ReadableStream<Uint8Array>({
+      start(c) {
+        c.enqueue(new TextEncoder().encode('{"data":['));
+      },
+    });
+    res = new Response(stream, { status: 200, headers: { "content-type": "application/json" } });
+    // The real cancel() rejects while text() holds the reader lock; the spy
+    // records that readBody asks for it and keeps that behaviour.
+    const real = res.body!.cancel.bind(res.body);
+    cancel.mockImplementation((reason?: unknown) => real(reason));
+    Object.defineProperty(res.body, "cancel", { value: cancel });
+    return res;
+  });
+  return { f, cancel };
+}
+
+describe("abort during the body read (review of 4422141)", () => {
+  it("the timeout settles a stalled stream body as TIMEOUT and cancels the body", async () => {
+    const { f, cancel } = stalledBodyFetch();
+    const c = new UnifiClient({ ...cfg, timeoutMs: 50 }, createLogger("error"), {
+      fetch: f,
+    });
+    const started = Date.now();
+    const err = (await c
+      .request("GET", "/v1/hosts", { retry: { maxAttempts: 1 } })
+      .catch((e: unknown) => e)) as UnifiApiError;
+    expect(err).toBeInstanceOf(UnifiApiError);
+    expect(err.code).toBe(TIMEOUT);
+    expect(Date.now() - started).toBeLessThan(2000);
+    expect(cancel).toHaveBeenCalledTimes(1);
+  });
+
+  it("a caller cancel while the body is read is CANCELLED, not TIMEOUT, and not retried", async () => {
+    const { f, cancel } = stalledBodyFetch();
+    const c = new UnifiClient({ ...cfg, timeoutMs: 60_000 }, createLogger("error"), {
+      fetch: f,
+    });
+    const ac = new AbortController();
+    const p = c.request("GET", "/v1/hosts", { signal: ac.signal });
+    await vi.waitFor(() => expect(f).toHaveBeenCalledTimes(1));
+    // Let the response resolve, so the abort lands in the body read.
+    await new Promise((r) => setTimeout(r, 10));
+    ac.abort();
+    const err = (await p.catch((e: unknown) => e)) as UnifiApiError;
+    expect(err).toBeInstanceOf(UnifiApiError);
+    expect(err.code).toBe(CANCELLED);
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(f).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("cancellation through MCP (N-35)", () => {
   it("cancelling tools/call aborts the API request of the tool", async () => {
     const { connectInProcess } = await import("../contract/liveTools.js");
