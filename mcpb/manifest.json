@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "the-real-unifi-mcp",
   "display_name": "UniFi MCP",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "MCP server for UniFi Site Manager + Network APIs (documented endpoints, read + write, cloud-only).",
   "author": { "name": "Manuel Guttmann" },
   "license": "MIT",
@@ -52,7 +52,7 @@
     "redact_secrets": {
       "type": "boolean",
       "title": "Hide secrets in results",
-      "description": "If checked, passwords, WiFi passphrases, pre-shared keys and other secret fields in tool results are replaced by (redacted).",
+      "description": "If checked, passwords, WiFi passphrases, pre-shared keys and other secret fields in tool results are replaced by (redacted). Write tools refuse a body that contains that placeholder.",
       "required": false,
       "default": false
     },

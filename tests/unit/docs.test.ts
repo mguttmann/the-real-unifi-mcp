@@ -97,8 +97,10 @@ describe("CHANGELOG limits", () => {
   });
 
   it("0.3.0 tool counts equal tools/list of 0.2.1 (frozen) and of today", () => {
-    const section = read("CHANGELOG.md").split(/^## /m)[1]!;
-    expect(section.startsWith("[0.3.0]")).toBe(true);
+    const section = read("CHANGELOG.md")
+      .split(/^## /m)
+      .find((s) => s.startsWith("[0.3.0]"))!;
+    expect(section).toBeDefined();
     const old = Object.keys(
       (
         JSON.parse(read("tests/contract/tools-contract-0.2.1.json")) as {

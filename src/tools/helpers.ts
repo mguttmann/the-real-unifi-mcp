@@ -60,17 +60,42 @@ const SECRET_KEYS =
 // Paging cursors look like secrets by name but are needed for the next page.
 const PAGING_KEYS = /^(next|prev|previous|page)Token$/i;
 
+/**
+ * The value that replaces a secret field in confirm previews and, with
+ * UNIFI_REDACT_SECRETS, in tool results. Always the whole value, never part of
+ * a longer string. Write tools refuse a body that contains it (see
+ * `redactedPaths` and `runGuarded`).
+ */
+export const REDACTED_PLACEHOLDER = "(redacted)";
+
 /** Masks secret-looking fields (see SECRET_KEYS); `keep` names keys left as they are. */
 export function redactBody(input: unknown, keep?: RegExp): unknown {
   if (Array.isArray(input)) return input.map((v) => redactBody(v, keep));
   if (input && typeof input === "object") {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(input)) {
-      out[k] = SECRET_KEYS.test(k) && !keep?.test(k) ? "(redacted)" : redactBody(v, keep);
+      out[k] = SECRET_KEYS.test(k) && !keep?.test(k) ? REDACTED_PLACEHOLDER : redactBody(v, keep);
     }
     return out;
   }
   return input;
+}
+
+const PLAIN_KEY = /^[A-Za-z_$][\w$]*$/;
+
+/**
+ * JSON paths (`body.securityConfiguration.passphrase`, `body.keys[1]`) of every
+ * value in `input` that is exactly REDACTED_PLACEHOLDER, at any depth of
+ * objects and arrays. Only paths are returned, never values.
+ */
+export function redactedPaths(input: unknown, path = "body"): string[] {
+  if (input === REDACTED_PLACEHOLDER) return [path];
+  if (Array.isArray(input)) return input.flatMap((v, i) => redactedPaths(v, `${path}[${i}]`));
+  if (input && typeof input === "object")
+    return Object.entries(input).flatMap(([k, v]) =>
+      redactedPaths(v, PLAIN_KEY.test(k) ? `${path}.${k}` : `${path}[${JSON.stringify(k)}]`),
+    );
+  return [];
 }
 
 /**

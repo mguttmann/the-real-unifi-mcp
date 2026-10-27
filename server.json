@@ -8,12 +8,12 @@
     "source": "github"
   },
   "websiteUrl": "https://github.com/mguttmann/the-real-unifi-mcp#readme",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "the-real-unifi-mcp",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -82,7 +82,7 @@
         },
         {
           "name": "UNIFI_REDACT_SECRETS",
-          "description": "Masks passwords, WiFi passphrases, pre-shared keys and other secret fields in every tool result. Off by default.",
+          "description": "Masks passwords, WiFi passphrases, pre-shared keys and other secret fields in every tool result with (redacted); write tools refuse a body that contains that placeholder. Off by default.",
           "isRequired": false,
           "format": "boolean",
           "default": "false"
@@ -97,8 +97,8 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/mguttmann/the-real-unifi-mcp/releases/download/v0.3.0/the-real-unifi-mcp-0.3.0.mcpb",
-      "version": "0.3.0",
+      "identifier": "https://github.com/mguttmann/the-real-unifi-mcp/releases/download/v0.3.1/the-real-unifi-mcp-0.3.1.mcpb",
+      "version": "0.3.1",
       "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "transport": {
         "type": "stdio"
