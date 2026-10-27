@@ -6,12 +6,8 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 "Contract" marks items whose fix changes the tool contract (`tests/contract/tools-contract.json`) and therefore needs a "Behaviour changes for callers" entry.
 
-## Tools and client
-
-- **N-94** The SDK stdio transport prints `MaxListenersExceededWarning` on stderr at about 30 parallel calls; log noise only, upstream.
+Every item of the 2026-10-27 audit is closed in 0.3.0 or dropped with the reason in `CHANGELOG.md` 0.3.0. What remains is held by something outside this repository:
 
 ## Build, CI and release
 
-- **N-19** `npm run build` runs lint and unit tests through `prebuild`, so every source build needs the dev dependencies. Fix: a separate `check` script for CI and a plain `tsc` build, coordinated with downstream consumers that build from source.
-- **N-72** The CI floor job runs Node 22.12.0 with its bundled npm; `npm ci` with that npm is proven only by CI runs.
-- **eslint 9 deprecated** npm marks `eslint@9.39.5` as no longer supported (seen during the 0.3.0 dependency update); `eslint` 10, `@eslint/js` 10, `globals` 17, `typescript` 7 and `@types/node` above 22 are majors outside the declared ranges. Fix: move the lint toolchain to eslint 10 in a separate change and keep `@types/node` on the Node floor line.
+- **eslint 10 (blocked by the Node floor)** npm marks `eslint@9.39.5`, the last 9.x, as no longer supported. Every `eslint` 10 release (and `@eslint/js` 10) requires Node `^20.19.0 || ^22.13.0 || >=24`, while this package supports Node 22.12 (`engines`, CI job `build (node 22.12.0)`) and `prebuild` runs the linter in every source build of a consumer. Moving to eslint 10 therefore means raising the Node floor to 22.13, a change for downstream consumers that the owner decides. Then: `eslint` and `@eslint/js` 10, `globals` 17, and keep `@types/node` on the Node floor line; `typescript` 7 waits for `typescript-eslint` (its peer range ends below 6.1).

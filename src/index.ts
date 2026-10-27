@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import "./loadEnv.js";
-import { serveStdio, StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { buildServer, createContext } from "./server.js";
 import { formatFatal } from "./utils/logger.js";
+import { createStdioTransport } from "./stdioTransport.js";
 
 function main(): void {
   const ctx = createContext();
@@ -11,7 +12,7 @@ function main(): void {
   // served exactly as the former `server.connect(new StdioServerTransport())`;
   // a 2026-07-28 opening (`server/discover`) gets a modern instance. Both come
   // from this factory and share one API client and discovery cache.
-  const transport = new StdioServerTransport();
+  const transport = createStdioTransport();
   let lastError: string | undefined;
   serveStdio(() => buildServer(ctx.cfg, ctx).server, {
     legacy: "serve",
