@@ -165,10 +165,28 @@ describe("docs/maintainers/repo-settings.md", () => {
     const matrix = /node: \[([^\]]+)\]/.exec(ci)?.[1] ?? "";
     const nodes = [...matrix.matchAll(/"([^"]+)"/g)].map((m) => m[1]!);
     expect(nodes.length).toBeGreaterThan(0);
-    const checks = [...nodes.map((n) => `build (node ${n})`), "mcpb bundle"];
+    const checks = [...nodes.map((n) => `build (node ${n})`), "mcpb bundle", "secret scan"];
     expect(ci).toContain("name: build (node ${{ matrix.node }})");
     expect(ci).toContain("name: mcpb bundle");
+    expect(ci).toContain("name: secret scan");
+    // Every job of ci.yml has one of the names above.
+    const jobNames = [...ci.matchAll(/^ {4}name: (.+)$/gm)].map((m) => m[1]);
+    expect(jobNames).toEqual(["build (node ${{ matrix.node }})", "mcpb bundle", "secret scan"]);
     for (const c of checks) expect(settings).toContain(`{ "context": "${c}" }`);
+  });
+
+  it("secret scan: pinned, checksum-verified gitleaks over the full history (N-53)", () => {
+    const ci = read(".github/workflows/ci.yml");
+    const job = ci.slice(ci.indexOf("name: secret scan"));
+    expect(job).toMatch(/GITLEAKS_VERSION: \d+\.\d+\.\d+/);
+    expect(job).toMatch(/GITLEAKS_SHA256: [0-9a-f]{64}/);
+    expect(job).toContain("fetch-depth: 0");
+    const check = job.indexOf('echo "${GITLEAKS_SHA256}  ${archive}" | sha256sum --check --strict');
+    const run = job.indexOf("./gitleaks git");
+    expect(check).toBeGreaterThan(0);
+    expect(run).toBeGreaterThan(check);
+    expect(job).toContain("--config .gitleaks.toml");
+    expect(existsSync(new URL("../../.gitleaks.toml", import.meta.url))).toBe(true);
   });
 
   it("keeps the internal audit documents out of the tree and names their history rewrite before going public", () => {

@@ -34,7 +34,7 @@ npm run build
 
 1. Fork + branch from `main` (`feature/foo`, `fix/bar`, `docs/baz`).
 2. Make changes with tests where applicable.
-3. Run `npm run prebuild` (lint, typecheck, unit tests); it must be green. CI also runs `npm run format:check`, `npm run build`, `npm audit --omit=dev --audit-level=high` and the stdio smoke on every supported Node line.
+3. Run `npm run prebuild` (lint, typecheck, unit tests); it must be green. CI also runs `npm run format:check`, `npm run build`, `npm audit --omit=dev --audit-level=high` and the stdio smoke on every supported Node line, and a gitleaks secret scan over the full history (`.gitleaks.toml`).
 4. Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`).
 5. Open a PR using the template.
 

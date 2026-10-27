@@ -1,0 +1,14 @@
+# Secret scan (audit N-53): CI job `secret scan` runs gitleaks over the full
+# git history with the default rules and this allowlist.
+[extend]
+useDefault = true
+
+# Vendor OpenAPI examples carry sample paging tokens (`"nextToken": "..."`),
+# which the generic-api-key rule reports. Only that key in the vendor
+# fixtures is allowed; every other finding there still fails the scan.
+[[allowlists]]
+description = "Sample nextToken values in the vendor OpenAPI fixtures"
+condition = "AND"
+paths = ['''^tests/fixtures/openapi/[^/]+\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"nextToken":\s*"[^"]*",?\s*$''']

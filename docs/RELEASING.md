@@ -7,7 +7,7 @@ A release is built by `.github/workflows/release.yml` when a version tag is push
 | Job | What it does |
 |---|---|
 | `verify` | The tag must equal `v` + the `package.json` version, and the tag commit must be on `main`. A version with a `-` suffix (`0.3.0-rc.1`) is a prerelease. |
-| `ci` | Runs the whole `ci.yml` on the tag commit (Node matrix, lint, typecheck, tests, build, `npm audit`, stdio smoke, MCPB bundle). |
+| `ci` | Runs the whole `ci.yml` on the tag commit (Node matrix, lint, typecheck, tests, build, `npm audit`, stdio smoke, MCPB bundle, secret scan). |
 | `build` | `npm run build:mcpb` (clean build, `mcpb validate`, bundle runtime tree from the lockfile with `npm ci --omit=dev --ignore-scripts`, CycloneDX SBOMs via `npm sbom`), `npm pack`, then `SHA256SUMS` over the `.mcpb`, the `.tgz` and both `.cdx.json` files. |
 | `github-release` | Build provenance attestation (only while the repository is public; skipped when private), then a new GitHub release with all assets. If a release for the tag already exists, the job fails; assets are never overwritten. |
 | `npm-publish` | Only when the repository variable `NPM_PUBLISH_ENABLED` is `true`. Publishes the tarball from the `build` job (checked against `SHA256SUMS`) with `--provenance` through npm trusted publishing (OIDC, no token). Fails on a private repository, because npm provenance needs a public one. Stable versions go to the `latest` dist-tag, prereleases to `next`. |

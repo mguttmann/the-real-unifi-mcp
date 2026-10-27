@@ -14,6 +14,7 @@ Settings > Rules > Rulesets > New branch ruleset.
 - **Require status checks to pass**, with **Require branches to be up to date before merging**. Required checks (job names of `.github/workflows/ci.yml`, GitHub Actions as the source):
   - `build (node 22.12.0)`, `build (node 22)`, `build (node 24)`, `build (node 26)`
   - `mcpb bundle`
+  - `secret scan` (gitleaks over the full history, added in 0.3.0; an existing ruleset needs it added by hand, for example in the web UI or with `gh api -X PUT repos/{owner}/{repo}/rulesets/<id>` and the JSON below)
 
 The same jobs run again on every release tag: `release.yml` calls `ci.yml` on the tag commit and refuses a tag whose commit is not on `main`.
 
@@ -39,7 +40,7 @@ gh api -X POST repos/{owner}/{repo}/rulesets --input - <<'JSON'
         "required_status_checks": [
           { "context": "build (node 22.12.0)" }, { "context": "build (node 22)" },
           { "context": "build (node 24)" }, { "context": "build (node 26)" },
-          { "context": "mcpb bundle" }
+          { "context": "mcpb bundle" }, { "context": "secret scan" }
         ] } }
   ]
 }

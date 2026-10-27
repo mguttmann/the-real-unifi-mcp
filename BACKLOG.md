@@ -13,7 +13,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 ## Build, CI and release
 
 - **N-19** `npm run build` runs lint and unit tests through `prebuild`, so every source build needs the dev dependencies. Fix: a separate `check` script for CI and a plain `tsc` build, coordinated with downstream consumers that build from source.
-- **N-53** No secret scan in CI. Fix: a gitleaks job over the full history.
 - **N-72** The CI floor job runs Node 22.12.0 with its bundled npm; `npm ci` with that npm is proven only by CI runs.
 - **N-74** The CycloneDX SBOMs carry npm's timestamp and a random serial number, so they and `SHA256SUMS` differ between two builds of the same commit; only the `.mcpb` is byte-reproducible (`scripts/build-mcpb.sh`). Fix: timestamp from `SOURCE_DATE_EPOCH`, serial from a content hash.
 - **N-75** `mcpb validate` runs the MCPB CLI through `npx`, whose dependencies resolve unlocked at build time. Fix: pin `@anthropic-ai/mcpb` as a devDependency or validate against the vendored JSON schema.
