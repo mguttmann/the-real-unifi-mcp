@@ -8,7 +8,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 ## Tools and client
 
-- **N-46** `npm test` includes the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is exported and asserts counts of one specific network. Fix: exclude it from `npm test`, opt in with `UNIFI_LIVE=1`, assert shapes only.
 - **N-94** The SDK stdio transport prints `MaxListenersExceededWarning` on stderr at about 30 parallel calls; log noise only, upstream.
 
 ## Build, CI and release

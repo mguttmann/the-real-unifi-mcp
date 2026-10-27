@@ -20,9 +20,9 @@ npm run build
 | `npm run dev` | Watch-mode build via tsx |
 | `npm run build` | Compile to `dist/` via `tsc`. The `prebuild` hook runs lint + typecheck + unit tests first (npm runs it automatically). |
 | `npm run test:unit` | Unit tests (offline; what `prebuild` runs) |
-| `npm test` | Unit tests plus the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is set (unset it to stay offline) |
-| `npm run test:integration` | Live read-only smoke (needs UNIFI_API_KEY) |
-| `npm run test:stdio` | Starts the built `dist/index.js` over stdio (dummy key, unreachable API base) and checks every supported MCP protocol revision and that loading `.env` writes nothing to stdout; run after `npm run build` |
+| `npm test` | Unit tests (offline; `tests/integration/` and `tests/stdio/` are not part of it) |
+| `npm run test:integration` | Live read-only smoke against api.ui.com: GET requests only, shape checks only; runs only with `UNIFI_LIVE=1` and `UNIFI_API_KEY` set and skips otherwise |
+| `npm run test:stdio` | Starts the built `dist/index.js` over stdio (dummy key, unreachable API base) and checks every supported MCP protocol revision that loading `.env` writes nothing to stdout, and the exit code when the transport closes; run after `npm run build` |
 | `npm run codegen` | Download the vendor OpenAPI docs and regenerate `src/tools/generated/` (`-- --offline`: from the committed docs; see "Auto-generated tool" below) |
 | `npm run inspector` | Launch MCP Inspector |
 | `npm run build:mcpb` | Build the MCPB bundle and SBOMs into `release/` (validates the manifest; releases: [docs/RELEASING.md](./docs/RELEASING.md)) |

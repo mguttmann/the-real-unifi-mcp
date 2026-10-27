@@ -237,15 +237,15 @@ The API key is missing the Network scope or has been revoked. Re-generate the ke
 Restart Claude Desktop after editing `claude_desktop_config.json`; config changes are only picked up on startup. The MCP log is at `~/Library/Logs/Claude/mcp-server-unifi.log` (macOS); check it for startup errors or discovery failures.
 
 **Server stops right after a very large request**
-The MCP SDK closes the stdio transport when one incoming message exceeds its line limit (see [SECURITY.md](./SECURITY.md)); the process then exits without an error result. Split the input (for example fewer MACs or a smaller body per call) and restart the server.
+The MCP SDK closes the stdio transport when one incoming message exceeds its line limit (see [SECURITY.md](./SECURITY.md)); the process then logs `stdio transport closed` on stderr and exits with code 1, without an error result. Split the input (for example fewer MACs or a smaller body per call) and restart the server.
 
 ## Development
 
 ```bash
 npm run dev                  # tsx watch
 npm run test:unit            # unit tests (offline; what prebuild runs)
-npm test                     # unit tests + the live smoke, which calls api.ui.com if UNIFI_API_KEY is set
-npm run test:integration     # live read-only smoke only (needs UNIFI_API_KEY)
+npm test                     # unit tests (offline; the live smoke is not part of it)
+npm run test:integration     # live read-only smoke against api.ui.com (only with UNIFI_LIVE=1 and UNIFI_API_KEY)
 npm run codegen              # download the vendor OpenAPI docs and regenerate src/tools/generated/ (see CONTRIBUTING.md first)
 npm run inspector            # MCP Inspector
 npm run build:mcpb           # build MCPB bundle + SBOMs into release/

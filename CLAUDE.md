@@ -14,7 +14,7 @@ npm run build             # prebuild runs lint + typecheck + unit tests, then ts
 node scripts/smoke-stdio.mjs   # after a build: lists the tools of dist/ over stdio
 ```
 
-`npm test` also runs `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is set. Unset the key, or use `npm run test:unit`.
+`npm test` is offline. `npm run test:integration` calls api.ui.com when `UNIFI_LIVE=1` and `UNIFI_API_KEY` are set; never set `UNIFI_LIVE` unless the owner asks for it.
 
 ## No live API calls
 
