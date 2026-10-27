@@ -9,9 +9,13 @@ name: MCP Registry
 #                      failed listing; the checkout is the branch the run is
 #                      started from (main)
 #
-# server.json lists one package, the npm package the-real-unifi-mcp. Its
-# version is taken from the tag. The registry accepts the npm entry only when
-# npm serves that version with an mcpName equal to the server name, so:
+# server.json lists two packages: the npm package the-real-unifi-mcp and the
+# .mcpb bundle of the GitHub release (audit N-97). Both versions are taken
+# from the tag. The .mcpb identifier and fileSha256 in the committed
+# server.json are placeholders: the run downloads the bundle and SHA256SUMS
+# from the release of the tag, checks the bundle against SHA256SUMS and fills
+# in its download URL and SHA-256. The registry accepts the npm entry only
+# when npm serves that version with an mcpName equal to the server name, so:
 #   npm-published true   the caller has just published the version to npm;
 #                        the run waits until npm serves it and fails if it
 #                        never does
@@ -96,6 +100,7 @@ jobs:
             .version = $v
             | .packages |= map(
                 if .registryType == "npm" then .version = $v
+                elif .registryType == "mcpb" then .version = $v
                 else error("unexpected package type \(.registryType)")
                 end)
           ' server.json > server.json.tmp
@@ -153,6 +158,28 @@ jobs:
               exit 1
               ;;
           esac
+      - name: Fill in the .mcpb asset of the release (URL and SHA-256)
+        if: steps.listed.outputs.listed == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="$(jq -r .version server.json)"
+          asset="$(jq -r .name package.json)-${version}.mcpb"
+          dir="$(mktemp -d)"
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir "$dir" \
+            --pattern "$asset" --pattern SHA256SUMS
+          # Exactly the bundle's line (not the .mcpb.cdx.json SBOM).
+          ( cd "$dir" && awk -v f="$asset" '$2 == f' SHA256SUMS | sha256sum --check --strict )
+          sha="$(sha256sum "$dir/$asset" | cut -d' ' -f1)"
+          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/${asset}"
+          jq --arg url "$url" --arg sha "$sha" '
+            .packages |= map(
+              if .registryType == "mcpb" then .identifier = $url | .fileSha256 = $sha
+              else . end)
+          ' server.json > server.json.tmp
+          mv server.json.tmp server.json
+          cat server.json
       - name: Install mcp-publisher (pinned version and SHA-256)
         if: steps.listed.outputs.listed == 'false'
         run: |

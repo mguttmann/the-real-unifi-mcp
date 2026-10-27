@@ -97,7 +97,7 @@ Prerequisites, in this order:
 
 ## 6. MCP Registry
 
-`server.json` describes the server for the official MCP Registry (`registry.modelcontextprotocol.io`) as `io.github.<owner>/the-real-unifi-mcp`, with one package: the npm package `the-real-unifi-mcp`. The registry checks that npm serves that version with `mcpName` equal to the server name (`package.json` `mcpName`). No repository setting and no secret is needed:
+`server.json` describes the server for the official MCP Registry (`registry.modelcontextprotocol.io`) as `io.github.<owner>/the-real-unifi-mcp`, with two packages: the npm package `the-real-unifi-mcp` and the `.mcpb` bundle of the GitHub release. The committed `.mcpb` entry carries placeholders; the workflow downloads the bundle and `SHA256SUMS` from the release of the tag, checks the bundle and fills in its download URL and SHA-256 (`fileSha256`) before publishing. The registry checks that npm serves that version with `mcpName` equal to the server name (`package.json` `mcpName`). No repository setting and no secret is needed:
 
 - The `mcp-registry` job of `release.yml` runs `.github/workflows/mcp-registry.yml` for stable tags after a successful `npm-publish`. While npm publishing is off, it is skipped.
 - The workflow can also be started by hand for an existing tag (Actions > MCP Registry > Run workflow, inputs `tag` and `npm-published`). It publishes only when npm serves the version with the right `mcpName`.

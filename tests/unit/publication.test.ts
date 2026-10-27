@@ -28,9 +28,10 @@ const server = JSON.parse(read("server.json")) as {
     registryType: string;
     identifier: string;
     version: string;
+    fileSha256?: string;
     runtimeHint?: string;
     transport: { type: string };
-    environmentVariables: {
+    environmentVariables?: {
       name: string;
       isRequired?: boolean;
       isSecret?: boolean;
@@ -66,17 +67,28 @@ describe("server.json (MCP Registry)", () => {
     expect(server.description.length).toBeLessThanOrEqual(100);
   });
 
-  it("lists the npm package with the stdio transport", () => {
-    expect(server.packages.map((p) => p.registryType)).toEqual(["npm"]);
-    const [p] = server.packages;
+  it("lists the npm package and the .mcpb release asset with the stdio transport (N-97)", () => {
+    expect(server.packages.map((p) => p.registryType)).toEqual(["npm", "mcpb"]);
+    const [p, bundle] = server.packages;
     expect(p!.identifier).toBe(pkg.name);
     expect(p!.version).toBe(pkg.version);
     expect(p!.runtimeHint).toBe("npx");
     expect(p!.transport.type).toBe("stdio");
+    // The registry workflow replaces identifier and fileSha256 with the
+    // values of the release asset; the committed values name this version.
+    const repo = server.repository.url;
+    expect(bundle!.identifier).toBe(
+      `${repo}/releases/download/v${pkg.version}/${pkg.name}-${pkg.version}.mcpb`,
+    );
+    expect(bundle!.version).toBe(pkg.version);
+    expect(bundle!.fileSha256).toMatch(/^[0-9a-f]{64}$/);
+    expect(bundle!.transport.type).toBe("stdio");
+    // User settings of the bundle come from mcpb/manifest.json.
+    expect(bundle!.environmentVariables).toBeUndefined();
   });
 
   it("declares exactly the env vars src/config.ts reads, the API key as a required secret", () => {
-    const env = server.packages[0]!.environmentVariables;
+    const env = server.packages[0]!.environmentVariables ?? [];
     expect(env.map((e) => e.name).sort()).toEqual([...new Set(configEnv)].sort());
     expect(env.filter((e) => e.isSecret).map((e) => e.name)).toEqual(["UNIFI_API_KEY"]);
     expect(env.filter((e) => e.isRequired).map((e) => e.name)).toEqual(["UNIFI_API_KEY"]);
@@ -87,7 +99,7 @@ describe("server.json defaults", () => {
   it("equal src/config.ts", () => {
     const d = loadConfig({ UNIFI_API_KEY: "publication-test-dummy" });
     const byName = Object.fromEntries(
-      server.packages[0]!.environmentVariables.map((e) => [e.name, e.default]),
+      (server.packages[0]!.environmentVariables ?? []).map((e) => [e.name, e.default]),
     );
     expect(byName).toMatchObject({
       UNIFI_API_BASE: d.apiBase,
@@ -112,6 +124,22 @@ describe("MCP Registry workflow", () => {
     expect(job).toContain("npm-published: ${{ needs.npm-publish.result == 'success' }}");
     expect(registry).toMatch(/^ {2}workflow_call:/m);
     expect(registry).toMatch(/^ {2}workflow_dispatch:/m);
+  });
+
+  it("fills the .mcpb identifier and SHA-256 from the checked release asset (N-97)", () => {
+    expect(registry).toContain('if .registryType == "npm" then .version = $v');
+    expect(registry).toContain('elif .registryType == "mcpb" then .version = $v');
+    const download = registry.indexOf('gh release download "$TAG"');
+    const check = registry.indexOf("sha256sum --check --strict", download);
+    const fill = registry.indexOf(".fileSha256 = $sha", check);
+    const publish = registry.indexOf("./mcp-publisher publish");
+    expect(download).toBeGreaterThan(0);
+    expect(check).toBeGreaterThan(download);
+    expect(fill).toBeGreaterThan(check);
+    expect(publish).toBeGreaterThan(fill);
+    expect(registry).toContain(
+      '"https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/${asset}"',
+    );
   });
 
   it("installs a pinned, checksum-verified mcp-publisher and logs in with GitHub OIDC", () => {

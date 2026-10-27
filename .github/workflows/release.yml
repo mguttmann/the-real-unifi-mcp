@@ -193,9 +193,10 @@ jobs:
   mcp-registry:
     needs: [verify, github-release, npm-publish]
     # Registry versions are permanent and the newest one is listed as latest,
-    # so prereleases stay out. server.json lists only the npm package, which
-    # the registry checks against npm, so this runs only after a successful
-    # npm-publish (and is skipped while npm publishing is off).
+    # so prereleases stay out. server.json lists the npm package, which the
+    # registry checks against npm, and the .mcpb asset of the GitHub release,
+    # so this runs only after a successful github-release and npm-publish (and
+    # is skipped while npm publishing is off).
     if: >-
       ${{ !cancelled()
       && needs.verify.outputs.prerelease != 'true'

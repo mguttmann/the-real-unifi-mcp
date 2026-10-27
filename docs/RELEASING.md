@@ -11,11 +11,11 @@ A release is built by `.github/workflows/release.yml` when a version tag is push
 | `build` | `npm ci --ignore-scripts`, then `npm run build:mcpb` (clean build, `mcpb validate`, bundle runtime tree from the lockfile with `npm ci --omit=dev --ignore-scripts`, CycloneDX SBOMs via `npm sbom`, timestamp and serial number made reproducible), `npm pack`, then `SHA256SUMS` over the `.mcpb`, the `.tgz` and both `.cdx.json` files. |
 | `github-release` | Build provenance attestation (only while the repository is public; skipped when private), then a new GitHub release with all assets. If a release for the tag already exists, the job fails; assets are never overwritten. |
 | `npm-publish` | Only when the repository variable `NPM_PUBLISH_ENABLED` is `true`. Publishes the tarball from the `build` job (checked against `SHA256SUMS`) with `--provenance` through npm trusted publishing (OIDC, no token). Fails on a private repository, because npm provenance needs a public one. Stable versions go to the `latest` dist-tag, prereleases to `next`. |
-| `mcp-registry` | Stable versions only, after a successful `npm-publish`: runs `mcp-registry.yml`, which lists `server.json` (version from the tag) in the MCP Registry once npm serves the version with the right `mcpName`. |
+| `mcp-registry` | Stable versions only, after a successful `npm-publish`: runs `mcp-registry.yml`, which lists `server.json` (version from the tag; npm package and the release `.mcpb` with its URL and SHA-256 from the release) in the MCP Registry once npm serves the version with the right `mcpName`. |
 
 ## Release steps
 
-1. On a branch: bump `version` in `package.json`, `mcpb/manifest.json` and `server.json` (top level and the npm package) (`npm version --no-git-tag-version <x.y.z>` updates `package.json` and the lockfile; the manifest by hand). `tests/unit/contract.test.ts` fails if serverInfo or the manifest differ from `package.json`.
+1. On a branch: bump `version` in `package.json`, `mcpb/manifest.json` and `server.json` (top level, the npm package and the `.mcpb` package with its `identifier` URL) (`npm version --no-git-tag-version <x.y.z>` updates `package.json` and the lockfile; the manifest by hand). `tests/unit/contract.test.ts` fails if serverInfo or the manifest differ from `package.json`.
 2. Move the `CHANGELOG.md` entries from "Unreleased" to the new version with the date; list contract changes under "Behaviour changes for callers".
 3. Merge to `main` with green CI.
 4. Tag the merge commit on `main` and push the tag: `git tag v<x.y.z> <sha> && git push origin v<x.y.z>`.

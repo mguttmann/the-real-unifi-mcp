@@ -14,6 +14,4 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 - **N-19** `npm run build` runs lint and unit tests through `prebuild`, so every source build needs the dev dependencies. Fix: a separate `check` script for CI and a plain `tsc` build, coordinated with downstream consumers that build from source.
 - **N-72** The CI floor job runs Node 22.12.0 with its bundled npm; `npm ci` with that npm is proven only by CI runs.
-- **N-77 (rest)** The `files` list of `package.json` is checked by `npm pack --dry-run` by hand only. Fix: a test over `npm pack --dry-run --json`.
 - **eslint 9 deprecated** npm marks `eslint@9.39.5` as no longer supported (seen during the 0.3.0 dependency update); `eslint` 10, `@eslint/js` 10, `globals` 17, `typescript` 7 and `@types/node` above 22 are majors outside the declared ranges. Fix: move the lint toolchain to eslint 10 in a separate change and keep `@types/node` on the Node floor line.
-- **N-97** The MCP Registry entry (`server.json`) lists only the npm package. Fix: add the `.mcpb` release asset as a second package (the registry workflow then fills its URL and SHA-256 from the release).

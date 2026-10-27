@@ -94,6 +94,15 @@
           "format": "number"
         }
       ]
+    },
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/mguttmann/the-real-unifi-mcp/releases/download/v0.2.1/the-real-unifi-mcp-0.2.1.mcpb",
+      "version": "0.2.1",
+      "fileSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "transport": {
+        "type": "stdio"
+      }
     }
   ]
 }
