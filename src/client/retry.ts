@@ -81,13 +81,13 @@ export function isRetriable(err: unknown, opts: { idempotent?: boolean } = {}): 
 }
 
 export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions): Promise<T> {
-  let lastErr: unknown;
-  for (let attempt = 0; attempt < opts.maxAttempts; attempt++) {
+  // At least one attempt; the last attempt (or a non-retriable error) rethrows,
+  // so the loop never falls through.
+  for (let attempt = 0; ; attempt++) {
     try {
       return await fn();
     } catch (err) {
-      lastErr = err;
-      if (attempt === opts.maxAttempts - 1 || !isRetriable(err, { idempotent: opts.idempotent }))
+      if (attempt >= opts.maxAttempts - 1 || !isRetriable(err, { idempotent: opts.idempotent }))
         throw err;
       const retryAfter =
         err instanceof UnifiApiError && err.statusCode === 429
@@ -97,5 +97,4 @@ export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions): Pr
       await sleepFor(delay, opts.signal, opts.sleep);
     }
   }
-  throw lastErr;
 }

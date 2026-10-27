@@ -170,4 +170,13 @@ describe("withRetry", () => {
       expect(fn).toHaveBeenCalledTimes(1);
     }
   });
+
+  it("makes one attempt and rethrows its error when maxAttempts is below 1 (audit N-48)", async () => {
+    const err = new UnifiApiError({ statusCode: 502, message: "bad gateway" });
+    const fn = vi.fn().mockRejectedValue(err);
+    await expect(withRetry(fn, { maxAttempts: 0, idempotent: true, sleep: vi.fn() })).rejects.toBe(
+      err,
+    );
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
 });

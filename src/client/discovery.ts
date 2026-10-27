@@ -89,12 +89,6 @@ export class Discovery {
     return { consoleId: c, networkSiteId: n, siteManagerSiteId: s, console };
   }
 
-  reset(): void {
-    this.consoleIdP = undefined;
-    this.networkSiteIdP = undefined;
-    this.siteManagerSiteIdP = undefined;
-  }
-
   private async resolveConsoleId(): Promise<string> {
     const res = await this.client.request<{ data: Host[] }>("GET", "/v1/hosts", SHARED);
     const hosts = res.data?.data ?? [];
