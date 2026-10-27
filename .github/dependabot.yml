@@ -1,0 +1,57 @@
+# The cooldown keeps freshly published versions out for a few days
+# (supply-chain hygiene); security updates are not delayed by it.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 5
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    # Version updates do not gate on advisories; CI runs
+    # `npm audit --omit=dev --audit-level=high` on every push and PR.
+    ignore:
+      # Major versions of these libraries contain breaking changes that
+      # require manual migration; evaluate them outside of Dependabot.
+      # zod stays on ^4.6.7 (fixes GHSA-mrhx-c7xc-m3w5, the MCP SDK needs zod 4);
+      # this ignore only holds back a future zod 5. Minor and patch updates of
+      # zod 4 still arrive.
+      - dependency-name: "zod"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript-eslint/eslint-plugin"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript-eslint/parser"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "globals"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 5
+    ignore:
+      # Actions are pinned by commit SHA in ci.yml; Dependabot updates the SHA
+      # and the version comment. Major versions contain breaking changes that
+      # require manual migration; evaluate them outside of Dependabot.
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actions/setup-node"
+        update-types: ["version-update:semver-major"]

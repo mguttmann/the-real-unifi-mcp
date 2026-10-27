@@ -1,0 +1,3009 @@
+{
+  "toolCount": 167,
+  "tools": [
+    {
+      "name": "unifi_gen_adoptdevice",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "934b6b87e3f3a6da",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createaclrule",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "7f8fca8872237f83",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_creatednspolicy",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "5b16f110f3467328",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createfirewallpolicy",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "989c986c1279b629",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createfirewallzone",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "e64b776f298aef50",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createnetwork",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "53707cad200abbcf",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createtrafficmatchinglist",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "79e399a6dc25b1a0",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createvouchers",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "337b469ec7f0df67",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_createwifibroadcast",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "8bec2603220e383c",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_deleteaclrule",
+      "required": [
+        "aclRuleId"
+      ],
+      "properties": [
+        "aclRuleId",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "dbe734c506b0400d",
+      "inputSchemaSha256": "10e7a32e66be06ab"
+    },
+    {
+      "name": "unifi_gen_deletednspolicy",
+      "required": [
+        "dnsPolicyId"
+      ],
+      "properties": [
+        "confirm",
+        "dnsPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "77f150eb85bea2f6",
+      "inputSchemaSha256": "63a12344d22958cb"
+    },
+    {
+      "name": "unifi_gen_deletefirewallpolicy",
+      "required": [
+        "firewallPolicyId"
+      ],
+      "properties": [
+        "confirm",
+        "firewallPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "9e85b60a1dca3dc7",
+      "inputSchemaSha256": "b6a5ffd134c35f4b"
+    },
+    {
+      "name": "unifi_gen_deletefirewallzone",
+      "required": [
+        "firewallZoneId"
+      ],
+      "properties": [
+        "confirm",
+        "firewallZoneId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "5693cf8bf7348276",
+      "inputSchemaSha256": "4872c38982b3ca18"
+    },
+    {
+      "name": "unifi_gen_deletenetwork",
+      "required": [
+        "networkId"
+      ],
+      "properties": [
+        "confirm",
+        "force",
+        "networkId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "38855fb1ca95ec1f",
+      "inputSchemaSha256": "c83e7e3e99c66f08"
+    },
+    {
+      "name": "unifi_gen_deletetrafficmatchinglist",
+      "required": [
+        "trafficMatchingListId"
+      ],
+      "properties": [
+        "confirm",
+        "trafficMatchingListId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "8a3628f5f096b303",
+      "inputSchemaSha256": "68fd4ed5f16b2b65"
+    },
+    {
+      "name": "unifi_gen_deletevoucher",
+      "required": [
+        "voucherId"
+      ],
+      "properties": [
+        "confirm",
+        "voucherId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "d3dd05ecf5343bf8",
+      "inputSchemaSha256": "cf3f89eb788a0885"
+    },
+    {
+      "name": "unifi_gen_deletevouchers",
+      "required": [
+        "filter"
+      ],
+      "properties": [
+        "confirm",
+        "filter"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4c6c372f3f50749b",
+      "inputSchemaSha256": "0ed185a24db4d201"
+    },
+    {
+      "name": "unifi_gen_deletewifibroadcast",
+      "required": [
+        "wifiBroadcastId"
+      ],
+      "properties": [
+        "confirm",
+        "force",
+        "wifiBroadcastId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "a2aeba521483822b",
+      "inputSchemaSha256": "27c33b95952572ba"
+    },
+    {
+      "name": "unifi_gen_executeadopteddeviceaction",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "2abc7ffcd8f31949",
+      "inputSchemaSha256": "30398ea2c4fda44b"
+    },
+    {
+      "name": "unifi_gen_executeconnectedclientaction",
+      "required": [
+        "clientId"
+      ],
+      "properties": [
+        "body",
+        "clientId",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "bee0e4a56fa3953b",
+      "inputSchemaSha256": "d6932c18a0f6dd3b"
+    },
+    {
+      "name": "unifi_gen_executeportaction",
+      "required": [
+        "deviceId",
+        "portIdx"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "deviceId",
+        "portIdx"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "fd039beaa5bdec7c",
+      "inputSchemaSha256": "5a403587d1440bb0"
+    },
+    {
+      "name": "unifi_gen_getaclrule",
+      "required": [
+        "aclRuleId"
+      ],
+      "properties": [
+        "aclRuleId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a80a347d3ac15f6b",
+      "inputSchemaSha256": "0979522fcac7116a"
+    },
+    {
+      "name": "unifi_gen_getaclruleordering",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "fdbaae3863515f98",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_gen_getaclrulepage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "efc7c737d33e0254",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getadopteddevicedetails",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "6c1c5357a9ec69c3",
+      "inputSchemaSha256": "e8888a22fa1a89cc"
+    },
+    {
+      "name": "unifi_gen_getadopteddevicelateststatistics",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "13602da6d566fa08",
+      "inputSchemaSha256": "e8888a22fa1a89cc"
+    },
+    {
+      "name": "unifi_gen_getadopteddeviceoverviewpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "f6a3351b88b062e9",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getconnectedclientdetails",
+      "required": [
+        "clientId"
+      ],
+      "properties": [
+        "clientId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "e3a966dab28248d4",
+      "inputSchemaSha256": "0e64769d32bdc38d"
+    },
+    {
+      "name": "unifi_gen_getconnectedclientoverviewpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "60ac4e56ff0ad41e",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getcountries",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "240f37dfadd37c12",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getdevicetagpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a8a08c212d61b3ca",
+      "inputSchemaSha256": "9d2de2f34fcd3dd2"
+    },
+    {
+      "name": "unifi_gen_getdnspolicy",
+      "required": [
+        "dnsPolicyId"
+      ],
+      "properties": [
+        "dnsPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "38e990621a7fc8c8",
+      "inputSchemaSha256": "30721976e75ab1c5"
+    },
+    {
+      "name": "unifi_gen_getdnspolicypage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2ce01884eeb00601",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getdpiapplicationcategories",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a7f40e72ad3fd3f3",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getdpiapplications",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "56b67cc933d99603",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getfirewallpolicies",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "f7aec6489f02a3f4",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getfirewallpolicy",
+      "required": [
+        "firewallPolicyId"
+      ],
+      "properties": [
+        "firewallPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "ee988776805fbd17",
+      "inputSchemaSha256": "cf1530203446bc86"
+    },
+    {
+      "name": "unifi_gen_getfirewallpolicyordering",
+      "required": [
+        "destinationFirewallZoneId",
+        "sourceFirewallZoneId"
+      ],
+      "properties": [
+        "destinationFirewallZoneId",
+        "sourceFirewallZoneId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "9b0d414e951e2813",
+      "inputSchemaSha256": "052fbd7c5dd1ce18"
+    },
+    {
+      "name": "unifi_gen_getfirewallzone",
+      "required": [
+        "firewallZoneId"
+      ],
+      "properties": [
+        "firewallZoneId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "ba157a8ed0e1cc5d",
+      "inputSchemaSha256": "d9f723d1498bb8b1"
+    },
+    {
+      "name": "unifi_gen_getfirewallzones",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "f1d4484e1615c60a",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getinfo",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "c57e25eceec2e526",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_gen_getispmetrics",
+      "required": [
+        "type"
+      ],
+      "properties": [
+        "beginTimestamp",
+        "duration",
+        "endTimestamp",
+        "type"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "1f22386ccc7a5ae2",
+      "inputSchemaSha256": "087b00761f1102bd"
+    },
+    {
+      "name": "unifi_gen_getlag",
+      "required": [
+        "lagId"
+      ],
+      "properties": [
+        "lagId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "daa34e277868e4ca",
+      "inputSchemaSha256": "115872467409c606"
+    },
+    {
+      "name": "unifi_gen_getlagpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2c4c2f3ee0083050",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getmclagdomain",
+      "required": [
+        "mcLagDomainId"
+      ],
+      "properties": [
+        "mcLagDomainId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "860956e99ef445ba",
+      "inputSchemaSha256": "3edf3c377ddbf4c1"
+    },
+    {
+      "name": "unifi_gen_getmclagdomainpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "f77e7229444dd6f4",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getnetworkdetails",
+      "required": [
+        "networkId"
+      ],
+      "properties": [
+        "networkId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2d55f9dae38a296e",
+      "inputSchemaSha256": "93662d3c115325cb"
+    },
+    {
+      "name": "unifi_gen_getnetworkreferences",
+      "required": [
+        "networkId"
+      ],
+      "properties": [
+        "networkId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a6dbe18aa652bc58",
+      "inputSchemaSha256": "93662d3c115325cb"
+    },
+    {
+      "name": "unifi_gen_getnetworksoverviewpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "704b5cf8c72d1f31",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getpendingdevicepage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "b85d60e2f0526e55",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getradiusprofileoverviewpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "91812305a265a1bd",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getsdwanconfigstatus",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "66a8b726e0feb692",
+      "inputSchemaSha256": "31d3818b2a50d974"
+    },
+    {
+      "name": "unifi_gen_getsiteoverviewpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "3ae14b1a2d8b348c",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getsitetositevpntunnelpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a11d58b10ee63ea0",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getswitchstack",
+      "required": [
+        "switchStackId"
+      ],
+      "properties": [
+        "switchStackId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "6c032dc708eb73cc",
+      "inputSchemaSha256": "07be395707f7d671"
+    },
+    {
+      "name": "unifi_gen_getswitchstackpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "5313c5b9d669f379",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_gettrafficmatchinglist",
+      "required": [
+        "trafficMatchingListId"
+      ],
+      "properties": [
+        "trafficMatchingListId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "327c7be13fa0d1d2",
+      "inputSchemaSha256": "9d2ad9807e2bcd7a"
+    },
+    {
+      "name": "unifi_gen_gettrafficmatchinglists",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2b0ca1b0e419a969",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getvoucher",
+      "required": [
+        "voucherId"
+      ],
+      "properties": [
+        "voucherId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "7018a861c06e1b19",
+      "inputSchemaSha256": "53be42dd4ea021bc"
+    },
+    {
+      "name": "unifi_gen_getvouchers",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "1117ace066b7453b",
+      "inputSchemaSha256": "c7905fb93d78c175"
+    },
+    {
+      "name": "unifi_gen_getvpnserverpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2cd20089b0f8d3d3",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getwansoverviewpage",
+      "required": [],
+      "properties": [
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "697841abd2cdbb92",
+      "inputSchemaSha256": "26e94c51fd086385"
+    },
+    {
+      "name": "unifi_gen_getwifibroadcastdetails",
+      "required": [
+        "wifiBroadcastId"
+      ],
+      "properties": [
+        "wifiBroadcastId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "75ecc0ed3886d2a3",
+      "inputSchemaSha256": "0a0ae111ddb40504"
+    },
+    {
+      "name": "unifi_gen_getwifibroadcastpage",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "537990e556f1ad03",
+      "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_listdevices",
+      "required": [],
+      "properties": [
+        "hostIds[]",
+        "nextToken",
+        "pageSize",
+        "time"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2c85a949a934cb0f",
+      "inputSchemaSha256": "6aefe04bc29c57c1"
+    },
+    {
+      "name": "unifi_gen_listhosts",
+      "required": [],
+      "properties": [
+        "nextToken",
+        "pageSize"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "ad0b8a33f94193c2",
+      "inputSchemaSha256": "61d4884f0f4eb70d"
+    },
+    {
+      "name": "unifi_gen_listsdwanconfigs",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "5facc85800cf1aa3",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_gen_listsites",
+      "required": [],
+      "properties": [
+        "nextToken",
+        "pageSize"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "8857e05348d9179a",
+      "inputSchemaSha256": "61d4884f0f4eb70d"
+    },
+    {
+      "name": "unifi_gen_patchfirewallpolicy",
+      "required": [
+        "firewallPolicyId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "firewallPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "3a6c5823c42bb48d",
+      "inputSchemaSha256": "867069bad2d70150"
+    },
+    {
+      "name": "unifi_gen_queryispmetrics",
+      "required": [
+        "type"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "type"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "30d5c4436f4e74ca",
+      "inputSchemaSha256": "b0ec06cf357c9362"
+    },
+    {
+      "name": "unifi_gen_removedevice",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "confirm",
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "bd1d5d978e84561c",
+      "inputSchemaSha256": "62c49c9c957a6049"
+    },
+    {
+      "name": "unifi_gen_updateaclrule",
+      "required": [
+        "aclRuleId"
+      ],
+      "properties": [
+        "aclRuleId",
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "7026be12c6c8576d",
+      "inputSchemaSha256": "88c3eaea338c046b"
+    },
+    {
+      "name": "unifi_gen_updateaclruleordering",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "83647e91abe13f67",
+      "inputSchemaSha256": "b0642d61b6855941"
+    },
+    {
+      "name": "unifi_gen_updatednspolicy",
+      "required": [
+        "dnsPolicyId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "dnsPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "087ae99cc7cce79d",
+      "inputSchemaSha256": "a8507e4e280e7384"
+    },
+    {
+      "name": "unifi_gen_updatefirewallpolicy",
+      "required": [
+        "firewallPolicyId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "firewallPolicyId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "ad96b4030fb91607",
+      "inputSchemaSha256": "867069bad2d70150"
+    },
+    {
+      "name": "unifi_gen_updatefirewallpolicyordering",
+      "required": [
+        "destinationFirewallZoneId",
+        "sourceFirewallZoneId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "destinationFirewallZoneId",
+        "sourceFirewallZoneId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "d8fbaee1557b8797",
+      "inputSchemaSha256": "022cd51f91be6469"
+    },
+    {
+      "name": "unifi_gen_updatefirewallzone",
+      "required": [
+        "firewallZoneId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "firewallZoneId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "6e9b4e2f1a14cc22",
+      "inputSchemaSha256": "51a05f8e4d8d5757"
+    },
+    {
+      "name": "unifi_gen_updatenetwork",
+      "required": [
+        "networkId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "networkId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4c7b52d91534ca86",
+      "inputSchemaSha256": "d510f986cc63345b"
+    },
+    {
+      "name": "unifi_gen_updatetrafficmatchinglist",
+      "required": [
+        "trafficMatchingListId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "trafficMatchingListId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "a729816f9de27d87",
+      "inputSchemaSha256": "329e10d2485f9c39"
+    },
+    {
+      "name": "unifi_gen_updatewifibroadcast",
+      "required": [
+        "wifiBroadcastId"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "wifiBroadcastId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "d14d29da56157601",
+      "inputSchemaSha256": "7738d0c0da89ddd4"
+    },
+    {
+      "name": "unifi_net_adopt_devices",
+      "required": [
+        "macs"
+      ],
+      "properties": [
+        "confirm",
+        "macs"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "0d10d98e4383dfdd",
+      "inputSchemaSha256": "f050aaa111df031e"
+    },
+    {
+      "name": "unifi_net_block_client",
+      "required": [
+        "clientId"
+      ],
+      "properties": [
+        "clientId",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "6bb7639b516501b1",
+      "inputSchemaSha256": "2945a6fb08a344b9"
+    },
+    {
+      "name": "unifi_net_client_action",
+      "required": [
+        "action",
+        "clientId"
+      ],
+      "properties": [
+        "action",
+        "clientId",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "853f85c6860d68fc",
+      "inputSchemaSha256": "f3594ffd2a0eeb4a"
+    },
+    {
+      "name": "unifi_net_create_acl_rule",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "487c56dedfa495b8",
+      "inputSchemaSha256": "30dc172b569a7fcb"
+    },
+    {
+      "name": "unifi_net_create_dns_policy",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "25f738f7ace67ed4",
+      "inputSchemaSha256": "e395b47664f2fb0d"
+    },
+    {
+      "name": "unifi_net_create_firewall_policy",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "7be92580ae443a75",
+      "inputSchemaSha256": "5a086a107af268af"
+    },
+    {
+      "name": "unifi_net_create_firewall_zone",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "d5822d25a008874c",
+      "inputSchemaSha256": "54ee329cea21cc54"
+    },
+    {
+      "name": "unifi_net_create_network",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "2eaa111bf3588292",
+      "inputSchemaSha256": "6103b04722eba670"
+    },
+    {
+      "name": "unifi_net_create_traffic_list",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "2561a1f5c675d97a",
+      "inputSchemaSha256": "bdd8c96ba32b7c85"
+    },
+    {
+      "name": "unifi_net_create_vouchers",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "9e0d9ac78a3252c2",
+      "inputSchemaSha256": "a89afa63bb879983"
+    },
+    {
+      "name": "unifi_net_create_wifi",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "3f0d096e54b33b26",
+      "inputSchemaSha256": "2758f1de976a3c16"
+    },
+    {
+      "name": "unifi_net_delete_acl_rule",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "e45d3ff28eda8a79",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_dns_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4a1364db8bc3a57f",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_firewall_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "a770fcf71a76f796",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_firewall_zone",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "657dac323dcd890b",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_network",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "755dade097955daf",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_traffic_list",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "df10003c6b02ea33",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_voucher",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "37dd825cfbe98d13",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_delete_vouchers",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm",
+        "filter"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "d775bc3d9b1d495a",
+      "inputSchemaSha256": "7469d52370929b73"
+    },
+    {
+      "name": "unifi_net_delete_wifi",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "cee3f0fd0209be8e",
+      "inputSchemaSha256": "95354619fd4e1918"
+    },
+    {
+      "name": "unifi_net_device_action",
+      "required": [
+        "action",
+        "deviceId"
+      ],
+      "properties": [
+        "action",
+        "confirm",
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "ead50214de0c33a5",
+      "inputSchemaSha256": "6da5585ef6d6d70f"
+    },
+    {
+      "name": "unifi_net_get_acl_rule",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "9f1d64ef0b05e695",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_acl_rule_ordering",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "0f01c57ddda3b609",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_get_client",
+      "required": [
+        "clientId"
+      ],
+      "properties": [
+        "clientId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "7b0bf328a0897254",
+      "inputSchemaSha256": "6512c03075257154"
+    },
+    {
+      "name": "unifi_net_get_device",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "46cfe00dba70d51b",
+      "inputSchemaSha256": "7af5478b024dee86"
+    },
+    {
+      "name": "unifi_net_get_device_stats",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "146ddf115fba6dfe",
+      "inputSchemaSha256": "7af5478b024dee86"
+    },
+    {
+      "name": "unifi_net_get_dns_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "048d8caa6c3c548a",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_firewall_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2b13b146e3dfc475",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_firewall_policy_ordering",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "53b62e731ef29d65",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_get_firewall_zone",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "8fa2f37199f8b6a1",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_info",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2794f78c3f4b2b50",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_get_lag",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "3698a4427ed4993b",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_mclag_domain",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "611f22de0cdfef49",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_network",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "938c8999b81d81e5",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_network_references",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "8e0b995da70530ec",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_switch_stack",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "34d011eb1aee69ab",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_traffic_list",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "d1ec5d279a06b8cb",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_voucher",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "11926cab16be1ef1",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_get_wifi",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "0cdf186e61f4c57b",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_net_list_acl_rules",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "49530ec0073a9b86",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_clients",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "6b99bf663877e06a",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_countries",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "5a4faa03a46962fc",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_device_tags",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "373b099be0b6e72f",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_devices",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "23155a9362ac8b6c",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_dns_policies",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "bd5aa49691453679",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_dpi_application_categories",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "9ace16b1eefef819",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_dpi_applications",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "cd984b2f2fc163c4",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_firewall_policies",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "e06a6321ccc7f9a9",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_firewall_zones",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "0f150673151ee1a3",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_lags",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "b4d698e5a98f8352",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_mclag_domains",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "fc808288375896c2",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_networks",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "0afd996b03ca9f3c",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_pending_devices",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "11d369ab79ba0ab1",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_radius_profiles",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "eb597d1ff8c52ea6",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_site_to_site_vpn",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "d083436013f3084b",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_sites",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a14fec7af909a0f0",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_switch_stacks",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "692c2b070506d6e6",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_traffic_lists",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "cf11770bc9eb47e5",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_vouchers",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "0294e07c13670617",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_net_list_vpn_servers",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "6e0343f4f0135f65",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_wans",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "44db137f26ca711b",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_list_wifi",
+      "required": [],
+      "properties": [
+        "filter",
+        "limit",
+        "offset"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "dd157d594bf5922c",
+      "inputSchemaSha256": "c0f2ae05b5f92977"
+    },
+    {
+      "name": "unifi_net_patch_firewall_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4a9a3ea8dbd5d204",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_port_action",
+      "required": [
+        "action",
+        "deviceId",
+        "portIdx"
+      ],
+      "properties": [
+        "action",
+        "body",
+        "confirm",
+        "deviceId",
+        "portIdx"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "f05b8bae5345ce66",
+      "inputSchemaSha256": "4bf4ec3f71145f50"
+    },
+    {
+      "name": "unifi_net_reboot_device",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "confirm",
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4c60070db846ef3e",
+      "inputSchemaSha256": "b2d40dfa32801a7b"
+    },
+    {
+      "name": "unifi_net_remove_device",
+      "required": [
+        "deviceId"
+      ],
+      "properties": [
+        "confirm",
+        "deviceId"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "293ca94a0cd70cbb",
+      "inputSchemaSha256": "b2d40dfa32801a7b"
+    },
+    {
+      "name": "unifi_net_reorder_acl_rules",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "786d3d0971520278",
+      "inputSchemaSha256": "6aff1b9a35afe891"
+    },
+    {
+      "name": "unifi_net_reorder_firewall_policies",
+      "required": [],
+      "properties": [
+        "body",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "2ed14d32ebb0f6cc",
+      "inputSchemaSha256": "d35d171705f4f923"
+    },
+    {
+      "name": "unifi_net_unblock_client",
+      "required": [
+        "clientId"
+      ],
+      "properties": [
+        "clientId",
+        "confirm"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "8ed56e5f8a2c0a3f",
+      "inputSchemaSha256": "2945a6fb08a344b9"
+    },
+    {
+      "name": "unifi_net_update_acl_rule",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "e31efab2b747c607",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_dns_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "c77ecfa9ea076f19",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_firewall_policy",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "0b5b71ee147d5cbb",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_firewall_zone",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "f80780b8c6f158f8",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_network",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "0f2d91a97131e247",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_traffic_list",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "c489c875235e2e10",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_net_update_wifi",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "4c1f6c460b11d1ed",
+      "inputSchemaSha256": "7cd474d54b98ef8d"
+    },
+    {
+      "name": "unifi_raw_request",
+      "required": [
+        "method",
+        "path"
+      ],
+      "properties": [
+        "body",
+        "confirm",
+        "method",
+        "path",
+        "query"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "textSha256": "022326437dd28d80",
+      "inputSchemaSha256": "ccd887a376ff45fa"
+    },
+    {
+      "name": "unifi_sm_get_host",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a7302aa3378adc51",
+      "inputSchemaSha256": "57691a0b457304ba"
+    },
+    {
+      "name": "unifi_sm_get_isp_metrics",
+      "required": [
+        "type"
+      ],
+      "properties": [
+        "beginTimestamp",
+        "endTimestamp",
+        "type"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "011a7f577a906dcb",
+      "inputSchemaSha256": "c08e1b6cf2c51d0d"
+    },
+    {
+      "name": "unifi_sm_get_sdwan_config",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2b7b2ff65b33145d",
+      "inputSchemaSha256": "330bab5597a785f2"
+    },
+    {
+      "name": "unifi_sm_get_sdwan_config_status",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "acd072f7db2d0ff4",
+      "inputSchemaSha256": "f9e3a0a807a8a6f9"
+    },
+    {
+      "name": "unifi_sm_identity",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "a698791914d4a645",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_sm_list_devices",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "9da2ad40a6267b53",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_sm_list_hosts",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "737f20818f4a621f",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_sm_list_sdwan_configs",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "d175a42662035f17",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_sm_list_sites",
+      "required": [],
+      "properties": [],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "cb3df761b4454901",
+      "inputSchemaSha256": "93ab7499dc3c616f"
+    },
+    {
+      "name": "unifi_sm_query_isp_metrics",
+      "required": [
+        "type"
+      ],
+      "properties": [
+        "body",
+        "type"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "2f9e3a6423787e08",
+      "inputSchemaSha256": "e89383870c17577c"
+    }
+  ]
+}

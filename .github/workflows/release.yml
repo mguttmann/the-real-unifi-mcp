@@ -1,0 +1,209 @@
+name: Release
+
+# Runs only when a version tag (v1.2.3, v1.2.3-rc.1) is pushed:
+#   verify          the tag equals v + package.json version and its commit
+#                   is on main
+#   ci              the whole CI workflow (ci.yml) on the tag commit
+#   build           the MCPB bundle, the npm tarball, a CycloneDX SBOM for
+#                   each (npm sbom) and SHA256SUMS over all of them
+#   github-release  build provenance attestation (public repository only)
+#                   and a new GitHub release; an existing release is never
+#                   overwritten
+#   npm-publish     publishes the tarball from the build job with
+#                   provenance; off until the repository variable
+#                   NPM_PUBLISH_ENABLED is 'true' and npm trusted publishing
+#                   (OIDC) is configured for this repository and workflow
+#   mcp-registry    stable versions only, after a successful npm-publish:
+#                   lists server.json in the MCP Registry
+#                   (.github/workflows/mcp-registry.yml)
+# Steps: docs/RELEASING.md; owner settings: docs/maintainers/repo-settings.md.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      # actions/checkout v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          # All branches, so the tag commit can be checked against main.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Tag must match package.json version
+        id: version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match package.json version $version"
+            exit 1
+          fi
+          case "$version" in
+            *-*) echo "prerelease=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "prerelease=false" >> "$GITHUB_OUTPUT" ;;
+          esac
+      - name: Tag commit must be on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag commit $GITHUB_SHA is not on main. Release only commits that are on main."
+            exit 1
+          fi
+
+  ci:
+    needs: verify
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  build:
+    needs: [verify, ci]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # actions/checkout v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      # actions/setup-node v7.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      # Clean build of dist/, the bundle and both SBOMs into release/
+      # (scripts/build-mcpb.sh: lockfile install, mcpb validate).
+      - run: npm run build:mcpb
+      - name: npm tarball and checksums
+        run: |
+          npm pack --pack-destination release
+          cd release
+          sha256sum -- *.mcpb *.tgz *.cdx.json > SHA256SUMS
+          cat SHA256SUMS
+      # actions/upload-artifact v7.0.2
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: release-assets
+          path: release/
+          if-no-files-found: error
+
+  github-release:
+    needs: [verify, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      # actions/download-artifact v8.0.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: release-assets
+          path: release
+      - name: Build provenance attestation
+        # Artifact attestations need a public repository (or GitHub
+        # Enterprise Cloud); skipped while the repository is private.
+        if: ${{ !github.event.repository.private }}
+        # actions/attest-build-provenance v4.2.2
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
+        with:
+          subject-path: |
+            release/*.mcpb
+            release/*.tgz
+            release/*.cdx.json
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+          PRERELEASE: ${{ needs.verify.outputs.prerelease }}
+        run: |
+          # A published asset is never replaced: its checksum may already be
+          # in use. Delete the release by hand and push a new tag instead.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "::error::Release $TAG already exists; assets are not overwritten."
+            exit 1
+          fi
+          flags=()
+          if [ "$PRERELEASE" = "true" ]; then flags+=(--prerelease); fi
+          gh release create "$TAG" release/*.mcpb release/*.tgz release/*.cdx.json \
+            release/SHA256SUMS --verify-tag --title "$TAG" --generate-notes "${flags[@]}"
+
+  npm-publish:
+    needs: [verify, build, github-release]
+    # Off until the owner sets the repository variable
+    # NPM_PUBLISH_ENABLED=true and configures trusted publishing on npm.
+    if: ${{ vars.NPM_PUBLISH_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Provenance needs a public repository
+        if: ${{ github.event.repository.private }}
+        run: |
+          echo "::error::npm provenance is not available for a private repository. Make the repository public or unset NPM_PUBLISH_ENABLED."
+          exit 1
+      # No checkout and no install: this job holds id-token: write, so it
+      # runs no dependency code. It publishes the tarball the build job
+      # packed, the same bytes as the GitHub release asset.
+      # actions/setup-node v7.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+      - name: npm must support trusted publishing (11.5.1 or newer)
+        run: |
+          node -e "
+          const [a, b, c] = process.argv[1].split('.').map(Number);
+          if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) {
+            console.error('npm ' + process.argv[1] + ' is too old for trusted publishing');
+            process.exit(1);
+          }" "$(npm --version)"
+      # actions/download-artifact v8.0.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: release-assets
+          path: release
+      - name: Tarball must match SHA256SUMS
+        working-directory: release
+        run: grep '\.tgz$' SHA256SUMS | sha256sum --check --strict
+      - name: Publish
+        env:
+          PRERELEASE: ${{ needs.verify.outputs.prerelease }}
+        run: |
+          tag=latest
+          if [ "$PRERELEASE" = "true" ]; then tag=next; fi
+          # Trusted publishing (OIDC) needs no token and attaches provenance.
+          npm publish ./release/the-real-unifi-mcp-*.tgz --provenance --access public --tag "$tag"
+
+  mcp-registry:
+    needs: [verify, github-release, npm-publish]
+    # Registry versions are permanent and the newest one is listed as latest,
+    # so prereleases stay out. server.json lists only the npm package, which
+    # the registry checks against npm, so this runs only after a successful
+    # npm-publish (and is skipped while npm publishing is off).
+    if: >-
+      ${{ !cancelled()
+      && needs.verify.outputs.prerelease != 'true'
+      && needs.github-release.result == 'success'
+      && needs.npm-publish.result == 'success' }}
+    uses: ./.github/workflows/mcp-registry.yml
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      tag: ${{ github.ref_name }}
+      npm-published: ${{ needs.npm-publish.result == 'success' }}

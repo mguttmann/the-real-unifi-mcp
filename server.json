@@ -1,0 +1,79 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.mguttmann/the-real-unifi-mcp",
+  "title": "UniFi Site Manager and Network (unofficial)",
+  "description": "Unofficial MCP server for the UniFi Site Manager and Network cloud APIs, with a write-confirm guard.",
+  "repository": {
+    "url": "https://github.com/mguttmann/the-real-unifi-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/mguttmann/the-real-unifi-mcp#readme",
+  "version": "0.2.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "the-real-unifi-mcp",
+      "version": "0.2.1",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "UNIFI_API_KEY",
+          "description": "UniFi Site Manager API key with Network scope (unifi.ui.com, Settings > API). It controls your whole network: treat it like an admin password.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "UNIFI_CONFIRM_WRITES",
+          "description": "Write confirmation: destructive tools return a preview and run only when called again with confirm \"YES\". Only false, 0, no or off turn it off.",
+          "isRequired": false,
+          "format": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "UNIFI_API_BASE",
+          "description": "API base URL; this host receives the API key. https origin only (http only for loopback test stubs). Keep the default.",
+          "isRequired": false,
+          "format": "string",
+          "default": "https://api.ui.com"
+        },
+        {
+          "name": "UNIFI_TIMEOUT_MS",
+          "description": "Per-request timeout in milliseconds, covering response headers and body.",
+          "isRequired": false,
+          "format": "number",
+          "default": "30000"
+        },
+        {
+          "name": "UNIFI_LOG_LEVEL",
+          "description": "Log level on stderr: debug, info, warn or error.",
+          "isRequired": false,
+          "format": "string",
+          "default": "info",
+          "choices": ["debug", "info", "warn", "error"]
+        },
+        {
+          "name": "UNIFI_CONSOLE_ID",
+          "description": "Pins the UniFi console instead of discovering it (needed when the account has several consoles).",
+          "isRequired": false,
+          "format": "string"
+        },
+        {
+          "name": "UNIFI_NETWORK_SITE_ID",
+          "description": "Pins the Network site instead of discovering it.",
+          "isRequired": false,
+          "format": "string"
+        },
+        {
+          "name": "UNIFI_SITE_MANAGER_SITE_ID",
+          "description": "Pins the Site Manager site instead of discovering it.",
+          "isRequired": false,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

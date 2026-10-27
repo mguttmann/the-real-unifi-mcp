@@ -1,0 +1,32 @@
+the-real-unifi-mcp
+Copyright (c) 2026 Manuel Guttmann
+
+This project is licensed under the MIT License (see LICENSE), with the
+exceptions below.
+
+Unofficial project
+------------------
+This is an unofficial, community-maintained project. It is not
+affiliated with, endorsed by, sponsored by or supported by Ubiquiti Inc.
+Do not contact Ubiquiti support about this software.
+
+UniFi API documentation (not covered by the MIT License)
+--------------------------------------------------------
+tests/fixtures/rsc/ holds excerpts of pages of Ubiquiti's public UniFi
+developer documentation (developer.ui.com), stored unchanged as test
+fixtures for the code generator. They are the property of Ubiquiti Inc.
+and subject to its terms. They are included only for interoperability
+and testing; they are NOT licensed under the MIT License of this
+project, and no rights in them are granted by this repository.
+
+The code generator (src/codegen/, npm run codegen) reads that
+documentation from developer.ui.com. Tool names, descriptions, parameter
+names and parameter descriptions in src/tools/generated/ are derived
+from it.
+
+Trademarks
+----------
+"UniFi", "Ubiquiti" and "UI" are trademarks or registered trademarks of
+Ubiquiti Inc. They are used here only to identify the API this software
+works with. All other trademarks are the property of their respective
+owners.

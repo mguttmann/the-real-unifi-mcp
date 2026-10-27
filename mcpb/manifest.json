@@ -1,0 +1,53 @@
+{
+  "manifest_version": "0.2",
+  "name": "the-real-unifi-mcp",
+  "display_name": "UniFi MCP",
+  "version": "0.2.1",
+  "description": "MCP server for UniFi Site Manager + Network APIs (documented endpoints, read + write, cloud-only).",
+  "author": { "name": "Manuel Guttmann" },
+  "license": "MIT",
+  "homepage": "https://github.com/mguttmann/the-real-unifi-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mguttmann/the-real-unifi-mcp"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "UNIFI_API_KEY": "${user_config.unifi_api_key}",
+        "UNIFI_CONFIRM_WRITES": "${user_config.confirm_writes}",
+        "UNIFI_LOG_LEVEL": "${user_config.log_level}"
+      }
+    }
+  },
+  "compatibility": { "runtimes": { "node": ">=22.12.0" } },
+  "user_config": {
+    "unifi_api_key": {
+      "type": "string",
+      "title": "Site Manager API Key",
+      "description": "Site Manager API key with Network scope.",
+      "required": true,
+      "sensitive": true
+    },
+    "confirm_writes": {
+      "type": "boolean",
+      "title": "Confirm destructive writes",
+      "description": "If checked, write and delete tools return a preview and only execute when called again with confirm: \"YES\".",
+      "required": false,
+      "default": true
+    },
+    "log_level": {
+      "type": "string",
+      "title": "Log level",
+      "description": "debug | info | warn | error",
+      "required": false,
+      "default": "info"
+    }
+  },
+  "tools_generated": true,
+  "prompts_generated": true
+}

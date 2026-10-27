@@ -1,0 +1,86 @@
+{
+  "name": "the-real-unifi-mcp",
+  "version": "0.2.1",
+  "description": "Unofficial MCP server for the UniFi Site Manager and Network cloud APIs: hand-written tools, tools generated from the documented endpoints, and a write-confirm guard",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "the-real-unifi-mcp": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*.js",
+    "!dist/codegen/**",
+    "!dist/client/rsc.js",
+    "SECURITY.md",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:mcpb": "bash scripts/build-mcpb.sh",
+    "codegen": "tsx src/codegen/generate.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit --passWithNoTests",
+    "test:integration": "vitest run tests/integration --passWithNoTests",
+    "test:stdio": "vitest run --config vitest.stdio.config.ts",
+    "coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prebuild": "npm run lint && npm run typecheck && npm run test:unit"
+  },
+  "author": "Manuel Guttmann",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mguttmann/the-real-unifi-mcp.git"
+  },
+  "homepage": "https://github.com/mguttmann/the-real-unifi-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/mguttmann/the-real-unifi-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "unifi",
+    "ubiquiti",
+    "network-automation",
+    "claude",
+    "claude-desktop",
+    "site-manager",
+    "stdio"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "mcpName": "io.github.mguttmann/the-real-unifi-mcp",
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.4.0",
+    "dotenv": "^16.4.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@types/node": "^22.19.21",
+    "@typescript-eslint/eslint-plugin": "^8.61.0",
+    "@typescript-eslint/parser": "^8.61.0",
+    "@vitest/coverage-v8": "^4.1.8",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.8.4",
+    "tsx": "^4.22.4",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.61.0",
+    "vitest": "^4.1.8"
+  }
+}

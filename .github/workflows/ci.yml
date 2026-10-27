@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # The release workflow runs this whole workflow on the tag commit.
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # "22.12.0" is the floor from package.json engines (held by
+        # tests/unit/nodeFloor.test.ts); 22, 24 and 26 are the latest of each line.
+        node: ["22.12.0", "22", "24", "26"]
+    steps:
+      # actions/checkout v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      # actions/setup-node v7.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      # Prettier over src/ and tests/ (generated tools excepted, .prettierignore).
+      - run: npm run format:check
+      - run: npm test
+      # Same command downstream consumers build with (prebuild: lint + typecheck + unit tests, then tsc).
+      - run: npm run build
+      # Starts dist/index.js over stdio and checks initialize with the 2024-11-05
+      # to 2025-11-25 revisions and a client pinned to 2026-07-28 (dummy key,
+      # unreachable API base).
+      - run: npm run test:stdio
+      - run: npm audit --omit=dev --audit-level=high
+      # Lists the tools of dist/index.js over stdio with a dummy key and an
+      # unreachable API base; the count must equal the contract snapshot.
+      - run: node scripts/smoke-stdio.mjs
+
+  mcpb:
+    name: mcpb bundle
+    runs-on: ubuntu-latest
+    steps:
+      # actions/checkout v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      # actions/setup-node v7.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      # Validates mcpb/manifest.json with the pinned MCPB CLI and builds the
+      # bundle and SBOMs from the lockfile (scripts/build-mcpb.sh).
+      - run: npm run build:mcpb
+      # Unpacks the bundle and runs the stdio smoke against its dist/index.js
+      # and bundled node_modules.
+      - name: Smoke the unpacked bundle
+        run: |
+          dir="$(mktemp -d)"
+          unzip -q release/*.mcpb -d "$dir"
+          cd "$dir"
+          node "$GITHUB_WORKSPACE/scripts/smoke-stdio.mjs"

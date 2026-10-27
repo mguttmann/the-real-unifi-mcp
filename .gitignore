@@ -1,0 +1,31 @@
+.env
+.env.local
+node_modules/
+dist/
+coverage/
+*.mcpb
+release/
+.DS_Store
+*.log
+.remember/
+
+# Local design notes
+docs/superpowers/
+
+# Secrets / credentials (defense-in-depth for the public repo)
+.npmrc
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# Tooling / agent scratch & build leftovers
+.claude/
+*.tsbuildinfo
+*.tgz
+*.swp
+
+# Local audit evidence
+docs/audit/

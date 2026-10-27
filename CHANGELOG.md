@@ -1,0 +1,141 @@
+# Changelog
+
+## [0.2.1] - Unreleased
+
+First npm release of the 0.2 line: packaging, publication files and a few safety fixes. Tool names, count, required params, property names, defaults and annotations are unchanged (`tests/contract/tools-contract.json`).
+
+### Behaviour changes for callers
+- `UNIFI_CONFIRM_WRITES` fails closed: only `false`, `0`, `no` or `off` (any case) turn the write confirmation off. Before, every value other than `true`, `1` or `yes` turned it off, including an empty value, `on` and typos. Now unset, empty, `true`, `1`, `yes` and `on` keep it on, and an unknown value keeps it on and logs a warning at startup. If you relied on an empty or unusual value to run writes without a preview, set `UNIFI_CONFIRM_WRITES=false`.
+- `UNIFI_API_BASE` is checked at startup: it must be an `https://` origin (plain `http://` only for `127.0.0.1`, `[::1]` and `localhost`) without path, query, fragment or credentials. Before, any URL was accepted and a path was silently ignored. Other values stop the server with `Invalid config for UNIFI_API_BASE: ...`.
+- Confirm previews also redact WiFi passphrases, pre-shared keys and similar fields (names containing `passphrase`, `psk`, `private_key`, `wep_key`, and `presharedKeys`, `key`), besides `password`, `secret`, `token` and `api_key`. Read tool results are unchanged.
+- Error texts from the UniFi API (the JSON `message` or the raw body) are scrubbed for secrets like log lines and cut to 500 characters with a `... (truncated)` marker. Before, a JSON message was passed on in full and unscrubbed, a raw body cut to 200 characters.
+- The confirm preview hint reads `Write confirmation is on (UNIFI_CONFIRM_WRITES). Re-run with confirm: "YES" ...` instead of claiming `UNIFI_CONFIRM_WRITES=true is set`.
+- The startup error for a missing key reads `Invalid config: UNIFI_API_KEY is missing or empty`; before, the log scrubber turned it into `UNIFI_API_KEY: ***REDACTED*** or empty`.
+- Description text only (reported by the contract test as schema noise, no contract change): the `confirm` property of every write tool now says it is needed while write confirmation is on (the default) and not when `UNIFI_CONFIRM_WRITES` is `false`, `0`, `no` or `off`; em dashes were replaced in the descriptions of all 80 `unifi_gen_*` tools (`... - generated from developer.ui.com/...`), `unifi_raw_request`, `unifi_sm_identity` and the `body` property of `unifi_sm_query_isp_metrics`, in the `unifi://hosts` resource descriptions and in the `unifi-network-health` prompt.
+
+### Changed
+- `src/` and `tests/` are formatted with Prettier once, and CI runs `npm run format:check` (the generated tools in `src/tools/generated/` are excepted by `.prettierignore`, because a test compares them byte for byte with the codegen output). `prebuild` is unchanged (lint, typecheck, unit tests).
+- The npm package ships only the compiled runtime (`dist/**/*.js` without the code generator and `dist/client/rsc.js`), `README.md`, `SECURITY.md`, `NOTICE`, `LICENSE` and `package.json`: no source maps, type declarations or code generator (npm v0.1.2 shipped all of them).
+- The `.mcpb` bundle leaves out `dist/client/rsc.js` as well (used only by the code generator), so it stages the same runtime files as the npm package.
+- Release workflow: `npm publish` gets the tarball as `./release/the-real-unifi-mcp-*.tgz`. Without the leading `./`, npm reads `release/<file>.tgz` as a GitHub `owner/repo` shorthand and the publish fails. `tests/unit/release.test.ts` fails on any relative `npm publish` path without `./`.
+- The audit documents of 2026-10-27 are no longer part of the repository; the open minor items are listed in `BACKLOG.md`.
+- `publishConfig` sets `access: public` and `provenance: true`; npm releases come only from `.github/workflows/release.yml` through trusted publishing.
+- README: install with `npx` or `npm install -g`, Claude Desktop and Claude Code config with `npx`, a note on per-tool approval in the client. SECURITY.md: 0.1.0 and 0.1.1 are named as affected by the `unifi_raw_request` key exfiltration.
+
+### Added
+- MCP Registry listing: `package.json` `mcpName` `io.github.mguttmann/the-real-unifi-mcp`, `server.json` (npm package, stdio transport, all env vars with `UNIFI_API_KEY` as a required secret) and `.github/workflows/mcp-registry.yml` (pinned and checksum-verified `mcp-publisher`, GitHub OIDC login), run by `release.yml` for stable tags after a successful npm publish.
+- `glama.json` (listing maintainers), `NOTICE` (unofficial project, trademarks, Ubiquiti documentation excerpts in `tests/fixtures/rsc/` are not MIT-licensed), shipped in the npm package.
+- README: unofficial notice and a "Maintenance status" section. `docs/maintainers/repo-settings.md` describes the GitHub rulesets, Actions and security settings, npm trusted publishing, the MCP Registry and Glama (replaces the former publishing checklist).
+- `tests/unit/publication.test.ts` holds `server.json`, `package.json`, the registry workflow, `glama.json`, `NOTICE`, the README notices and the required checks consistent; `tests/unit/docs.test.ts` also holds the README tool counts and retry numbers and checks that no tracked file outside the vendor fixtures has an em or en dash.
+- Dependabot waits a few days (cooldown) before proposing a freshly published version; security updates are not delayed.
+
+## [0.2.0] - 2026-10-27
+
+Released on GitHub only (not published to npm).
+
+Changes relative to v0.1.2 (the last npm release before this line). The tool contract (names, count, required params, property names, defaults, annotations) is pinned by `tests/contract/tools-contract.json`.
+
+### Behaviour changes for callers
+- `UNIFI_CONFIRM_WRITES` defaults to `true` (v0.1.2: `false`). Without the variable, destructive tools return a redacted preview and only execute when called again with `confirm: "YES"`. Set `UNIFI_CONFIRM_WRITES=false` to keep the v0.1.2 behaviour. Tool names, params and defaults are unchanged.
+- `unifi_raw_request` refuses more paths than v0.1.2: besides absolute and protocol-relative URLs, also `@`, `\`, `..` (also `%2e`-encoded) and control characters, at the schema and again in the client. The `path` input schema (pattern) differs from v0.1.2.
+- serverInfo reports the `package.json` version, read at runtime, so it cannot drift from the package.
+- `body` stays optional, as in v0.1.2, on the 42 write tools that take one (23 `unifi_gen_*`, 18 `unifi_net_*`, `unifi_sm_query_isp_metrics`). Under zod 3 a `z.unknown()` key was implicitly optional; zod 4 would list it as required and reject calls without `body` with `-32602`, so it is now declared optional explicitly. The required arrays equal v0.1.2. The codegen template (`src/codegen/emit.ts`) emits `body` as optional, so a future regeneration keeps it.
+- Writes are no longer resent after a dropped connection. Before, any `fetch failed` / `ECONNRESET` was retried up to 3 times on every method, so a write that UniFi had already accepted (voucher, firewall policy, ACL rule, device or client action) could run up to three times. Now `POST`, `PUT`, `PATCH` and `DELETE` are resent only when the connection was never established; `GET` keeps its retries. `429` is still retried on every method. Tool contract unchanged.
+- A redirect from the API, a dropped connection or a stalled body now returns an error result with the method, URL and cause (for example `[0] POST https://... failed: fetch failed: other side closed (UND_ERR_SOCKET)` or `... refused: the server answered with a redirect ...`) instead of a bare `fetch failed`. Redirects are not retried and the failure is logged at `warn`.
+- Hand-written network tools now call the paths and send the values of the vendor Network API (spec fixture v10.3.58); in v0.1.2 these tools called paths or sent values the vendor API does not define and were expected to fail on every call (not verified against a live console). Tool names and required params are unchanged.
+  - `unifi_net_list_switch_stacks`, `get_switch_stack`, `list_mclag_domains`, `get_mclag_domain`, `list_lags`, `get_lag` call `/v1/sites/{siteId}/switching/switch-stacks`, `/switching/mc-lag-domains` and `/switching/lags`.
+  - `unifi_net_list_pending_devices` calls the console-level `/v1/pending-devices` (offset, limit and filter unchanged).
+  - `unifi_net_adopt_devices` keeps its `macs` input and sends one `POST /v1/sites/{siteId}/devices` with `{macAddress, ignoreDeviceLimit: false}` per MAC. The result is `{results: [{mac, ok, data | error, statusCode}]}`; if any MAC fails, the tool returns an error result with the same per-MAC list. The confirm preview shows the list of request bodies.
+  - `unifi_net_reboot_device` sends `RESTART`. `unifi_net_device_action`, `unifi_net_port_action` and `unifi_net_client_action` map the action to the vendor form (upper case, `-` and spaces become `_`), so `restart` and `power-cycle` keep working and are sent as `RESTART` and `POWER_CYCLE`.
+  - `unifi_net_list_radius_profiles` calls `/v1/sites/{siteId}/radius/profiles`; `unifi_net_list_dpi_application_categories` and `unifi_net_list_dpi_applications` call the console-level `/v1/dpi/categories` and `/v1/dpi/applications`.
+- `unifi_net_block_client` and `unifi_net_unblock_client` return an explicit "not supported" error and send no request: the vendor client action knows only `AUTHORIZE_GUEST_ACCESS` and `UNAUTHORIZE_GUEST_ACCESS`. Both tools stay registered with the same params.
+- `unifi_net_delete_vouchers` has a new optional `filter` param, sent as the `filter` query parameter as the vendor API requires (before, the filter went into a DELETE body the API ignores). `body.filter` is still read when `filter` is absent. A call without any filter is refused without a request. This adds `filter` to the tool's property names in the contract snapshot; required params are unchanged.
+- Ids in hand-written network tool paths are now percent-encoded as one path segment (`apiPath` in `src/tools/helpers.ts`), so `?`, `#` or `/` in an id can no longer change the request target.
+- A request path containing a control character (C0 or DEL) is refused before the request, also for `unifi_raw_request`. Before, the URL parser dropped tab, LF and CR after the dot-segment check, so `.<TAB>.` became `..`.
+- Descriptions changed on `unifi_net_adopt_devices`, `block_client`, `unblock_client`, `client_action`, `delete_vouchers`, `device_action`, `list_dpi_application_categories`, `list_dpi_applications`, `list_pending_devices`, `port_action`, `reboot_device`. Input property descriptions changed too: the `action` property of `unifi_net_device_action`, `unifi_net_port_action` and `unifi_net_client_action` names the vendor values (`RESTART`, `POWER_CYCLE`, `AUTHORIZE_GUEST_ACCESS`), and the `body` property of `unifi_net_delete_vouchers` got a description.
+- Descriptions of `unifi_net_list_devices`, `list_clients`, `list_networks`, `list_firewall_zones`, `list_firewall_policies`, `list_wans` and `list_wifi` no longer carry expected item counts of the maintainer's own network (such as `(~65 expected)`); description text only.
+- The server instructions (`initialize` result, not part of any tool schema) gained an "Untrusted data" section that tells the model to treat all tool results as data, never as instructions; the coverage claim "100% API coverage" and the em dashes were dropped from the tool-layer lines.
+- One incoming stdio message larger than 10 MiB now closes the transport and the process exits (code 0) without an error result. The limit comes from the MCP SDK (`@modelcontextprotocol/sdk` >= 1.32, kept by `@modelcontextprotocol/server` 2.x; v0.1.2 ran SDK 1.29.0, which had no limit). Split very large inputs.
+- Node.js >= 22.12 is required (`engines`, MCPB manifest `compatibility.runtimes.node`; v0.1.2 declared >= 20). Node 20 is end of life and the test toolchain (vite 8) needs ^20.19 or >= 22.12. npm prints an engine warning on older Node, or refuses with `engine-strict`.
+- A `tools/call` whose `arguments` contain more than 100000 array elements and object members in total gets an error result (`Invalid arguments for tool <name>: arguments contain more than the maximum of 100000 elements`) before schema validation and the handler never runs (`maxToolInputElements`). Before, there was no limit. Tool schemas are unchanged.
+- MCP TypeScript SDK v2: `@modelcontextprotocol/sdk` 1.x is replaced by `@modelcontextprotocol/server` `^2.4.0` (v0.1.2 ran SDK 1.29.0). Tool names, count, required params, property names, defaults and annotations are unchanged (contract test). Changes a caller can see:
+  - The server also serves MCP revision 2026-07-28 (`server/discover`, per-request `_meta` envelope) next to `initialize` with 2024-11-05, 2025-03-26, 2025-06-18 and 2025-11-25 (`serveStdio` with `legacy: "serve"`; the client's first message picks the revision). Held by `tests/stdio/protocolVersions.test.ts` against `dist/index.js`.
+  - Every tool's `inputSchema` carries `"$schema": "https://json-schema.org/draft/2020-12/schema"` instead of `"http://json-schema.org/draft-07/schema#"`; the rest of every input schema is unchanged (no `additionalProperties: false`, unknown arguments are still stripped and not rejected). The v1-only `execution: {taskSupport: "forbidden"}` field is gone from every tool in `tools/list`. A client that fingerprints tool schemas sees every tool as changed once.
+  - A `tools/call` for an unknown tool name is answered with a JSON-RPC error `-32602 Tool <name> not found` instead of an `isError` tool result.
+  - Error texts lose the `MCP error -32602: ` prefix, and input validation errors name the field first (`... unifi_net_update_network: id: Invalid input: expected string, received number`; before: `... received number at id`). They are still `isError` tool results.
+  - Runtime dependency tree: `@modelcontextprotocol/server`, `@modelcontextprotocol/core`, `zod`, `dotenv` (SDK 1.x also pulled in express, hono and their dependencies).
+
+### Added
+- `tests/unit/network.handlers.test.ts` calls every `unifi_net_*` tool in-process with a stubbed `fetch` and checks that each request path exists in the vendor spec fixture, plus a table of method, path, query and body for the corrected tools and the error paths.
+- Contract test `tests/unit/contract.test.ts`: starts the server in-process, calls `tools/list` and pins tool names, count, required params, property names, defaults and annotations of every tool against `tests/contract/tools-contract.json`. Description and other schema-byte changes are reported, not failed.
+- `tests/unit/bodyOptional.test.ts` calls every tool that takes a `body` without one and asserts it is accepted, with write tools still answering with the confirm preview; `tests/unit/codegen.generated.test.ts` re-emits the vendor fixtures offline and checks that the committed generated tools match the codegen template.
+- CI runs on Node 22.12.0 (the floor), 22, 24 and 26: `npm ci`, lint, typecheck, the full `npm test`, `npm run build`, `npm audit --omit=dev --audit-level=high` and `scripts/smoke-stdio.mjs`, which starts `dist/index.js` over stdio with a dummy key and `UNIFI_API_BASE=http://127.0.0.1:1` and checks the tool names and count against the snapshot. Actions are pinned by commit SHA and the workflow token is `contents: read`.
+- Release workflow `.github/workflows/release.yml` on tags `v*.*.*` (see `docs/RELEASING.md`): tag must equal the `package.json` version and be on `main`, full CI on the tag commit, MCPB bundle, npm tarball, CycloneDX SBOMs (`npm sbom`) and `SHA256SUMS` as assets of a new GitHub release that is never overwritten, build provenance attestation only on a public repository, npm publish with provenance via trusted publishing only when the repository variable `NPM_PUBLISH_ENABLED` is `true` (off by default). Held by `tests/unit/release.test.ts`.
+- `npm run test:stdio` (`vitest.stdio.config.ts`, `tests/stdio/`) starts the built `dist/index.js` over stdio with a dummy key and an unreachable API base and checks `initialize` with 2024-11-05, 2025-03-26, 2025-06-18 and 2025-11-25 (same revision back, all snapshot tools) and a client pinned to 2026-07-28 (all snapshot tools, an offline write preview). CI runs it after `npm run build`; `npm test` excludes it because it needs `dist/`.
+- CI job `mcpb bundle`: builds the bundle with `npm run build:mcpb` and runs the stdio smoke against the unpacked bundle.
+- `tests/unit/nodeFloor.test.ts` holds the Node floor equal in `package.json`, the lockfile, the MCPB manifest, the README and the CI floor job; `tests/unit/inputLimit.test.ts` holds the input element limit.
+
+### Security
+- The client pins every request to the `UNIFI_API_BASE` origin: paths are checked by `assertSafePath` and appended to the origin instead of resolved with `new URL(path, base)`, and the `X-API-Key` header is attached only when the request goes to that origin.
+- `fetch` runs with `redirect: "error"`, so a cross-origin redirect can no longer carry the custom `X-API-Key` header to another host.
+- Log scrubbing from v0.1.2 (`registerSecretValue` with the live API key, header and query patterns) is part of this line, and the fatal startup line in `src/index.ts` is scrubbed too.
+- `SECURITY.md` has a threat model: SSRF and key pinning, redirects, `UNIFI_API_BASE`, indirect prompt injection through strings stored in UniFi, what the confirm guard does and does not do (the model can send `confirm: "YES"` itself), write retries, log scrubbing and the input limits.
+- `zod` `^3.24.1` -> `^4.6.7` (installed 3.25.76 -> 4.6.7). Fixes GHSA-mrhx-c7xc-m3w5: a very large array in tool input could exhaust memory during schema validation and kill the stdio server process.
+
+### Fixed
+- MCPB manifest rewritten to manifest version 0.2 (`mcpb validate` failed with `server.mcp_config: Required` and `user_config: Expected object, received array`, and the API key was never passed to the server). The bundle now maps the settings `unifi_api_key` (required, secret), `confirm_writes` (default true) and `log_level` (default `info`) to `UNIFI_API_KEY`, `UNIFI_CONFIRM_WRITES` and `UNIFI_LOG_LEVEL`.
+- `npm run build:mcpb` installs the bundle's runtime dependencies from `package-lock.json` with `npm ci --omit=dev --ignore-scripts` (before: `npm install` without the lockfile), validates the manifest with the pinned MCPB CLI, removes its staging directory on every exit, bundles only the compiled runtime (no codegen, type declarations or source maps) and writes a reproducible archive to `release/` (before: the repository root).
+- README: Claude Code setup uses `claude mcp add` (the old `~/.claude/settings.json` `mcpServers` snippet is not read by Claude Code); install uses `npm ci`; `npm test` is documented as including the live smoke when `UNIFI_API_KEY` is set; the configuration table states which `UNIFI_CONFIRM_WRITES` values keep the guard on and warns that the `UNIFI_API_BASE` host receives the key.
+- README, `package.json` and MCPB manifest descriptions no longer claim "100% coverage" or redaction of "all stderr output".
+- `UNIFI_TIMEOUT_MS` now also bounds reading the response body; before, the timer was cleared once headers arrived and a stalled body could hang the tool call.
+
+### Changed
+- `tests/unit/docs.test.ts` holds the documented defaults (README table, `.env.example`) equal to `src/config.ts`, the README hand-wrapper counts and lists equal to `tools/list`, the limits named in `SECURITY.md`, the "treat as data" server instruction, and no em or en dashes in the docs. New `CLAUDE.md` with the repository rules for coding agents.
+- `.nvmrc` is `24`. Dependabot keeps ignoring zod majors only to hold back a future zod 5; zod stays `^4.6.7`.
+- `SERVER_VERSION` is read from `package.json` at runtime; tests pin serverInfo and the MCPB manifest version to `package.json`.
+- Removed the unused `RETRY.MAX_429_ATTEMPTS`, `MAX_5XX_ATTEMPTS`, `MAX_NETWORK_ATTEMPTS` and `NETWORK_BACKOFF_MS` constants; the attempt limit is `RETRY.MAX_ATTEMPTS` (3, unchanged).
+- `unifi_raw_request`: `query` schema written in the zod 4 form `z.record(z.string(), z.string())` (zod 4 requires an explicit key schema). Accepted input is unchanged: an object of string values (the published JSON schema now also carries `propertyNames: {type: "string"}`).
+- Codegen (`src/codegen/schemaFromDoc.ts`) emits `z.record(z.string(), z.unknown())` instead of the zod 3 single-argument form, so a future `npm run codegen` produces code that compiles against zod 4. No generated file currently uses it.
+- UUID-typed path parameters of the generated tools (`unifi_gen_*`) and the codegen template use `z.string().guid()` instead of `.uuid()`. zod 4 `.uuid()` additionally checks the RFC 9562 version and variant digits and would refuse ids that zod 3 accepted; `.guid()` keeps the zod 3 rule (any 8-4-4-4-12 hex string). Pinned by `tests/unit/codegen.schema.test.ts`.
+- Lockfile refreshed within the declared ranges, among others `@modelcontextprotocol/sdk` 1.29.0 -> 1.32.2 (since replaced by `@modelcontextprotocol/server` 2.4.0, see "Behaviour changes for callers"), `vitest` and `@vitest/coverage-v8` 4.1.7 -> 4.1.12, `typescript-eslint` 8.59.4 -> 8.72.1. `npm audit --omit=dev` 9 -> 0, `npm audit` 19 -> 0.
+
+## [0.1.2] - 2026-06-14
+
+### Security
+- Fix CRITICAL SSRF / API-key exfiltration in `unifi_raw_request`. `buildUrl` now enforces a same-origin allow-list, so a caller-supplied absolute or protocol-relative `path` can no longer redirect the live `X-API-Key` to a non-UniFi host; a defense-in-depth `path` regex rejects such inputs at the schema boundary, backed by a regression test (`tests/unit/ssrf.test.ts`).
+- Register the live API key for startup log-scrubbing (value-based redaction), so the key is masked in all log output regardless of format; hardened secret-redaction patterns and `.gitignore`.
+
+### Changed
+- Safe in-range dev-dependency upgrades (resolves a transitive esbuild advisory).
+- `SERVER_VERSION` aligned with the package version.
+- Removed dead code; polished public-facing docs.
+- Reconciled tool-count wording: 167 = 80 generated + 76 network + 10 site-manager + 1 raw.
+
+## [0.1.1] - 2026-05-25
+
+### Added
+- `@eslint/js` as an explicit devDependency. Earlier it was relied upon transitively from `eslint@9`; making it explicit so future major-version ESLint updates do not break the lint script.
+
+### Changed
+- Dependabot configuration tightened: dev-dependencies grouped only for minor/patch updates; major bumps for `zod`, `eslint`, `@eslint/js`, `typescript-eslint`, `@typescript-eslint/*` are ignored (they require manual migration).
+- Replaced an API-key-shaped fixture string in `tests/unit/logger.test.ts` with a clearly fictional placeholder.
+
+## [0.1.0] - 2026-05-25
+
+### Added
+- Initial scaffold: TypeScript MCP server (stdio), `@modelcontextprotocol/sdk` 1.x.
+- Three tool layers covering Site Manager + Network APIs (complete coverage of the documented API surface via codegen + hand-wrappers).
+  - 10 Site Manager hand-wrappers (`unifi_sm_*`)
+  - 76 Network hand-wrappers (`unifi_net_*`)
+  - 80 auto-generated tools (`unifi_gen_*`) from UniFi developer docs
+  - 1 escape-hatch (`unifi_raw_request`)
+- Discovery (consoleId + siteIds) with env-overrides and process-lifetime caching.
+- Optional `UNIFI_CONFIRM_WRITES` preview/confirm flow for destructive tools.
+- Resources (`unifi://identity`, `unifi://hosts[/id]`) and prompts (audit-firewall, network-health, adoption-status).
+- MCPB bundle script (`npm run build:mcpb`).
+- Vitest unit tests (94 passing) + live read-only integration tests (skipped without API key).
+- ESLint 9 (flat) + Prettier 3 + strict TypeScript with `noUncheckedIndexedAccess`.
+
+### Security
+- API key only via env (`UNIFI_API_KEY`). Never logged.
+- Logger redacts known secret patterns.
