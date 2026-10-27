@@ -74,9 +74,14 @@ export function toContractTool(
   };
 }
 
-/** Start the real server in-process and connect a client over InMemoryTransport. */
-export async function connectInProcess(): Promise<{ client: Client; close: () => Promise<void> }> {
-  const { server } = buildServer(OFFLINE_CONFIG);
+/**
+ * Start the real server in-process and connect a client over InMemoryTransport.
+ * `cfg` overrides single fields of OFFLINE_CONFIG (the API base stays offline).
+ */
+export async function connectInProcess(
+  cfg: Partial<Config> = {},
+): Promise<{ client: Client; close: () => Promise<void> }> {
+  const { server } = buildServer({ ...OFFLINE_CONFIG, ...cfg });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   const client = new Client({ name: "contract-test", version: "0" });
   await Promise.all([server.connect(serverTransport), client.connect(clientTransport)]);
