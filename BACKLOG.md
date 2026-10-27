@@ -11,3 +11,7 @@ Every item of the 2026-10-27 audit is closed in 0.3.0 or dropped with the reason
 ## Build, CI and release
 
 - **eslint 10 (blocked by the Node floor)** npm marks `eslint@9.39.5`, the last 9.x, as no longer supported. Every `eslint` 10 release (and `@eslint/js` 10) requires Node `^20.19.0 || ^22.13.0 || >=24`, while this package supports Node 22.12 (`engines` `^22.12.0 || ^24.0.0 || >=26.0.0`, CI job `build (node 22.12.0)`) and `prebuild` runs the linter in every source build of a consumer. Moving to eslint 10 therefore means raising the Node floor to 22.13, a change for downstream consumers that the owner decides. Then: `eslint` and `@eslint/js` 10, `globals` 17, and keep `@types/node` on the Node floor line; `typescript` 7 waits for `typescript-eslint` (its peer range ends below 6.1).
+
+## Release 0.3.0 follow-ups
+
+- **`tools/list` size headroom** `tests/unit/toolsListSize.test.ts` caps the full list at 120,000 bytes; 0.3.0 uses about 116,000. The next codegen update with new vendor fields may turn the test red. Then decide whether to raise the cap (and name it in the CHANGELOG) or compact further.
