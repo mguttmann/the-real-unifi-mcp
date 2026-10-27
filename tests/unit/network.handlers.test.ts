@@ -62,7 +62,7 @@ function stubFetch(status = 200) {
       method: String(init.method),
       path: u.pathname.startsWith(PREFIX) ? u.pathname.slice(PREFIX.length) : u.pathname,
       query: Object.fromEntries(u.searchParams),
-      body: init.body === undefined ? undefined : JSON.parse(String(init.body)),
+      body: init.body === undefined ? undefined : JSON.parse(init.body as string),
     });
     return new Response(JSON.stringify(status === 200 ? { data: [] } : { message: "nope" }), {
       status,

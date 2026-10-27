@@ -19,14 +19,14 @@ describe("resources", () => {
   it("registers unifi-identity", () => {
     const names: string[] = [];
     const server = { registerResource: (name: string) => names.push(name) } as never;
-    registerIdentityResource(server, ctxMock() as never);
+    registerIdentityResource(server, ctxMock());
     expect(names).toContain("unifi-identity");
   });
 
   it("registers unifi-hosts and unifi-host-detail", () => {
     const names: string[] = [];
     const server = { registerResource: (name: string) => names.push(name) } as never;
-    registerHostsResources(server, ctxMock() as never);
+    registerHostsResources(server, ctxMock());
     expect(names).toEqual(expect.arrayContaining(["unifi-hosts", "unifi-host-detail"]));
   });
 });

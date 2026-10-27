@@ -44,7 +44,7 @@ describe("query encoding (N-43)", () => {
 
   it("the client uses the same encoding", async () => {
     const f = vi.fn(async () => ok());
-    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f as never });
+    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f });
     await c.request("GET", "/v1/devices", { query: { "hostIds[]": ["a", "b"], o: { k: 1 } } });
     const url = new URL((f.mock.calls[0] as unknown as [string])[0]);
     expect(url.searchParams.getAll("hostIds[]")).toEqual(["a", "b"]);
@@ -113,7 +113,7 @@ describe("caller cancellation (N-35, N-64)", () => {
 
   it("an already aborted signal sends no request", async () => {
     const f = vi.fn(async () => ok());
-    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f as never });
+    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f });
     const err = (await c
       .request("GET", "/v1/hosts", { signal: AbortSignal.abort() })
       .catch((e: unknown) => e)) as UnifiApiError;
@@ -123,7 +123,7 @@ describe("caller cancellation (N-35, N-64)", () => {
 
   it("removes its abort listener from the caller signal after each attempt", async () => {
     const f = vi.fn(async () => ok());
-    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f as never });
+    const c = new UnifiClient(cfg, createLogger("error"), { fetch: f });
     const ac = new AbortController();
     const add = vi.spyOn(ac.signal, "addEventListener");
     const remove = vi.spyOn(ac.signal, "removeEventListener");

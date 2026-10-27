@@ -5,8 +5,11 @@
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 
-const snapshot = JSON.parse(
-  readFileSync(new URL("../tests/contract/tools-contract.json", import.meta.url), "utf8"),
+/** @param {string} text @returns {unknown} */
+const parseJson = (text) => JSON.parse(text);
+
+const snapshot = /** @type {{ tools: Array<{ name: string }> }} */ (
+  parseJson(readFileSync(new URL("../tests/contract/tools-contract.json", import.meta.url), "utf8"))
 );
 const expected = snapshot.tools.length;
 const child = spawn(process.execPath, ["dist/index.js"], {
@@ -18,6 +21,7 @@ const child = spawn(process.execPath, ["dist/index.js"], {
   stdio: ["pipe", "pipe", "inherit"],
 });
 const timer = setTimeout(() => fail("timeout after 15 s"), 15_000);
+/** @param {string} msg @returns {never} */
 function fail(msg) {
   console.error(`stdio smoke FAILED: ${msg}`);
   child.kill();
@@ -25,6 +29,16 @@ function fail(msg) {
 }
 child.on("exit", (code) => fail(`server exited early with code ${code}`));
 
+/**
+ * @typedef {{
+ *   tools: Array<{ name: string }>,
+ *   nextCursor?: string,
+ *   serverInfo: { name: string, version: string },
+ *   protocolVersion: string,
+ * }} Result
+ * @typedef {{ id?: number, result: Result, error?: unknown }} Msg
+ */
+/** @type {Map<number | undefined, (m: Msg) => void>} */
 const pending = new Map();
 let buf = "";
 child.stdout.on("data", (d) => {
@@ -34,11 +48,18 @@ child.stdout.on("data", (d) => {
     const line = buf.slice(0, i).trim();
     buf = buf.slice(i + 1);
     if (!line) continue;
-    const msg = JSON.parse(line);
+    const msg = /** @type {Msg} */ (parseJson(line));
     pending.get(msg.id)?.(msg);
   }
 });
+/** @param {object} m */
 const send = (m) => child.stdin.write(JSON.stringify(m) + "\n");
+/**
+ * @param {number} id
+ * @param {string} method
+ * @param {object} params
+ * @returns {Promise<Msg>}
+ */
 const request = (id, method, params) =>
   new Promise((resolve) => {
     pending.set(id, resolve);
@@ -52,6 +73,7 @@ const init = await request(1, "initialize", {
 });
 if (init.error) fail(`initialize: ${JSON.stringify(init.error)}`);
 send({ jsonrpc: "2.0", method: "notifications/initialized" });
+/** @type {Array<{ name: string }>} */
 const tools = [];
 let cursor;
 let id = 2;

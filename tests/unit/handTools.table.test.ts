@@ -31,7 +31,7 @@ function stubFetch() {
       method: String(init.method),
       path: u.pathname,
       query: [...u.searchParams],
-      body: init.body === undefined ? undefined : JSON.parse(String(init.body)),
+      body: init.body === undefined ? undefined : JSON.parse(init.body as string),
     });
     return new Response(JSON.stringify({ data: [] }), {
       status: 200,

@@ -80,6 +80,8 @@ function format(level: LogLevel, msg: string, ctx?: unknown): string {
     try {
       ctxStr = typeof ctx === "string" ? ctx : JSON.stringify(ctx);
     } catch {
+      // Not serialisable (cycle, BigInt): fall back to the default string form.
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       ctxStr = String(ctx);
     }
     line += ` ${ctxStr}`;

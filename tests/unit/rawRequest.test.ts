@@ -11,12 +11,12 @@ function ctxMock(extra?: Partial<ServerContext>): ServerContext {
       apiBase: "https://api.ui.com",
       logLevel: "error",
       timeoutMs: 1000,
-    } as ServerContext["cfg"],
+    },
     logger: { debug: vi.fn(), info: vi.fn(), warn: vi.fn(), error: vi.fn() },
     client: { request: vi.fn() } as unknown as ServerContext["client"],
     discovery: {} as ServerContext["discovery"],
     ...extra,
-  } as ServerContext;
+  };
 }
 
 describe("unifi_raw_request", () => {

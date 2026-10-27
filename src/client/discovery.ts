@@ -82,7 +82,7 @@ export class Discovery {
         "GET",
         `/v1/hosts/${encodeURIComponent(c)}`,
       );
-      console = (res.data as { data?: Host })?.data ?? (res.data as Host);
+      console = res.data?.data ?? (res.data as Host);
     } catch {
       // ignore
     }

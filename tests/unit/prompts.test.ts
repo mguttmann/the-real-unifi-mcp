@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { registerAuditFirewallPrompt } from "../../src/prompts/auditFirewall.js";
 import { registerNetworkHealthPrompt } from "../../src/prompts/networkHealth.js";
 import { registerAdoptionStatusPrompt } from "../../src/prompts/adoptionStatus.js";

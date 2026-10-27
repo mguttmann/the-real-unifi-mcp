@@ -97,7 +97,7 @@ function miniSpec(extra: Record<string, unknown> = {}): OpenApiDoc {
       "/v1/hosts": { get: { operationId: "listHosts", summary: "List Hosts" } },
       ...extra,
     },
-  } as OpenApiDoc;
+  };
 }
 
 describe("runCodegen swaps the output only on full success (N-44)", () => {

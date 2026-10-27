@@ -4,6 +4,7 @@ import { schemaToZodSource } from "../../src/codegen/schemaFromDoc.js";
 
 /** Evaluates emitted zod source, as the generated tool files do. */
 function compile(source: string): z.ZodType {
+  // eslint-disable-next-line @typescript-eslint/no-implied-eval -- evaluates emitted source on purpose
   return new Function("z", `return ${source}`)(z) as z.ZodType;
 }
 
@@ -52,9 +53,7 @@ describe("schemaToZodSource", () => {
     expect(schema.safeParse("x").success).toBe(false);
   });
   it("falls back to z.unknown() for unparseable", () => {
-    expect(schemaToZodSource({ type: "weird-type" } as unknown as Record<string, unknown>)).toBe(
-      "z.unknown()",
-    );
+    expect(schemaToZodSource({ type: "weird-type" })).toBe("z.unknown()");
   });
   it("keeps a $ref without component schemas as z.unknown() (param schemas of 0.2.1)", () => {
     expect(schemaToZodSource({ $ref: "#/components/schemas/FilterExpression" })).toBe(

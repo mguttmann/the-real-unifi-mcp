@@ -7,7 +7,7 @@ function emit(endpoint: Partial<EndpointSpec>, extra: Record<string, unknown> = 
     toolName: "unifi_gen_creatething",
     surface: "network",
     docPath: "network/v11/creatething",
-    endpoint: { path: "/v1/sites/{siteId}/things", method: "POST", ...endpoint } as EndpointSpec,
+    endpoint: { path: "/v1/sites/{siteId}/things", method: "POST", ...endpoint },
     refs: {},
     ...extra,
   });

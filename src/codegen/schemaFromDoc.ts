@@ -73,7 +73,7 @@ function mergeAllOf(schema: DocSchema, ctx: Ctx, seen: string[]): DocSchema {
       return;
     }
     if (Array.isArray(part.allOf)) for (const p of part.allOf as DocSchema[]) add(p, path);
-    if (part.properties) Object.assign(merged.properties, part.properties as object);
+    if (part.properties) Object.assign(merged.properties, part.properties);
     if (Array.isArray(part.required)) merged.required.push(...(part.required as string[]));
   };
   add(schema, seen);
@@ -115,7 +115,7 @@ function toZodInner(schema: DocSchema, ctx: Ctx, skipDiscriminator: boolean): st
       // Params: only inline parts, as 0.2.1 did.
       const merged: DocSchema = { type: "object", properties: {}, required: [] };
       for (const part of schema.allOf as DocSchema[]) {
-        if (part.properties) Object.assign(merged.properties as object, part.properties as object);
+        if (part.properties) Object.assign(merged.properties as object, part.properties);
         if (Array.isArray(part.required))
           (merged.required as string[]).push(...(part.required as string[]));
       }
@@ -128,7 +128,7 @@ function toZodInner(schema: DocSchema, ctx: Ctx, skipDiscriminator: boolean): st
 
   const t = schema.type;
   if (typeof schema.enum !== "undefined" && Array.isArray(schema.enum)) {
-    const vals = (schema.enum as unknown[]).filter((v) => typeof v === "string") as string[];
+    const vals = (schema.enum as unknown[]).filter((v): v is string => typeof v === "string");
     if (vals.length) return `z.enum([${vals.map((v) => JSON.stringify(v)).join(",")}])`;
   }
 

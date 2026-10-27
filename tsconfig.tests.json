@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "scripts/**/*.mjs",
+    "vitest.config.ts",
+    "vitest.stdio.config.ts",
+    "vitest.integration.config.ts",
+    "eslint.config.js"
+  ],
+  "exclude": ["node_modules", "dist", "coverage"]
+}

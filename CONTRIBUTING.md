@@ -26,9 +26,9 @@ npm run build
 | `npm run codegen` | Download the vendor OpenAPI docs and regenerate `src/tools/generated/` (`-- --offline`: from the committed docs; see "Auto-generated tool" below) |
 | `npm run inspector` | Launch MCP Inspector |
 | `npm run build:mcpb` | Build the MCPB bundle and SBOMs into `release/` (validates the manifest; releases: [docs/RELEASING.md](./docs/RELEASING.md)) |
-| `npm run lint` / `lint:fix` | ESLint |
+| `npm run lint` / `lint:fix` | ESLint with type information over the whole repository (`src/`, `tests/`, `scripts/`, config files) |
 | `npm run format` / `format:check` | Prettier over `src/` and `tests/` (CI runs `format:check`) |
-| `npm run typecheck` | tsc --noEmit |
+| `npm run typecheck` | `tsc --noEmit` over `src/`, then `tsconfig.tests.json` over `tests/`, `scripts/` and the config files |
 
 ## Workflow
 

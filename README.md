@@ -249,8 +249,8 @@ npm run test:integration     # live read-only smoke against api.ui.com (only wit
 npm run codegen              # download the vendor OpenAPI docs and regenerate src/tools/generated/ (see CONTRIBUTING.md first)
 npm run inspector            # MCP Inspector
 npm run build:mcpb           # build MCPB bundle + SBOMs into release/
-npm run lint                 # ESLint
-npm run typecheck            # tsc --noEmit
+npm run lint                 # ESLint (type-aware, src, tests, scripts)
+npm run typecheck            # tsc --noEmit (src), then tsconfig.tests.json (tests, scripts)
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full workflow.

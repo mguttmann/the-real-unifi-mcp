@@ -50,6 +50,8 @@ function sleepFor(
     const done = (err?: unknown) => {
       signal?.removeEventListener("abort", onAbort);
       if (err === undefined) resolve();
+      // The injected sleep's own rejection reason is passed through unchanged.
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       else reject(err);
     };
     signal?.addEventListener("abort", onAbort, { once: true });

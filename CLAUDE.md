@@ -6,8 +6,8 @@ Rules for coding agents in this repository. Human contributors: see CONTRIBUTING
 
 ```bash
 npm ci                    # install from the lockfile
-npm run lint              # ESLint (src)
-npm run typecheck         # tsc --noEmit
+npm run lint              # ESLint with type information (src, tests, scripts)
+npm run typecheck         # tsc --noEmit over src, then tests and scripts (tsconfig.tests.json)
 npm run format:check      # Prettier (src, tests; CI gate)
 npm run test:unit         # unit tests, offline
 npm run build             # prebuild runs lint + typecheck + unit tests, then tsc

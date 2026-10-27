@@ -16,7 +16,7 @@ const manifest = JSON.parse(read("mcpb/manifest.json")) as {
 };
 
 /** ">=22.12" / ">=22.12.0" -> [22, 12, 0]. */
-function floor(range: string | undefined): number[] {
+function floor(range: string | undefined): [number, number, number] {
   const m = /^>=\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?$/.exec(range ?? "");
   if (!m) throw new Error(`not a plain >= range: ${String(range)}`);
   return [Number(m[1]), Number(m[2] ?? 0), Number(m[3] ?? 0)];

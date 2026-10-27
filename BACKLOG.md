@@ -12,7 +12,6 @@ The ids (N-...) come from a code audit of 2026-10-27; code comments that name an
 
 ## Build, CI and release
 
-- **N-16, N-61** Tests, `scripts/smoke-stdio.mjs` and `tests/contract/liveTools.ts` are not type-checked (`tsc` covers `src/` only) and ESLint runs on `src/` without type information. Fix: a tests tsconfig and type-aware ESLint in CI.
 - **N-19** `npm run build` runs lint and unit tests through `prebuild`, so every source build needs the dev dependencies. Fix: a separate `check` script for CI and a plain `tsc` build, coordinated with downstream consumers that build from source.
 - **N-53** No secret scan in CI. Fix: a gitleaks job over the full history.
 - **N-72** The CI floor job runs Node 22.12.0 with its bundled npm; `npm ci` with that npm is proven only by CI runs.
