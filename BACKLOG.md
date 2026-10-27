@@ -15,3 +15,4 @@ Every item of the 2026-10-27 audit is closed in 0.3.0 or dropped with the reason
 ## Release 0.3.0 follow-ups
 
 - **`tools/list` size headroom** `tests/unit/toolsListSize.test.ts` caps the full list at 120,000 bytes; 0.3.0 uses about 116,000. The next codegen update with new vendor fields may turn the test red. Then decide whether to raise the cap (and name it in the CHANGELOG) or compact further.
+- **Body-read abort tests** (review of 4422141): the stalled-body test uses `body: null`, so the `res.body.cancel()` branch of `readBody` in `src/client/unifiClient.ts` is not exercised, and no test covers a caller cancel while the body is being read (`tests/unit/clientQueryCancel.test.ts` only cancels a pending fetch). A non-Error rejection of `text()` is now wrapped in `Error`; real fetch never does that.
