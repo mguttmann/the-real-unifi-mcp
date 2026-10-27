@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0] - Unreleased
+
+### Behaviour changes for callers
+- dotenv 18 (was 16.6.1): the server still reads a `.env` from its working directory and fills only unset variables (`DOTENV_CONFIG_PATH`, `DOTENV_CONFIG_ENCODING`, `DOTENV_CONFIG_OVERRIDE` and their new aliases `DOTENV_PATH`, `DOTENV_ENCODING`, `DOTENV_OVERRIDE` still apply). No longer read: `.env.vault` files and the `dotenv_config_*=` command-line options. dotenv now never prints: 0.2.1 wrote dotenv log lines to stdout, which broke the stdio protocol, when `DOTENV_CONFIG_QUIET=false` or `DOTENV_CONFIG_DEBUG=true` was set; `DOTENV_QUIET`, `DOTENV_DEBUG` and the `DOTENV_CONFIG_*` switches no longer have an effect on output (`tests/stdio/dotenv.test.ts`). BACKLOG N-58 is closed with the behaviour kept: dropping dotenv would stop npm users' `.env` files from working; SECURITY.md now states that a `.env` in the working directory is read.
+
+### Changed
+- Dev dependencies: vitest and `@vitest/coverage-v8` 5.0.5 (were 4.1.12; Dependabot #43 and #44, taken together because coverage-v8 pins vitest exactly). Dependabot #45 is dotenv 18 above. `engines` stays `node >= 22.12`.
+
 ## [0.2.1] - Unreleased
 
 First npm release of the 0.2 line: packaging, publication files and a few safety fixes. Tool names, count, required params, property names, defaults and annotations are unchanged (`tests/contract/tools-contract.json`).

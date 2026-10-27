@@ -22,7 +22,7 @@ npm run build
 | `npm run test:unit` | Unit tests (offline; what `prebuild` runs) |
 | `npm test` | Unit tests plus the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is set (unset it to stay offline) |
 | `npm run test:integration` | Live read-only smoke (needs UNIFI_API_KEY) |
-| `npm run test:stdio` | Starts the built `dist/index.js` over stdio (dummy key, unreachable API base) and checks every supported MCP protocol revision; run after `npm run build` |
+| `npm run test:stdio` | Starts the built `dist/index.js` over stdio (dummy key, unreachable API base) and checks every supported MCP protocol revision and that loading `.env` writes nothing to stdout; run after `npm run build` |
 | `npm run codegen` | Regenerate `src/tools/generated/` from the live UniFi docs (see "Auto-generated tool" below) |
 | `npm run inspector` | Launch MCP Inspector |
 | `npm run build:mcpb` | Build the MCPB bundle and SBOMs into `release/` (validates the manifest; releases: [docs/RELEASING.md](./docs/RELEASING.md)) |

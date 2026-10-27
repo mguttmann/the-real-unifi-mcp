@@ -39,7 +39,8 @@ jobs:
       # Same command downstream consumers build with (prebuild: lint + typecheck + unit tests, then tsc).
       - run: npm run build
       # Starts dist/index.js over stdio and checks initialize with the 2024-11-05
-      # to 2025-11-25 revisions and a client pinned to 2026-07-28 (dummy key,
+      # to 2025-11-25 revisions and a client pinned to 2026-07-28, and that a
+      # `.env` is loaded without any dotenv output on stdout (dummy key,
       # unreachable API base).
       - run: npm run test:stdio
       - run: npm audit --omit=dev --audit-level=high

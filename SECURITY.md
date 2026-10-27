@@ -41,6 +41,7 @@ The server runs as a local stdio process next to one MCP client (or behind an MC
 The UniFi Site Manager API key controls your entire network; treat it as a production credential:
 
 - Never commit it. `.env` is gitignored; use it for local key storage.
+- On startup the server reads a `.env` file from its current working directory and fills only variables that are not already set (dotenv). Start it from a directory whose `.env` you trust, or pass the variables directly (client `env`, `node --env-file=...`). dotenv never writes to stdout, whatever `DOTENV_QUIET`, `DOTENV_DEBUG` or the `DOTENV_CONFIG_*` variables say, so it cannot corrupt the stdio protocol.
 - Never paste it into a chat that may be logged or summarised.
 - Rotate the key in the UniFi Site Manager console if it has ever been exposed.
 - This MCP server redacts known secret patterns from its own log output, but external tooling (process lists, debuggers, container logs) may still capture environment variables.

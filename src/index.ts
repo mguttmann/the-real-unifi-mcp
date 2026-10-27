@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import "dotenv/config";
+import "./loadEnv.js";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { buildServer, createContext } from "./server.js";
 import { formatFatal } from "./utils/logger.js";
