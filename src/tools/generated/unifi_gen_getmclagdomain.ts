@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getmclagdomain. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getmclagdomain. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getmclagdomain",
     {
       title: "unifi_gen_getmclagdomain",
-      description: "Get MC-LAG Domain - generated from developer.ui.com/network/v10.3.58/getmclagdomain",
+      description: "Get MC-LAG Domain - generated from developer.ui.com/network/v11.0.97/getmclagdomain",
       inputSchema: z.object({mcLagDomainId: z.string().guid()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

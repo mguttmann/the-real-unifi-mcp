@@ -12,15 +12,15 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import type { Tool } from "@modelcontextprotocol/server";
 import { connectInProcess, listLiveTools, OFFLINE_CONFIG } from "../contract/liveTools.js";
 
-const FIXTURE = fileURLToPath(new URL("../fixtures/rsc/getinfo.txt", import.meta.url));
+const FIXTURE = fileURLToPath(
+  new URL("../fixtures/openapi/network_v11.0.97.json", import.meta.url),
+);
 const PREFIX = `/v1/connector/consoles/${OFFLINE_CONFIG.consoleIdOverride}/proxy/network/integration`;
 const SITE = OFFLINE_CONFIG.networkSiteIdOverride as string;
 
-/** Path templates of the vendor Network API (fixture v10.3.58), e.g. `/v1/sites/{siteId}/devices`. */
+/** Path templates of the vendor Network API (OpenAPI v11.0.97), e.g. `/v1/sites/{siteId}/devices`. */
 function vendorTemplates(): string[] {
-  const raw = readFileSync(FIXTURE, "utf8").match(/\/v1\/[A-Za-z0-9/{}_-]*/g) ?? [];
-  // Keep only templates (drop example URLs such as `/v1/sites/123`).
-  return [...new Set(raw)].filter((p) => !/\/\d+(\/|$)/.test(p));
+  return Object.keys((JSON.parse(readFileSync(FIXTURE, "utf8")) as { paths: object }).paths);
 }
 
 function templateRegex(t: string): RegExp {

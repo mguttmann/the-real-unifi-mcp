@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getfirewallpolicy. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getfirewallpolicy. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getfirewallpolicy",
     {
       title: "unifi_gen_getfirewallpolicy",
-      description: "Get Firewall Policy - generated from developer.ui.com/network/v10.3.58/getfirewallpolicy",
+      description: "Get Firewall Policy - generated from developer.ui.com/network/v11.0.97/getfirewallpolicy",
       inputSchema: z.object({firewallPolicyId: z.string().guid()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

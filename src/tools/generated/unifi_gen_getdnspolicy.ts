@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getdnspolicy. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getdnspolicy. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getdnspolicy",
     {
       title: "unifi_gen_getdnspolicy",
-      description: "Get DNS Policy - generated from developer.ui.com/network/v10.3.58/getdnspolicy",
+      description: "Get DNS Policy - generated from developer.ui.com/network/v11.0.97/getdnspolicy",
       inputSchema: z.object({dnsPolicyId: z.string().guid()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

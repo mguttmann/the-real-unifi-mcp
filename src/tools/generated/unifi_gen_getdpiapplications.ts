@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getdpiapplications. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getdpiapplications. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getdpiapplications",
     {
       title: "unifi_gen_getdpiapplications",
-      description: "List DPI Applications - generated from developer.ui.com/network/v10.3.58/getdpiapplications",
+      description: "List DPI Applications - generated from developer.ui.com/network/v11.0.97/getdpiapplications",
       inputSchema: z.object({offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional(), filter: z.string().optional()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

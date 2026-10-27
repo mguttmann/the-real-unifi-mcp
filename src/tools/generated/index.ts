@@ -2,11 +2,13 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
 import { register as register_unifi_gen_listhosts } from "./unifi_gen_listhosts.js";
+import { register as register_unifi_gen_gethostbyid } from "./unifi_gen_gethostbyid.js";
 import { register as register_unifi_gen_listsites } from "./unifi_gen_listsites.js";
 import { register as register_unifi_gen_listdevices } from "./unifi_gen_listdevices.js";
 import { register as register_unifi_gen_getispmetrics } from "./unifi_gen_getispmetrics.js";
 import { register as register_unifi_gen_queryispmetrics } from "./unifi_gen_queryispmetrics.js";
 import { register as register_unifi_gen_listsdwanconfigs } from "./unifi_gen_listsdwanconfigs.js";
+import { register as register_unifi_gen_getsdwanconfigbyid } from "./unifi_gen_getsdwanconfigbyid.js";
 import { register as register_unifi_gen_getsdwanconfigstatus } from "./unifi_gen_getsdwanconfigstatus.js";
 import { register as register_unifi_gen_getinfo } from "./unifi_gen_getinfo.js";
 import { register as register_unifi_gen_getsiteoverviewpage } from "./unifi_gen_getsiteoverviewpage.js";
@@ -84,11 +86,13 @@ import { register as register_unifi_gen_getcountries } from "./unifi_gen_getcoun
 
 export function registerGeneratedTools(server: McpServer, ctx: ServerContext): void {
   register_unifi_gen_listhosts(server, ctx);
+  register_unifi_gen_gethostbyid(server, ctx);
   register_unifi_gen_listsites(server, ctx);
   register_unifi_gen_listdevices(server, ctx);
   register_unifi_gen_getispmetrics(server, ctx);
   register_unifi_gen_queryispmetrics(server, ctx);
   register_unifi_gen_listsdwanconfigs(server, ctx);
+  register_unifi_gen_getsdwanconfigbyid(server, ctx);
   register_unifi_gen_getsdwanconfigstatus(server, ctx);
   register_unifi_gen_getinfo(server, ctx);
   register_unifi_gen_getsiteoverviewpage(server, ctx);

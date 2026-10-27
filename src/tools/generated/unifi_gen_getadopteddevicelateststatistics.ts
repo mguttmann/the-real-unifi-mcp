@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getadopteddevicelateststatistics. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getadopteddevicelateststatistics. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getadopteddevicelateststatistics",
     {
       title: "unifi_gen_getadopteddevicelateststatistics",
-      description: "Get Latest Adopted Device Statistics - generated from developer.ui.com/network/v10.3.58/getadopteddevicelateststatistics",
+      description: "Get Latest Adopted Device Statistics - generated from developer.ui.com/network/v11.0.97/getadopteddevicelateststatistics",
       inputSchema: z.object({deviceId: z.string().guid()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

@@ -9,12 +9,12 @@
 
 **Unofficial project.** This server is not affiliated with or endorsed by Ubiquiti Inc. UniFi and Ubiquiti are trademarks of Ubiquiti Inc., used here only to name the API this software works with; see [NOTICE](./NOTICE).
 
-Point it at a UniFi Site Manager API key and your MCP client can list consoles, inspect devices and clients, and manage networks, WiFi, firewall policies, and more, through 167 tools covering the documented API surface.
+Point it at a UniFi Site Manager API key and your MCP client can list consoles, inspect devices and clients, and manage networks, WiFi, firewall policies, and more, through 169 tools covering the documented API surface.
 
 ## Features
 
-- **167 tools** across both UniFi APIs, read *and* write.
-- **Three-layer tool design:** 86 hand-wrappers (10 Site Manager + 76 Network) + 80 auto-generated tools, one per documented endpoint + 1 raw-request escape hatch (86 + 80 + 1 = 167). The tool contract is pinned by `tests/contract/tools-contract.json`.
+- **169 tools** across both UniFi APIs, read *and* write.
+- **Three-layer tool design:** 86 hand-wrappers (10 Site Manager + 76 Network) + 82 auto-generated tools, one per documented endpoint + 1 raw-request escape hatch (86 + 82 + 1 = 169). The tool contract is pinned by `tests/contract/tools-contract.json`.
 - **MCP resources** and **MCP prompts** for ready-made workflows.
 - **Lazy ID discovery** (consoleId / Network siteId / Site Manager siteId), cached for the process lifetime.
 - **Write guard on by default:** `UNIFI_CONFIRM_WRITES` (default `true`) turns destructive tools into preview-then-confirm; set it to `false` to execute writes directly. The model itself can send `confirm: "YES"`, so this is a speed bump, not a human approval (see [SECURITY.md](./SECURITY.md)).
@@ -153,9 +153,9 @@ Per-console tools via the Cloud Connector proxy, grouped by resource:
 - **Switching (6):** `unifi_net_list_switch_stacks`, `unifi_net_get_switch_stack`, `unifi_net_list_mclag_domains`, `unifi_net_get_mclag_domain`, `unifi_net_list_lags`, `unifi_net_get_lag`
 - **Supporting (8):** `unifi_net_list_wans`, `unifi_net_list_site_to_site_vpn`, `unifi_net_list_vpn_servers`, `unifi_net_list_radius_profiles`, `unifi_net_list_device_tags`, `unifi_net_list_dpi_application_categories`, `unifi_net_list_dpi_applications`, `unifi_net_list_countries`
 
-### Auto-generated tools (80)
+### Auto-generated tools (82)
 
-Named `unifi_gen_<docpage>` (e.g. `unifi_gen_createfirewallpolicy`, `unifi_gen_getinfo`). One tool per documented UniFi API endpoint. siteId is auto-resolved from discovery; callers do not need to pass it. See `src/tools/generated/` for the full inventory.
+Named `unifi_gen_<operationid>` (the vendor operationId in lower case, e.g. `unifi_gen_createfirewallpolicy`, `unifi_gen_getinfo`). One tool per documented UniFi API endpoint (Site Manager API v1.0.0, Network API v11.0.97), except the Site Manager `connector*` proxy endpoints, which `unifi_raw_request` covers. siteId is auto-resolved from discovery; callers do not need to pass it. Write tools document the vendor request body in their `body` schema, but accept and send any `body` value unchanged, as in 0.2.1. See `src/tools/generated/` for the full inventory.
 
 ### Escape hatch (1)
 
@@ -234,7 +234,7 @@ npm run dev                  # tsx watch
 npm run test:unit            # unit tests (offline; what prebuild runs)
 npm test                     # unit tests + the live smoke, which calls api.ui.com if UNIFI_API_KEY is set
 npm run test:integration     # live read-only smoke only (needs UNIFI_API_KEY)
-npm run codegen              # regenerate src/tools/generated/ from the live UniFi docs (see CONTRIBUTING.md first)
+npm run codegen              # download the vendor OpenAPI docs and regenerate src/tools/generated/ (see CONTRIBUTING.md first)
 npm run inspector            # MCP Inspector
 npm run build:mcpb           # build MCPB bundle + SBOMs into release/
 npm run lint                 # ESLint
@@ -245,13 +245,13 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full workflow.
 
 ## Architecture
 
-**Three-layer tool design.** Hand-wrappers (`unifi_sm_*`, `unifi_net_*`) provide ergonomic, well-documented entry points for common operations with auto-resolved IDs and named arguments. The 80 auto-generated tools (`unifi_gen_*`) cover the endpoints listed in the codegen catalog (`src/codegen/catalog.ts`), with input schemas derived from the upstream UniFi docs. `unifi_raw_request` is the escape hatch for anything not covered by the first two layers.
+**Three-layer tool design.** Hand-wrappers (`unifi_sm_*`, `unifi_net_*`) provide ergonomic, well-documented entry points for common operations with auto-resolved IDs and named arguments. The 82 auto-generated tools (`unifi_gen_*`) cover the endpoints listed in the codegen catalog (`src/codegen/catalog.ts`), with input schemas derived from the upstream UniFi docs. `unifi_raw_request` is the escape hatch for anything not covered by the first two layers.
 
 **Lazy ID discovery.** On first use, the server calls `GET /v1/hosts` to find the owned console, then `GET /v1/sites` (Network and Site Manager) to discover both siteIds. Results are cached for the process lifetime. Concurrent callers share a single in-flight request via stored promises. All three IDs can be pinned via environment variables for multi-console / multi-site accounts.
 
 **Retries.** A request is tried at most 3 times. `429` is retried on every method, honouring `Retry-After` (capped at 60 s), because the server rejected the request. `5xx` and dropped connections are retried only for `GET`; a `POST`, `PUT`, `PATCH` or `DELETE` is resent after a network error only when the connection was never established (for example `ECONNREFUSED`, `ENOTFOUND`), so a write that may already have reached UniFi is never duplicated. Redirects are refused (the API key never leaves the configured host) and timeouts are not retried. Network failures are returned as an error with the cause and logged at `warn`.
 
-**Codegen pipeline.** A separate build step (`npm run codegen`) fetches each documented endpoint page from `developer.ui.com` using the `RSC: 1` header, runs a balanced-brace parser to extract the `"endpoint":{...}` block, converts the OpenAPI-style schema into a Zod expression, and emits one `.ts` file per endpoint. The output lives in `src/tools/generated/` and is committed to git so builds work offline.
+**Codegen pipeline.** A separate build step (`npm run codegen`) downloads the vendor OpenAPI documents (`developer.ui.com/<api>/<version>/openapi.json`) into `tests/fixtures/openapi/`, converts each catalogued operation into a Zod schema and emits one `.ts` file per endpoint. It writes nothing unless every catalog entry succeeds, and it fails on a vendor operation that is neither catalogued nor excluded. `npm run codegen -- --offline` regenerates from the committed documents; a unit test checks that the committed output equals that byte for byte. The output lives in `src/tools/generated/` and is committed to git so builds work offline.
 
 ## Security
 
@@ -281,4 +281,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-MIT, see [LICENSE](./LICENSE). Test fixtures excerpted from Ubiquiti's developer documentation are not covered by the MIT License; see [NOTICE](./NOTICE).
+MIT, see [LICENSE](./LICENSE). The vendor OpenAPI documents in `tests/fixtures/openapi/` (Ubiquiti's developer documentation) are not covered by the MIT License; see [NOTICE](./NOTICE).

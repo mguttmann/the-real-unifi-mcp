@@ -142,7 +142,7 @@ describe("listing and legal files", () => {
     const notice = read("NOTICE");
     expect(notice).toMatch(/not\s+affiliated with/);
     expect(notice).toContain("trademark");
-    expect(notice).toContain("tests/fixtures/rsc/");
+    expect(notice).toContain("tests/fixtures/openapi/");
     expect(notice).toContain("developer.ui.com");
   });
 

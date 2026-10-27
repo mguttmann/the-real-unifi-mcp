@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/creatednspolicy. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/creatednspolicy. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,8 +11,8 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_creatednspolicy",
     {
       title: "unifi_gen_creatednspolicy",
-      description: "Create DNS Policy - generated from developer.ui.com/network/v10.3.58/creatednspolicy",
-      inputSchema: z.object({body: z.unknown().optional(), ...confirmShape}),
+      description: "Create DNS Policy - generated from developer.ui.com/network/v11.0.97/creatednspolicy",
+      inputSchema: z.object({body: z.union([z.union([z.looseObject({domain: z.string().min(1).max(127),ipv6Address: z.string(),ttlSeconds: z.number().int().min(0).max(86400).describe("Time to live in seconds."),type: z.literal("AAAA_RECORD").optional()}),z.looseObject({domain: z.string().min(1).max(127),ipv4Address: z.string(),ttlSeconds: z.number().int().min(0).max(86400).describe("Time to live in seconds."),type: z.literal("A_RECORD").optional()}),z.looseObject({domain: z.string().min(1).max(127),targetDomain: z.string().min(1).max(127),ttlSeconds: z.number().int().min(0).max(604800).describe("Time to live in seconds."),type: z.literal("CNAME_RECORD").optional()}),z.looseObject({domain: z.string().min(1).max(127),ipAddress: z.string().describe("IP address of the DNS Server that the DNS query is forwarded to."),type: z.literal("FORWARD_DOMAIN").optional()}),z.looseObject({domain: z.string().min(1).max(127),mailServerDomain: z.string().min(1).max(127),priority: z.number().int().min(0).max(65535).describe("Priority. A lower number is preferred."),type: z.literal("MX_RECORD").optional()}),z.looseObject({domain: z.string().min(1).max(127),port: z.number().int().min(0).max(65535),priority: z.number().int().min(0).max(65535).describe("Priority. A lower number is preferred."),protocol: z.string().describe("Protocol used by the service."),serverDomain: z.string().min(1).max(127).describe("Domain of the server that is running the service."),service: z.string().describe("Service associated with this SRV record."),weight: z.number().int().min(0).max(65535).describe("Weight. A relative value applicable for records with the same priority. A lower number is preferred."),type: z.literal("SRV_RECORD").optional()}),z.looseObject({domain: z.string().min(1).max(127),text: z.string().min(1).max(1024).describe("The text value associated with this TXT DNS record. Text can contain up to four 255-character strings. Lines containing commas must be enclosed in double quotes (\")."),type: z.literal("TXT_RECORD").optional()})]), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {

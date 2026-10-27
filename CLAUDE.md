@@ -18,7 +18,7 @@ node scripts/smoke-stdio.mjs   # after a build: lists the tools of dist/ over st
 
 ## No live API calls
 
-- Never call a UniFi console or api.ui.com, and never run `npm run codegen` (it fetches developer.ui.com and rewrites `src/tools/generated/`) unless the owner asks for it.
+- Never call a UniFi console or api.ui.com, and never run `npm run codegen` (it downloads the vendor OpenAPI documents from developer.ui.com into `tests/fixtures/openapi/` and rewrites `src/tools/generated/`) unless the owner asks for it. `npm run codegen -- --offline` regenerates from the committed documents without network and is always allowed.
 - Every server you start (smoke, inspector, probes) gets a dummy key and `UNIFI_API_BASE=http://127.0.0.1:1`.
 - Tests stub `fetch`; never run write tools against a real network.
 

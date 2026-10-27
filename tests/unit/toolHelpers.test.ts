@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { errorResult, jsonResult, redactBody } from "../../src/tools/helpers.js";
+import {
+  errorResult,
+  jsonResult,
+  redactBody,
+  removedUpstreamResult,
+} from "../../src/tools/helpers.js";
 
 describe("jsonResult", () => {
   it("wraps data in MCP content text", () => {
@@ -84,5 +89,18 @@ describe("redactBody: WiFi and other secrets (N-22)", () => {
     expect(text).toContain("WPA2_PERSONAL");
     expect(text).toContain('"presharedKeyNetworkIds":["n1"]');
     expect(r.name).toBe("Office");
+  });
+});
+
+describe("removedUpstreamResult", () => {
+  it("returns an error result that names the tool, the last vendor version and the code", () => {
+    const r = removedUpstreamResult("unifi_gen_old", "v10.3.58");
+    expect(r.isError).toBe(true);
+    const payload = JSON.parse((r.content[0] as { text: string }).text) as {
+      error: string;
+      details: unknown;
+    };
+    expect(payload.error).toMatch(/unifi_gen_old.*removed upstream.*v10\.3\.58/i);
+    expect(payload.details).toEqual({ statusCode: 404, code: "REMOVED_UPSTREAM" });
   });
 });

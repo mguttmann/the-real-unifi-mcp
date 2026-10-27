@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getwansoverviewpage. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getwansoverviewpage. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getwansoverviewpage",
     {
       title: "unifi_gen_getwansoverviewpage",
-      description: "List WAN Interfaces - generated from developer.ui.com/network/v10.3.58/getwansoverviewpage",
+      description: "List WAN Interfaces - generated from developer.ui.com/network/v11.0.97/getwansoverviewpage",
       inputSchema: z.object({offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

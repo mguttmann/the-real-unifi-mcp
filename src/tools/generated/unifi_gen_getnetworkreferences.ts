@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getnetworkreferences. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getnetworkreferences. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getnetworkreferences",
     {
       title: "unifi_gen_getnetworkreferences",
-      description: "Get Network References - generated from developer.ui.com/network/v10.3.58/getnetworkreferences",
+      description: "Get Network References - generated from developer.ui.com/network/v11.0.97/getnetworkreferences",
       inputSchema: z.object({networkId: z.string().guid()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/updatefirewallpolicyordering. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/updatefirewallpolicyordering. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,8 +11,8 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_updatefirewallpolicyordering",
     {
       title: "unifi_gen_updatefirewallpolicyordering",
-      description: "Reorder User-Defined Firewall Policies - generated from developer.ui.com/network/v10.3.58/updatefirewallpolicyordering",
-      inputSchema: z.object({sourceFirewallZoneId: z.string().guid(), destinationFirewallZoneId: z.string().guid(), body: z.unknown().optional(), ...confirmShape}),
+      description: "Reorder User-Defined Firewall Policies - generated from developer.ui.com/network/v11.0.97/updatefirewallpolicyordering",
+      inputSchema: z.object({sourceFirewallZoneId: z.string().guid(), destinationFirewallZoneId: z.string().guid(), body: z.union([z.looseObject({orderedFirewallPolicyIds: z.looseObject({afterSystemDefined: z.array(z.string().guid()),beforeSystemDefined: z.array(z.string().guid())})}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },
     async (a) => {

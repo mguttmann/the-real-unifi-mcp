@@ -1,27 +1,75 @@
 export type Surface = "siteManager" | "network";
 
-export interface CatalogEntry {
-  surface: Surface;
-  docPath: string; // path appended to https://developer.ui.com/
-  toolName: string; // e.g. unifi_gen_createfirewallpolicy
+/** Vendor doc version each surface is generated from (N-38). */
+export const SPEC_VERSIONS: Record<Surface, string> = {
+  siteManager: "v1.0.0",
+  network: "v11.0.97",
+};
+
+const DOC_DIR: Record<Surface, string> = { siteManager: "site-manager", network: "network" };
+
+/** Public vendor OpenAPI document of one surface version. */
+export function specUrl(surface: Surface, version: string): string {
+  return `https://developer.ui.com/${DOC_DIR[surface]}/${version}/openapi.json`;
 }
 
-const SITE_MANAGER_VERSION = "site-manager/v1.0.0";
-const NETWORK_VERSION = "network/v10.3.58";
+/** File name of that document in tests/fixtures/openapi/. */
+export function specFixtureName(surface: Surface, version: string): string {
+  return `${DOC_DIR[surface]}_${version}.json`;
+}
 
-// gethost and getsdwanconfig may not have parseable RSC docs at any given moment;
-// they are also covered by hand-wrappers (unifi_sm_get_host, unifi_sm_get_sdwan_config).
-// NOTE: connector catch-alls (connectorget/post/put/delete/patch) have no
-// dedicated doc pages. They are functionally accessible via unifi_raw_request.
+/**
+ * Vendor operations that deliberately get no generated tool (lowercased
+ * operationIds). The connector catch-alls proxy any console path; they are
+ * covered by unifi_raw_request, which checks the path.
+ */
+export const EXCLUDED_OPERATIONS: Record<Surface, string[]> = {
+  siteManager: [
+    "connectordelete",
+    "connectorget",
+    "connectorpatch",
+    "connectorpost",
+    "connectorput",
+  ],
+  network: [],
+};
+
+export interface CatalogEntry {
+  surface: Surface;
+  /** Lowercased vendor operationId, also the tool name suffix. */
+  slug: string;
+  /** Vendor doc version the tool is generated from. */
+  specVersion: string;
+  /** Path appended to https://developer.ui.com/ in the tool description. */
+  docPath: string;
+  toolName: string; // e.g. unifi_gen_createfirewallpolicy
+  /**
+   * Set when the vendor dropped the operation: the last doc version that has
+   * it. The tool stays registered, generated from that version's document
+   * (keep its file in tests/fixtures/openapi/), says so in its description
+   * and answers a 404 with a REMOVED_UPSTREAM error.
+   */
+  removedUpstream?: string;
+}
+
+/**
+ * Operations the vendor removed. Never delete a generated tool: pin it here to
+ * the last doc version that has it, e.g. `network: { someslug: "v10.3.58" }`.
+ */
+const REMOVED_UPSTREAM: Record<Surface, Record<string, string>> = {
+  siteManager: {},
+  network: {},
+};
+
 const SITE_MANAGER_PAGES = [
   "listhosts",
-  "gethost",
+  "gethostbyid",
   "listsites",
   "listdevices",
   "getispmetrics",
   "queryispmetrics",
   "listsdwanconfigs",
-  "getsdwanconfig",
+  "getsdwanconfigbyid",
   "getsdwanconfigstatus",
 ];
 
@@ -114,15 +162,22 @@ const NETWORK_PAGES = [
   "getcountries",
 ];
 
+function entry(surface: Surface, slug: string): CatalogEntry {
+  const removed = REMOVED_UPSTREAM[surface][slug];
+  const specVersion = removed ?? SPEC_VERSIONS[surface];
+  const e: CatalogEntry = {
+    surface,
+    slug,
+    specVersion,
+    docPath: `${DOC_DIR[surface]}/${specVersion}/${slug}`,
+    toolName: `unifi_gen_${slug}`,
+  };
+  if (removed) e.removedUpstream = removed;
+  return e;
+}
+
+/** The generated tools: one per entry, never renamed or dropped (consumer contract). */
 export const CATALOG: CatalogEntry[] = [
-  ...SITE_MANAGER_PAGES.map((p) => ({
-    surface: "siteManager" as Surface,
-    docPath: `${SITE_MANAGER_VERSION}/${p}`,
-    toolName: `unifi_gen_${p}`,
-  })),
-  ...NETWORK_PAGES.map((p) => ({
-    surface: "network" as Surface,
-    docPath: `${NETWORK_VERSION}/${p}`,
-    toolName: `unifi_gen_${p}`,
-  })),
+  ...SITE_MANAGER_PAGES.map((p) => entry("siteManager", p)),
+  ...NETWORK_PAGES.map((p) => entry("network", p)),
 ];

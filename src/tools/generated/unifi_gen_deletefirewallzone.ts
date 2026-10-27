@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/deletefirewallzone. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/deletefirewallzone. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_deletefirewallzone",
     {
       title: "unifi_gen_deletefirewallzone",
-      description: "Delete Custom Firewall Zone - generated from developer.ui.com/network/v10.3.58/deletefirewallzone",
+      description: "Delete Custom Firewall Zone - generated from developer.ui.com/network/v11.0.97/deletefirewallzone",
       inputSchema: z.object({firewallZoneId: z.string().guid(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     },

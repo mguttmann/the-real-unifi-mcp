@@ -1,5 +1,5 @@
 {
-  "toolCount": 167,
+  "toolCount": 169,
   "tools": [
     {
       "name": "unifi_gen_adoptdevice",
@@ -15,8 +15,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "934b6b87e3f3a6da",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "5a77c1d870c6f56c",
+      "inputSchemaSha256": "a4b157c46d51e4e6"
     },
     {
       "name": "unifi_gen_createaclrule",
@@ -32,8 +32,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "7f8fca8872237f83",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "8d56b21e7c520f66",
+      "inputSchemaSha256": "cb303d45b35da61e"
     },
     {
       "name": "unifi_gen_creatednspolicy",
@@ -49,8 +49,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "5b16f110f3467328",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "e61297267f691a33",
+      "inputSchemaSha256": "e0f850ccfa966074"
     },
     {
       "name": "unifi_gen_createfirewallpolicy",
@@ -66,8 +66,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "989c986c1279b629",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "1eab32bf7d30fca5",
+      "inputSchemaSha256": "c1ddfcb09dab07b5"
     },
     {
       "name": "unifi_gen_createfirewallzone",
@@ -83,8 +83,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "e64b776f298aef50",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "0616016c5ccb593f",
+      "inputSchemaSha256": "c3b1bc44ce09e1ef"
     },
     {
       "name": "unifi_gen_createnetwork",
@@ -100,8 +100,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "53707cad200abbcf",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "8ee2330851fd89ba",
+      "inputSchemaSha256": "5aa642d5ace50466"
     },
     {
       "name": "unifi_gen_createtrafficmatchinglist",
@@ -117,8 +117,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "79e399a6dc25b1a0",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "43d954ccd942e1cb",
+      "inputSchemaSha256": "faff2b3572176459"
     },
     {
       "name": "unifi_gen_createvouchers",
@@ -134,8 +134,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "337b469ec7f0df67",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "a31afcba68f09e5e",
+      "inputSchemaSha256": "d16d4b803615b0d1"
     },
     {
       "name": "unifi_gen_createwifibroadcast",
@@ -151,8 +151,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "8bec2603220e383c",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "f1fe55663ca8ba73",
+      "inputSchemaSha256": "de556d19bfb653b2"
     },
     {
       "name": "unifi_gen_deleteaclrule",
@@ -170,7 +170,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "dbe734c506b0400d",
+      "textSha256": "d784434c83a862d7",
       "inputSchemaSha256": "10e7a32e66be06ab"
     },
     {
@@ -189,7 +189,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "77f150eb85bea2f6",
+      "textSha256": "2a546146522d8d7b",
       "inputSchemaSha256": "63a12344d22958cb"
     },
     {
@@ -208,7 +208,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "9e85b60a1dca3dc7",
+      "textSha256": "42f9b1e3f469f302",
       "inputSchemaSha256": "b6a5ffd134c35f4b"
     },
     {
@@ -227,7 +227,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "5693cf8bf7348276",
+      "textSha256": "4f8c53a1c4f27761",
       "inputSchemaSha256": "4872c38982b3ca18"
     },
     {
@@ -247,7 +247,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "38855fb1ca95ec1f",
+      "textSha256": "6f5111b91035bd42",
       "inputSchemaSha256": "c83e7e3e99c66f08"
     },
     {
@@ -266,7 +266,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "8a3628f5f096b303",
+      "textSha256": "3f6c00d01f7ef35d",
       "inputSchemaSha256": "68fd4ed5f16b2b65"
     },
     {
@@ -285,7 +285,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "d3dd05ecf5343bf8",
+      "textSha256": "02059e96468a685a",
       "inputSchemaSha256": "cf3f89eb788a0885"
     },
     {
@@ -304,7 +304,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "4c6c372f3f50749b",
+      "textSha256": "bbdf188bb96d7281",
       "inputSchemaSha256": "0ed185a24db4d201"
     },
     {
@@ -324,7 +324,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "a2aeba521483822b",
+      "textSha256": "cced57e3cc54f67f",
       "inputSchemaSha256": "27c33b95952572ba"
     },
     {
@@ -344,8 +344,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "2abc7ffcd8f31949",
-      "inputSchemaSha256": "30398ea2c4fda44b"
+      "textSha256": "118c8645a41dcf90",
+      "inputSchemaSha256": "54a60e55a1de299f"
     },
     {
       "name": "unifi_gen_executeconnectedclientaction",
@@ -364,8 +364,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "bee0e4a56fa3953b",
-      "inputSchemaSha256": "d6932c18a0f6dd3b"
+      "textSha256": "064f96de04a55fbe",
+      "inputSchemaSha256": "aebaedc8d4d1fa65"
     },
     {
       "name": "unifi_gen_executeportaction",
@@ -386,8 +386,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "fd039beaa5bdec7c",
-      "inputSchemaSha256": "5a403587d1440bb0"
+      "textSha256": "ecccffbbfbc03d70",
+      "inputSchemaSha256": "360269e3a6d3c1e8"
     },
     {
       "name": "unifi_gen_getaclrule",
@@ -404,7 +404,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "a80a347d3ac15f6b",
+      "textSha256": "1c65431f30bd14fd",
       "inputSchemaSha256": "0979522fcac7116a"
     },
     {
@@ -418,7 +418,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "fdbaae3863515f98",
+      "textSha256": "09d51ff491da400f",
       "inputSchemaSha256": "93ab7499dc3c616f"
     },
     {
@@ -436,7 +436,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "efc7c737d33e0254",
+      "textSha256": "f8f61f0824e418c2",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -454,7 +454,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "6c1c5357a9ec69c3",
+      "textSha256": "19a24321340d33f7",
       "inputSchemaSha256": "e8888a22fa1a89cc"
     },
     {
@@ -472,7 +472,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "13602da6d566fa08",
+      "textSha256": "f357c4387671a0f1",
       "inputSchemaSha256": "e8888a22fa1a89cc"
     },
     {
@@ -490,7 +490,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "f6a3351b88b062e9",
+      "textSha256": "9cfe9b11dfeb1373",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -508,7 +508,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "e3a966dab28248d4",
+      "textSha256": "768ff30b4db3a5a7",
       "inputSchemaSha256": "0e64769d32bdc38d"
     },
     {
@@ -526,7 +526,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "60ac4e56ff0ad41e",
+      "textSha256": "acf8695522065938",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -544,7 +544,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "240f37dfadd37c12",
+      "textSha256": "654b291331b21108",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -562,7 +562,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "a8a08c212d61b3ca",
+      "textSha256": "87359937da9375b4",
       "inputSchemaSha256": "9d2de2f34fcd3dd2"
     },
     {
@@ -580,7 +580,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "38e990621a7fc8c8",
+      "textSha256": "1f55b9b6406d359a",
       "inputSchemaSha256": "30721976e75ab1c5"
     },
     {
@@ -598,7 +598,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "2ce01884eeb00601",
+      "textSha256": "b74bf38a91b3d433",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -616,7 +616,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "a7f40e72ad3fd3f3",
+      "textSha256": "5141e3e51c7755c2",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -634,7 +634,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "56b67cc933d99603",
+      "textSha256": "88a834fe89e0f8cc",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -652,7 +652,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "f7aec6489f02a3f4",
+      "textSha256": "a6972bf1a224f548",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -670,7 +670,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "ee988776805fbd17",
+      "textSha256": "44216cb4cdcca448",
       "inputSchemaSha256": "cf1530203446bc86"
     },
     {
@@ -690,7 +690,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "9b0d414e951e2813",
+      "textSha256": "c8ff71c0085b0502",
       "inputSchemaSha256": "052fbd7c5dd1ce18"
     },
     {
@@ -708,7 +708,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "ba157a8ed0e1cc5d",
+      "textSha256": "198f46ab4de326ae",
       "inputSchemaSha256": "d9f723d1498bb8b1"
     },
     {
@@ -726,8 +726,26 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "f1d4484e1615c60a",
+      "textSha256": "55e5db5914afe981",
       "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_gethostbyid",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "eb6e4d3ff632ad3a",
+      "inputSchemaSha256": "5dc9d545d7cb2a4d"
     },
     {
       "name": "unifi_gen_getinfo",
@@ -740,7 +758,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "c57e25eceec2e526",
+      "textSha256": "72e829acdaf46059",
       "inputSchemaSha256": "93ab7499dc3c616f"
     },
     {
@@ -779,7 +797,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "daa34e277868e4ca",
+      "textSha256": "ec4bb5ae1d7a4fa9",
       "inputSchemaSha256": "115872467409c606"
     },
     {
@@ -797,7 +815,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "2c4c2f3ee0083050",
+      "textSha256": "d04de2540f44a6a4",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -815,7 +833,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "860956e99ef445ba",
+      "textSha256": "34a2d46f5010e0f8",
       "inputSchemaSha256": "3edf3c377ddbf4c1"
     },
     {
@@ -833,7 +851,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "f77e7229444dd6f4",
+      "textSha256": "bd3c8c8bbe78bd6b",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -851,7 +869,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "2d55f9dae38a296e",
+      "textSha256": "ae7214a95f8d0569",
       "inputSchemaSha256": "93662d3c115325cb"
     },
     {
@@ -869,7 +887,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "a6dbe18aa652bc58",
+      "textSha256": "fa85ac371b8ff86f",
       "inputSchemaSha256": "93662d3c115325cb"
     },
     {
@@ -887,7 +905,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "704b5cf8c72d1f31",
+      "textSha256": "4708a0d872390e6e",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -905,7 +923,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "b85d60e2f0526e55",
+      "textSha256": "c9de6639e9255fb6",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -923,8 +941,26 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "91812305a265a1bd",
+      "textSha256": "81d215097b27c996",
       "inputSchemaSha256": "402bc30a8ab04d5b"
+    },
+    {
+      "name": "unifi_gen_getsdwanconfigbyid",
+      "required": [
+        "id"
+      ],
+      "properties": [
+        "id"
+      ],
+      "defaults": {},
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "textSha256": "6aac7769a66b468f",
+      "inputSchemaSha256": "31d3818b2a50d974"
     },
     {
       "name": "unifi_gen_getsdwanconfigstatus",
@@ -959,7 +995,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "3ae14b1a2d8b348c",
+      "textSha256": "3b83cc71c87903e9",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -977,7 +1013,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "a11d58b10ee63ea0",
+      "textSha256": "007673bcdc600d0f",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -995,7 +1031,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "6c032dc708eb73cc",
+      "textSha256": "9070ca700511b548",
       "inputSchemaSha256": "07be395707f7d671"
     },
     {
@@ -1013,7 +1049,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "5313c5b9d669f379",
+      "textSha256": "02445752d0e8d9b4",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -1031,7 +1067,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "327c7be13fa0d1d2",
+      "textSha256": "65a24159bb25ee94",
       "inputSchemaSha256": "9d2ad9807e2bcd7a"
     },
     {
@@ -1049,7 +1085,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "2b0ca1b0e419a969",
+      "textSha256": "7fbf45d3b9b7b30a",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -1067,7 +1103,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "7018a861c06e1b19",
+      "textSha256": "9562d3a346d44280",
       "inputSchemaSha256": "53be42dd4ea021bc"
     },
     {
@@ -1085,7 +1121,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "1117ace066b7453b",
+      "textSha256": "f452615a44c9187f",
       "inputSchemaSha256": "c7905fb93d78c175"
     },
     {
@@ -1103,7 +1139,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "2cd20089b0f8d3d3",
+      "textSha256": "b430b62f258b88c4",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -1120,7 +1156,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "697841abd2cdbb92",
+      "textSha256": "bbb2e73cd3c5aa7b",
       "inputSchemaSha256": "26e94c51fd086385"
     },
     {
@@ -1138,7 +1174,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "75ecc0ed3886d2a3",
+      "textSha256": "8f44c4849d9251ea",
       "inputSchemaSha256": "0a0ae111ddb40504"
     },
     {
@@ -1156,7 +1192,7 @@
         "openWorldHint": true,
         "readOnlyHint": true
       },
-      "textSha256": "537990e556f1ad03",
+      "textSha256": "aa6a380582dfd62b",
       "inputSchemaSha256": "402bc30a8ab04d5b"
     },
     {
@@ -1243,8 +1279,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "3a6c5823c42bb48d",
-      "inputSchemaSha256": "867069bad2d70150"
+      "textSha256": "f0e1decf0c00aabe",
+      "inputSchemaSha256": "3bb1d07e39dc0bbc"
     },
     {
       "name": "unifi_gen_queryispmetrics",
@@ -1264,7 +1300,7 @@
         "readOnlyHint": false
       },
       "textSha256": "30d5c4436f4e74ca",
-      "inputSchemaSha256": "b0ec06cf357c9362"
+      "inputSchemaSha256": "fdebcff88c96a065"
     },
     {
       "name": "unifi_gen_removedevice",
@@ -1282,7 +1318,7 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "bd1d5d978e84561c",
+      "textSha256": "47cd511af1f189b0",
       "inputSchemaSha256": "62c49c9c957a6049"
     },
     {
@@ -1302,8 +1338,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "7026be12c6c8576d",
-      "inputSchemaSha256": "88c3eaea338c046b"
+      "textSha256": "fa047878fd0bc08a",
+      "inputSchemaSha256": "876c56edec51cf9b"
     },
     {
       "name": "unifi_gen_updateaclruleordering",
@@ -1319,8 +1355,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "83647e91abe13f67",
-      "inputSchemaSha256": "b0642d61b6855941"
+      "textSha256": "38e74032890604e4",
+      "inputSchemaSha256": "d83e22abafa57b15"
     },
     {
       "name": "unifi_gen_updatednspolicy",
@@ -1339,8 +1375,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "087ae99cc7cce79d",
-      "inputSchemaSha256": "a8507e4e280e7384"
+      "textSha256": "96225657f5053422",
+      "inputSchemaSha256": "cebe861c66a2695a"
     },
     {
       "name": "unifi_gen_updatefirewallpolicy",
@@ -1359,8 +1395,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "ad96b4030fb91607",
-      "inputSchemaSha256": "867069bad2d70150"
+      "textSha256": "ba03064d154ffb41",
+      "inputSchemaSha256": "337863d455be3f03"
     },
     {
       "name": "unifi_gen_updatefirewallpolicyordering",
@@ -1381,8 +1417,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "d8fbaee1557b8797",
-      "inputSchemaSha256": "022cd51f91be6469"
+      "textSha256": "892617a15cb037cb",
+      "inputSchemaSha256": "4f2d4a619b04331d"
     },
     {
       "name": "unifi_gen_updatefirewallzone",
@@ -1401,8 +1437,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "6e9b4e2f1a14cc22",
-      "inputSchemaSha256": "51a05f8e4d8d5757"
+      "textSha256": "24ca398b6f8679fe",
+      "inputSchemaSha256": "a88c207fa174a6b1"
     },
     {
       "name": "unifi_gen_updatenetwork",
@@ -1421,8 +1457,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "4c7b52d91534ca86",
-      "inputSchemaSha256": "d510f986cc63345b"
+      "textSha256": "ecc4599e4f74c88f",
+      "inputSchemaSha256": "7ec7e78a75f82b99"
     },
     {
       "name": "unifi_gen_updatetrafficmatchinglist",
@@ -1441,8 +1477,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "a729816f9de27d87",
-      "inputSchemaSha256": "329e10d2485f9c39"
+      "textSha256": "6d99c6ed5b6bdf83",
+      "inputSchemaSha256": "5f38c8b1cf8f2b7d"
     },
     {
       "name": "unifi_gen_updatewifibroadcast",
@@ -1461,8 +1497,8 @@
         "openWorldHint": true,
         "readOnlyHint": false
       },
-      "textSha256": "d14d29da56157601",
-      "inputSchemaSha256": "7738d0c0da89ddd4"
+      "textSha256": "b931a45fe1e4afff",
+      "inputSchemaSha256": "4073fde14950744c"
     },
     {
       "name": "unifi_net_adopt_devices",

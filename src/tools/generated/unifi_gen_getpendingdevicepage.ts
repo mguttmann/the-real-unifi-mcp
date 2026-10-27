@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/getpendingdevicepage. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/getpendingdevicepage. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,7 +11,7 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_getpendingdevicepage",
     {
       title: "unifi_gen_getpendingdevicepage",
-      description: "List Devices Pending Adoption - generated from developer.ui.com/network/v10.3.58/getpendingdevicepage",
+      description: "List Devices Pending Adoption - generated from developer.ui.com/network/v11.0.97/getpendingdevicepage",
       inputSchema: z.object({offset: z.number().int().min(0).optional(), limit: z.number().int().min(0).max(200).optional(), filter: z.string().optional()}),
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     },

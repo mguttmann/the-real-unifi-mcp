@@ -2,23 +2,18 @@
 
 Open minor items: no known bug that affects users today, but worth doing. Each change in an area reads the open items of that area first and takes them along. Remove an item in the change that fixes it, together with the test that holds it, and name it in `CHANGELOG.md`.
 
-The ids (N-...) come from a code audit of 2026-10-27; code comments that name an id (for example "audit N-2") point to the item that the code fixed. Closed items are summarised in `CHANGELOG.md` 0.2.0 and 0.2.1.
+The ids (N-...) come from a code audit of 2026-10-27; code comments that name an id (for example "audit N-2") point to the item that the code fixed. Closed items are summarised in `CHANGELOG.md` 0.2.0, 0.2.1 and 0.3.0.
 
 "Contract" marks items whose fix changes the tool contract (`tests/contract/tools-contract.json`) and therefore needs a "Behaviour changes for callers" entry.
 
 ## Planned for 0.3.0 (code generator and tool schemas)
 
-- **N-36** The codegen catalog has two wrong Site Manager slugs (`gethost`, `getsdwanconfig`; the vendor pages are `gethostbyid`, `getsdwanconfigbyid`), so `npm run codegen` always exits 1. Fix: rename; a regeneration adds two tools. Contract: additive tools.
-- **N-37** The code generator reads `requestBody.schema`, but the vendor docs nest it under `content["application/json"].schema`, so every generated `body` is `z.unknown()` and `requestBody.required` is ignored (`src/codegen/emit.ts`). Fix: read the nested schema, honour `required`, fixture-based emit test, planned rollout. Contract: yes (tightens the input schemas of the generated write tools).
-- **N-38** The Network API docs moved to v11; the catalog is pinned to v10.3.58 (`src/codegen/catalog.ts`). v11 adds required WiFi fields. Fix: bump together with N-37 and review the schema diff. Contract: description change on all generated tools, possibly more.
 - **N-39** Hand-written list tools omit pagination and filter params, so only the first page is reachable (`src/tools/network/acl.ts`, `dns.ts`, `trafficLists.ts`, `hotspot.ts`, `switching.ts`, `src/tools/siteManager.ts`). Fix: optional params. Contract: additive optional params.
 - **N-40** `unifi_sm_get_isp_metrics` lacks the vendor `duration` param (24h, 7d, 30d). Fix: optional enum. Contract: additive.
 - **N-45** Hand-written tool handlers are only partly covered: `tests/unit/network.handlers.test.ts` drives every `unifi_net_*` tool through the real client with a fake `fetch`, but asserts method, path, query and body only for some tools; the other CRUD tools are checked for the path only. Fix: table-driven cases for all of them.
 - **N-26** The confirm preview of generated write tools omits query params (bulk filter, force); execution sends them (`src/codegen/emit.ts`). Fix: include the query in the preview URL and regenerate.
 - **N-27** Annotation inaccuracies: `unifi_gen_queryispmetrics` is marked destructive (its twin `unifi_sm_query_isp_metrics` is read-only), creates are marked destructive, block is not idempotent. Fix: a codegen override list. Contract: annotations change.
 - **N-43** An object-typed `filter` query value is serialised as `[object Object]` (`src/client/unifiClient.ts`, `String(v)`); v11 types the device tag filter as an object. Fix: force `z.string()` in codegen or JSON-encode.
-- **N-44** The code generator deletes `src/tools/generated/` before fetching, so a page that fails to fetch silently drops its tool; only 3 of the catalog pages have fixtures. Fix: write to a temp dir and swap on full success; fixtures for all pages; drift check in CI.
-- **N-63** `src/codegen/schemaFromDoc.ts`: an object property the vendor marks required is emitted without `.optional()`; with a `z.unknown()` schema, zod 4 rejects a missing key where zod 3 accepted it. No generated tool hits this today. Handle with N-37. Contract: yes when it applies.
 
 ## Tools and client
 

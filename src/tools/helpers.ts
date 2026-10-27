@@ -63,3 +63,15 @@ export function vendorAction(action: string): string {
     .toUpperCase()
     .replace(/[\s-]+/g, "_");
 }
+
+/**
+ * Result of a generated tool whose operation the vendor removed from its docs,
+ * when the console answers 404: the tool stays registered for compatibility,
+ * but says why the call failed.
+ */
+export function removedUpstreamResult(toolName: string, lastVersion: string): CallToolResult {
+  return errorResult(
+    `${toolName}: this endpoint was removed upstream (last documented in vendor docs ${lastVersion}) and the console answered 404. Use a current tool or unifi_raw_request.`,
+    { statusCode: 404, code: "REMOVED_UPSTREAM" },
+  );
+}

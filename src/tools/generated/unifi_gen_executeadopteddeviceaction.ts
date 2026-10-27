@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/executeadopteddeviceaction. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/executeadopteddeviceaction. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,8 +11,8 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_executeadopteddeviceaction",
     {
       title: "unifi_gen_executeadopteddeviceaction",
-      description: "Execute Adopted Device Action - generated from developer.ui.com/network/v10.3.58/executeadopteddeviceaction",
-      inputSchema: z.object({deviceId: z.string().guid(), body: z.unknown().optional(), ...confirmShape}),
+      description: "Execute Adopted Device Action - generated from developer.ui.com/network/v11.0.97/executeadopteddeviceaction",
+      inputSchema: z.object({deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("RESTART").optional()}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {

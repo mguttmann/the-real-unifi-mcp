@@ -12,17 +12,17 @@ Do not contact Ubiquiti support about this software.
 
 UniFi API documentation (not covered by the MIT License)
 --------------------------------------------------------
-tests/fixtures/rsc/ holds excerpts of pages of Ubiquiti's public UniFi
-developer documentation (developer.ui.com), stored unchanged as test
-fixtures for the code generator. They are the property of Ubiquiti Inc.
-and subject to its terms. They are included only for interoperability
-and testing; they are NOT licensed under the MIT License of this
-project, and no rights in them are granted by this repository.
+tests/fixtures/openapi/ holds the OpenAPI documents of Ubiquiti's public
+UniFi developer documentation (developer.ui.com), stored unchanged as
+input and test fixtures for the code generator. They are the property of
+Ubiquiti Inc. and subject to its terms. They are included only for
+interoperability and testing; they are NOT licensed under the MIT License
+of this project, and no rights in them are granted by this repository.
 
 The code generator (src/codegen/, npm run codegen) reads that
 documentation from developer.ui.com. Tool names, descriptions, parameter
-names and parameter descriptions in src/tools/generated/ are derived
-from it.
+names, parameter descriptions and request body schemas in
+src/tools/generated/ are derived from it.
 
 Trademarks
 ----------

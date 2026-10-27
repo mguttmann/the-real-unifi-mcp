@@ -1,12 +1,19 @@
-import type { EndpointSpec } from "../client/rsc.js";
-import { schemaToZodSource } from "./schemaFromDoc.js";
+import type { DocSchema, EndpointSpec } from "./openapi.js";
+import { docText, schemaToZodSource } from "./schemaFromDoc.js";
 
 export interface EmitInput {
   toolName: string;
   surface: "siteManager" | "network";
   docPath: string;
   endpoint: EndpointSpec;
+  /** `components.schemas` of the vendor document, for typed request bodies. */
+  refs: Record<string, DocSchema>;
+  /** Last vendor doc version that has the operation, when the vendor removed it. */
+  removedUpstream?: string;
 }
+
+const BODY_TEXT =
+  "JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is.";
 
 const READ_ONLY = `{ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true }`;
 const WRITE_ONCE = `{ readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true }`;
@@ -18,22 +25,33 @@ function annotationFor(method: EndpointSpec["method"]): string {
   return WRITE_IDEMP;
 }
 
-function buildInputShape(ep: EndpointSpec, isWrite: boolean): string {
+function buildInputShape(
+  ep: EndpointSpec,
+  isWrite: boolean,
+  refs: Record<string, DocSchema>,
+): string {
   const parts: string[] = [];
   const params = ep.parameters ?? [];
   for (const p of params) {
     // siteId is auto-resolved from discovery; never exposed to caller
     if (p.name === "siteId") continue;
     const base = schemaToZodSource(p.schema as Record<string, unknown> | undefined);
-    const desc = p.description ? `.describe(${JSON.stringify(p.description)})` : "";
+    const desc = p.description ? `.describe(${JSON.stringify(docText(p.description))})` : "";
     const opt = p.required ? "" : ".optional()";
     const safe = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(p.name) ? p.name : JSON.stringify(p.name);
     parts.push(`${safe}: ${base}${desc}${opt}`);
   }
   if (ep.requestBody) {
-    const inner = schemaToZodSource(ep.requestBody.schema as Record<string, unknown> | undefined);
-    // Optional: zod 3 left z.unknown() keys optional and v0.1.2 published that contract (audit M-1).
-    parts.push(`body: ${inner}.optional()`);
+    // N-37: typed after the vendor schema for documentation, but a union with
+    // z.unknown(), so every value 0.2.1 accepted still passes, unchanged.
+    // Optional even when the vendor requires a body: zod 3 left z.unknown()
+    // keys optional and v0.1.2 published that contract (audit M-1).
+    const typed = schemaToZodSource(ep.requestBody.schema as DocSchema | undefined, refs, {
+      loose: true,
+    });
+    const text = BODY_TEXT + (ep.requestBody.required ? " The API requires a body." : "");
+    const base = typed === "z.unknown()" ? typed : `z.union([${typed}, z.unknown()])`;
+    parts.push(`body: ${base}.describe(${JSON.stringify(text)}).optional()`);
   }
   if (isWrite) parts.push(`...confirmShape`);
   return `{${parts.join(", ")}}`;
@@ -63,14 +81,16 @@ function queryPicker(ep: EndpointSpec): string {
 }
 
 export function emitToolFile(input: EmitInput): string {
-  const { toolName, surface, docPath, endpoint } = input;
+  const { toolName, surface, docPath, endpoint, refs, removedUpstream } = input;
   const method = endpoint.method;
   const isWrite = method !== "GET";
-  const description =
-    `${endpoint.summary ?? endpoint.description ?? toolName} - generated from developer.ui.com/${docPath}`
-      .replace(/\s+/g, " ")
-      .trim();
-  const inputShape = buildInputShape(endpoint, isWrite);
+  const removedNote = removedUpstream
+    ? ` Removed from the vendor docs after ${removedUpstream}; kept for compatibility, answers REMOVED_UPSTREAM when the console no longer has the endpoint.`
+    : "";
+  const description = docText(
+    `${endpoint.summary ?? endpoint.description ?? toolName} - generated from developer.ui.com/${docPath}${removedNote}`,
+  );
+  const inputShape = buildInputShape(endpoint, isWrite, refs);
   const annotation = annotationFor(method);
 
   const path = endpoint.path;
@@ -88,6 +108,12 @@ export function emitToolFile(input: EmitInput): string {
       ? `\`/v1/connector/consoles/\${await ctx.discovery.consoleId()}/proxy/network/integration${pathTemplate(path, surface)}\``
       : `\`${pathTemplate(path, surface)}\``;
 
+  const catchApiError = (indent: string): string =>
+    (removedUpstream
+      ? `if (err instanceof UnifiApiError && err.statusCode === 404) return removedUpstreamResult(${JSON.stringify(toolName)}, ${JSON.stringify(removedUpstream)});\n${indent}`
+      : "") +
+    `if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });`;
+
   const handlerBody = isWrite
     ? `
       return runGuarded(ctx.cfg, a, { toolName: ${JSON.stringify(toolName)}, method: "${method}", url: ${guardUrlExpr}, body: ${bodyExpr} }, async () => {
@@ -95,7 +121,7 @@ export function emitToolFile(input: EmitInput): string {
           const res = ${callExpr};
           return jsonResult(res.data);
         } catch (err) {
-          if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });
+          ${catchApiError("          ")}
           throw err;
         }
       });`
@@ -104,7 +130,7 @@ export function emitToolFile(input: EmitInput): string {
         const res = ${callExpr};
         return jsonResult(res.data, { pagination: res.pagination });
       } catch (err) {
-        if (err instanceof UnifiApiError) return errorResult(err.message, { statusCode: err.statusCode });
+        ${catchApiError("        ")}
         throw err;
       }`;
 
@@ -112,7 +138,7 @@ export function emitToolFile(input: EmitInput): string {
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
-import { jsonResult, errorResult } from "../helpers.js";
+import { ${removedUpstream ? "jsonResult, errorResult, removedUpstreamResult" : "jsonResult, errorResult"} } from "../helpers.js";
 import { runGuarded, confirmShape } from "../destructiveGuard.js";
 import { UnifiApiError } from "../../client/errors.js";
 

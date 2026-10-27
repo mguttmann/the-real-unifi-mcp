@@ -23,7 +23,7 @@ npm run build
 | `npm test` | Unit tests plus the live smoke in `tests/integration/`, which calls api.ui.com when `UNIFI_API_KEY` is set (unset it to stay offline) |
 | `npm run test:integration` | Live read-only smoke (needs UNIFI_API_KEY) |
 | `npm run test:stdio` | Starts the built `dist/index.js` over stdio (dummy key, unreachable API base) and checks every supported MCP protocol revision and that loading `.env` writes nothing to stdout; run after `npm run build` |
-| `npm run codegen` | Regenerate `src/tools/generated/` from the live UniFi docs (see "Auto-generated tool" below) |
+| `npm run codegen` | Download the vendor OpenAPI docs and regenerate `src/tools/generated/` (`-- --offline`: from the committed docs; see "Auto-generated tool" below) |
 | `npm run inspector` | Launch MCP Inspector |
 | `npm run build:mcpb` | Build the MCPB bundle and SBOMs into `release/` (validates the manifest; releases: [docs/RELEASING.md](./docs/RELEASING.md)) |
 | `npm run lint` / `lint:fix` | ESLint |
@@ -47,9 +47,13 @@ npm run build
 4. Add a smoke test in `tests/unit/network.<resource>.test.ts`.
 
 ### Auto-generated tool
-1. Add the doc page name to `src/codegen/catalog.ts`.
-2. Run `npm run codegen`. It deletes `src/tools/generated/` first and then fetches every catalog page from developer.ui.com; a page that fails to fetch or parse is dropped from the output (the catalog entries `gethost` and `getsdwanconfig` are known to fail). Review the whole diff, restore any dropped tool and run the contract test before committing.
-3. Commit the generated `.ts` file together with the catalog change.
+The generator reads the vendor OpenAPI documents (`developer.ui.com/site-manager/<version>/openapi.json` and `developer.ui.com/network/<version>/openapi.json`); the versions are pinned in `SPEC_VERSIONS` in `src/codegen/catalog.ts`, the downloaded documents live in `tests/fixtures/openapi/`.
+
+1. Add the lowercased vendor operationId to `src/codegen/catalog.ts` (or move `SPEC_VERSIONS` to a newer vendor version).
+2. Run `npm run codegen` (downloads the documents, then generates) or `npm run codegen -- --offline` (committed documents only). Nothing is written unless every catalog entry generates; a missing operation, a failed download or a vendor operation that is neither catalogued nor in `EXCLUDED_OPERATIONS` fails the run with a message and leaves `src/tools/generated/` unchanged.
+3. Never drop or rename a generated tool (gateways pin the tool names). If the vendor removes an operation, pin it in `REMOVED_UPSTREAM` to the last version that has it and keep that document in `tests/fixtures/openapi/`; the tool stays registered, says so in its description and answers a 404 with a `REMOVED_UPSTREAM` error.
+4. Run `npm run test:unit`: `tests/unit/codegen.generated.test.ts` compares `src/tools/generated/` byte for byte with the offline output, `tests/unit/generatedCompat.test.ts` checks that no tool rejects input 0.2.1 accepted, and the contract test reports new tools and schema changes (see "Tool contract" in CLAUDE.md).
+5. Commit the generated files, the documents and the catalog change together.
 
 ## Code style
 

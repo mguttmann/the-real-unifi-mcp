@@ -1,4 +1,4 @@
-// AUTO-GENERATED from network/v10.3.58/executeportaction. Do not edit by hand.
+// AUTO-GENERATED from network/v11.0.97/executeportaction. Do not edit by hand.
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
 import type { ServerContext } from "../../server.js";
@@ -11,8 +11,8 @@ export function register(server: McpServer, ctx: ServerContext): void {
     "unifi_gen_executeportaction",
     {
       title: "unifi_gen_executeportaction",
-      description: "Execute Port Action - generated from developer.ui.com/network/v10.3.58/executeportaction",
-      inputSchema: z.object({portIdx: z.number().int(), deviceId: z.string().guid(), body: z.unknown().optional(), ...confirmShape}),
+      description: "Execute Port Action - generated from developer.ui.com/network/v11.0.97/executeportaction",
+      inputSchema: z.object({portIdx: z.number().int(), deviceId: z.string().guid(), body: z.union([z.looseObject({action: z.literal("POWER_CYCLE").optional()}), z.unknown()]).describe("JSON request body, sent unchanged. The vendor schema is given for reference; a value that does not match it is still sent as is. The API requires a body.").optional(), ...confirmShape}),
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     },
     async (a) => {
